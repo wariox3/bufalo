@@ -20,8 +20,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for arGuia in arGuias %}
                                 <tr>
-                                    <td>AAC</td>
+                                    <td>{{ arGuia.codigoGuiaPk  }}</td>
                                     <td>AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
                                     <td class="numeric">$1.38</td>
                                     <td class="numeric">-0.01</td>
@@ -29,11 +30,19 @@
                                     <td class="numeric">$1.39</td>
                                     <td class="numeric">$1.39</td>
                                 </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </section>
                 </div><!-- /content-panel -->
             </div><!-- /col-lg-4 -->			
         </div><!-- /row -->
+        <br />
+        <div class="btn-toolbar" style="float: right">
+            <div class="btn-group">
+                <a class="btn btn-default btn-sm" href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': 0}) }}">Nuevo</a>                
+            </div>            
+
+        </div>         
     </section><! --/wrapper -->
 {% endblock %}
