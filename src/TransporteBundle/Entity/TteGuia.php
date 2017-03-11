@@ -72,13 +72,69 @@ class TteGuia
      * @ORM\Column(name="correo", type="string", length=80, nullable=true)
      */    
     private $correo;
-        
+
+    /**
+     * @ORM\Column(name="documento", type="string", length=60, nullable=true)
+     */    
+    private $documento;    
+    
+    /**
+     * @ORM\Column(name="cantidad", type="integer")
+     */    
+    private $cantidad = 0;    
+    
+    /**
+     * @ORM\Column(name="peso", type="float")
+     */
+    private $peso = 0;
+    
+    /**
+     * @ORM\Column(name="peso_volumen", type="float")
+     */
+    private $pesoVolumen = 0;      
+    
+    /**
+     * @ORM\Column(name="declarado", type="float")
+     */
+    private $declarado = 0;     
+    
+    /**
+     * @ORM\Column(name="largo", type="integer")
+     */    
+    private $largo = 0;    
+    
+    /**
+     * @ORM\Column(name="alto", type="integer")
+     */    
+    private $alto = 0;    
+    
+    /**
+     * @ORM\Column(name="ancho", type="integer")
+     */    
+    private $ancho = 0;    
+    
     /**
      * @ORM\Column(name="codigo_ciudad_destino_fk", type="integer", nullable=true)
      */    
     private $codigoCiudadDestinoFk;    
-    
 
+    /**
+     * @ORM\Column(name="codigo_empaque_fk", type="integer", nullable=true)
+     */    
+    private $codigoEmpaqueFk; 
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="guiasCiudadDestinoRel")
+     * @ORM\JoinColumn(name="codigo_ciudad_destino_fk", referencedColumnName="codigo_ciudad_pk")
+     */
+    protected $ciudadDestinoRel;     
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TteEmpaque", inversedBy="guiasEmpaqueRel")
+     * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
+     */
+    protected $empaqueRel;      
+    
     /**
      * Get codigoGuiaPk
      *
@@ -375,5 +431,269 @@ class TteGuia
     public function getCodigoCiudadDestinoFk()
     {
         return $this->codigoCiudadDestinoFk;
+    }
+
+    /**
+     * Set ciudadDestinoRel
+     *
+     * @param \TransporteBundle\Entity\TteCiudad $ciudadDestinoRel
+     *
+     * @return TteGuia
+     */
+    public function setCiudadDestinoRel(\TransporteBundle\Entity\TteCiudad $ciudadDestinoRel = null)
+    {
+        $this->ciudadDestinoRel = $ciudadDestinoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get ciudadDestinoRel
+     *
+     * @return \TransporteBundle\Entity\TteCiudad
+     */
+    public function getCiudadDestinoRel()
+    {
+        return $this->ciudadDestinoRel;
+    }
+
+    /**
+     * Set documento
+     *
+     * @param string $documento
+     *
+     * @return TteGuia
+     */
+    public function setDocumento($documento)
+    {
+        $this->documento = $documento;
+
+        return $this;
+    }
+
+    /**
+     * Get documento
+     *
+     * @return string
+     */
+    public function getDocumento()
+    {
+        return $this->documento;
+    }
+
+    /**
+     * Set cantidad
+     *
+     * @param integer $cantidad
+     *
+     * @return TteGuia
+     */
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+    /**
+     * Get cantidad
+     *
+     * @return integer
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * Set peso
+     *
+     * @param float $peso
+     *
+     * @return TteGuia
+     */
+    public function setPeso($peso)
+    {
+        $this->peso = $peso;
+
+        return $this;
+    }
+
+    /**
+     * Get peso
+     *
+     * @return float
+     */
+    public function getPeso()
+    {
+        return $this->peso;
+    }
+
+    /**
+     * Set pesoVolumen
+     *
+     * @param float $pesoVolumen
+     *
+     * @return TteGuia
+     */
+    public function setPesoVolumen($pesoVolumen)
+    {
+        $this->pesoVolumen = $pesoVolumen;
+
+        return $this;
+    }
+
+    /**
+     * Get pesoVolumen
+     *
+     * @return float
+     */
+    public function getPesoVolumen()
+    {
+        return $this->pesoVolumen;
+    }
+
+    /**
+     * Set declarado
+     *
+     * @param float $declarado
+     *
+     * @return TteGuia
+     */
+    public function setDeclarado($declarado)
+    {
+        $this->declarado = $declarado;
+
+        return $this;
+    }
+
+    /**
+     * Get declarado
+     *
+     * @return float
+     */
+    public function getDeclarado()
+    {
+        return $this->declarado;
+    }
+
+    /**
+     * Set largo
+     *
+     * @param integer $largo
+     *
+     * @return TteGuia
+     */
+    public function setLargo($largo)
+    {
+        $this->largo = $largo;
+
+        return $this;
+    }
+
+    /**
+     * Get largo
+     *
+     * @return integer
+     */
+    public function getLargo()
+    {
+        return $this->largo;
+    }
+
+    /**
+     * Set alto
+     *
+     * @param integer $alto
+     *
+     * @return TteGuia
+     */
+    public function setAlto($alto)
+    {
+        $this->alto = $alto;
+
+        return $this;
+    }
+
+    /**
+     * Get alto
+     *
+     * @return integer
+     */
+    public function getAlto()
+    {
+        return $this->alto;
+    }
+
+    /**
+     * Set ancho
+     *
+     * @param integer $ancho
+     *
+     * @return TteGuia
+     */
+    public function setAncho($ancho)
+    {
+        $this->ancho = $ancho;
+
+        return $this;
+    }
+
+    /**
+     * Get ancho
+     *
+     * @return integer
+     */
+    public function getAncho()
+    {
+        return $this->ancho;
+    }
+
+    /**
+     * Set codigoEmpaqueFk
+     *
+     * @param integer $codigoEmpaqueFk
+     *
+     * @return TteGuia
+     */
+    public function setCodigoEmpaqueFk($codigoEmpaqueFk)
+    {
+        $this->codigoEmpaqueFk = $codigoEmpaqueFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoEmpaqueFk
+     *
+     * @return integer
+     */
+    public function getCodigoEmpaqueFk()
+    {
+        return $this->codigoEmpaqueFk;
+    }
+
+    /**
+     * Set empaqueRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
+     *
+     * @return TteGuia
+     */
+    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
+    {
+        $this->empaqueRel = $empaqueRel;
+
+        return $this;
+    }
+
+    /**
+     * Get empaqueRel
+     *
+     * @return \TransporteBundle\Entity\TteEmpaque
+     */
+    public function getEmpaqueRel()
+    {
+        return $this->empaqueRel;
     }
 }
