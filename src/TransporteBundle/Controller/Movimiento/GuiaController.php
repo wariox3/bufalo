@@ -9,14 +9,16 @@ use TransporteBundle\Form\Type\TteGuiaType;
 
 class GuiaController extends Controller
 {
+    var $strListaDql = "";
+    
     /**
      * @Route("/tte/movimiento/guia/", name="tte_movimiento_guia")
      */   
-    public function listaAction()
-    {
+    public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $arGuias = new \TransporteBundle\Entity\TteGuia();
-        $arGuias = $em->getRepository('TransporteBundle:TteGuia')->findAll();
+        $paginator = $this->get('knp_paginator');      
+        $this->lista();                     
+        $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 50);
         return $this->render('TransporteBundle:Movimiento/Guia:lista.html.twig', array(
             'arGuias' => $arGuias
             ));
@@ -28,66 +30,36 @@ class GuiaController extends Controller
     public function nuevoAction(Request $request, $codigoGuia = 0) {
         $em = $this->getDoctrine()->getManager();        
         $arGuia = new \TransporteBundle\Entity\TteGuia();
+        if ($codigoGuia != 0) {
+            $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigoGuia);            
+        } else {
+            $arUsuario = $this->getUser();
+            $arGuia->setFecha(new \DateTime('now'));
+            $arGuia->setEmpresaRel($arUsuario->getEmpresaRel());
+        }        
         $form = $this->createForm(TteGuiaType::class, $arGuia);
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            $arUsuario = $this->get('security.token_storage')->getToken()->getUser();
-            $arLicencia = $form->getData();
-            $arrControles = $request->request->All();
-
-            if ($arrControles['form_txtNumeroIdentificacion'] != '') {
-                $arEmpleado = new \Brasa\RecursoHumanoBundle\Entity\RhuEmpleado();
-                $arEmpleado = $em->getRepository('BrasaRecursoHumanoBundle:RhuEmpleado')->findOneBy(array('numeroIdentificacion' => $arrControles['form_txtNumeroIdentificacion']));
-                if (count($arEmpleado) > 0) {
-                    // fin validacion
-                    $arLicencia->setEmpleadoRel($arEmpleado);
-                    if ($arLicencia->getFechaDesde() <= $arLicencia->getFechaHasta()) {
-                        if ($em->getRepository('BrasaRecursoHumanoBundle:RhuIncapacidad')->validarFecha($arLicencia->getFechaDesde(), $arLicencia->getFechaHasta(), $arEmpleado->getCodigoEmpleadoPk(), "")) {
-                            if ($em->getRepository('BrasaRecursoHumanoBundle:RhuLicencia')->validarFecha($arLicencia->getFechaDesde(), $arLicencia->getFechaHasta(), $arEmpleado->getCodigoEmpleadoPk(), $arLicencia->getCodigoLicenciaPk())) {
-                                if ($arEmpleado->getFechaContrato() <= $arLicencia->getFechaDesde()) {
-                                    $arLicencia->setCentroCostoRel($arEmpleado->getCentroCostoRel());
-                                    $intDias = $arLicencia->getFechaDesde()->diff($arLicencia->getFechaHasta());
-                                    $intDias = $intDias->format('%a');
-                                    $intDias = $intDias + 1;
-                                    $arLicencia->setCantidad($intDias);
-                                    $arLicencia->setMaternidad($arLicencia->getLicenciaTipoRel()->getMaternidad());
-                                    if ($codigoLicencia == 0) {
-                                        $arLicencia->setCodigoUsuario($arUsuario->getUserName());
-                                        $arContrato = new \Brasa\RecursoHumanoBundle\Entity\RhuContrato();
-                                        if ($arEmpleado->getCodigoContratoActivoFk() != '') {
-                                            $arContrato = $em->getRepository('BrasaRecursoHumanoBundle:RhuContrato')->find($arEmpleado->getCodigoContratoActivoFk());
-                                        } else {
-                                            $arContrato = $em->getRepository('BrasaRecursoHumanoBundle:RhuContrato')->find($arEmpleado->getCodigoContratoUltimoFk());
-                                        }
-                                        $arLicencia->setContratoRel($arContrato);
-                                    }
-                                    $em->persist($arLicencia);
-                                    $em->flush();
-                                    if ($form->get('guardarnuevo')->isClicked()) {
-                                        return $this->redirect($this->generateUrl('brs_rhu_licencias_nuevo', array('codigoLicencia' => 0)));
-                                    } else {
-                                        return $this->redirect($this->generateUrl('brs_rhu_licencias_lista'));
-                                    }
-                                } else {
-                                    $objMensaje->Mensaje("error", "La fecha de inicio del contrato es mayor a la licencia");
-                                }
-                            } else {
-                                $objMensaje->Mensaje("error", "Existe otra licencia en este rango de fechas");
-                            }
-                        } else {
-                            $objMensaje->Mensaje("error", "Hay incapacidades que se cruzan con la fecha de la licencia");
-                        }
-                    } else {
-                        $objMensaje->Mensaje("error", "La fecha desde debe ser inferior o igual a la fecha hasta");
-                    }
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $arGuia = $form->getData();
+                $em->persist($arGuia);
+                $em->flush();
+                if ($form->get('guardarnuevo')->isClicked()) {
+                    return $this->redirect($this->generateUrl('tte_movimiento_guia_nuevo', array('codigoGuia' => 0)));
                 } else {
-                    $objMensaje->Mensaje("error", "El empleado no existe");
-                }
+                    return $this->redirect($this->generateUrl('tte_movimiento_guia'));
+                    //return $this->redirect($this->generateUrl('brs_tur_movimiento_pedido_detalle', array('codigoPedido' => $arPedido->getCodigoPedidoPk())));
+                }                
             }
         }
-
         return $this->render('TransporteBundle:Movimiento/Guia:nuevo.html.twig', array(
                     'form' => $form->createView()));
     }    
+    
+    private function lista() {        
+        $em = $this->getDoctrine()->getManager();                  
+        $this->strListaDql = $em->getRepository('TransporteBundle:TteGuia')->listaDQL($this->getUser()->getCodigoEmpresaFk());
+    }    
+
     
 }

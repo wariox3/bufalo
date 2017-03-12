@@ -19,9 +19,19 @@ class TteGuia
     private $codigoGuiaPk;        
 
     /**
+     * @ORM\Column(name="consecutivo", type="float")
+     */
+    private $consecutivo = 0;    
+    
+    /**
      * @ORM\Column(name="codigo_empresa_fk", type="integer", nullable=true)
      */    
     private $codigoEmpresaFk;     
+    
+    /**
+     * @ORM\Column(name="fecha", type="date")
+     */    
+    private $fecha;      
     
     /**
      * @ORM\Column(name="identificacion", type="string", length=30, nullable=true)
@@ -97,6 +107,16 @@ class TteGuia
      * @ORM\Column(name="declarado", type="float")
      */
     private $declarado = 0;     
+
+    /**
+     * @ORM\Column(name="flete", type="float")
+     */
+    private $flete = 0; 
+
+    /**
+     * @ORM\Column(name="manejo", type="float")
+     */
+    private $manejo = 0; 
     
     /**
      * @ORM\Column(name="largo", type="integer")
@@ -122,6 +142,12 @@ class TteGuia
      * @ORM\Column(name="codigo_empaque_fk", type="integer", nullable=true)
      */    
     private $codigoEmpaqueFk; 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="guiasEmpresaRel")
+     * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
+     */
+    protected $empresaRel;     
     
     /**
      * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="guiasCiudadDestinoRel")
@@ -695,5 +721,125 @@ class TteGuia
     public function getEmpaqueRel()
     {
         return $this->empaqueRel;
+    }
+
+    /**
+     * Set empresaRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpresa $empresaRel
+     *
+     * @return TteGuia
+     */
+    public function setEmpresaRel(\TransporteBundle\Entity\TteEmpresa $empresaRel = null)
+    {
+        $this->empresaRel = $empresaRel;
+
+        return $this;
+    }
+
+    /**
+     * Get empresaRel
+     *
+     * @return \TransporteBundle\Entity\TteEmpresa
+     */
+    public function getEmpresaRel()
+    {
+        return $this->empresaRel;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return TteGuia
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set manejo
+     *
+     * @param float $manejo
+     *
+     * @return TteGuia
+     */
+    public function setManejo($manejo)
+    {
+        $this->manejo = $manejo;
+
+        return $this;
+    }
+
+    /**
+     * Get manejo
+     *
+     * @return float
+     */
+    public function getManejo()
+    {
+        return $this->manejo;
+    }
+
+    /**
+     * Set flete
+     *
+     * @param float $flete
+     *
+     * @return TteGuia
+     */
+    public function setFlete($flete)
+    {
+        $this->flete = $flete;
+
+        return $this;
+    }
+
+    /**
+     * Get flete
+     *
+     * @return float
+     */
+    public function getFlete()
+    {
+        return $this->flete;
+    }
+
+    /**
+     * Set consecutivo
+     *
+     * @param float $consecutivo
+     *
+     * @return TteGuia
+     */
+    public function setConsecutivo($consecutivo)
+    {
+        $this->consecutivo = $consecutivo;
+
+        return $this;
+    }
+
+    /**
+     * Get consecutivo
+     *
+     * @return float
+     */
+    public function getConsecutivo()
+    {
+        return $this->consecutivo;
     }
 }

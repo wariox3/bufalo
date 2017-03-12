@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block content %}
     <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Movimiento: Lista guias</h3>
+        <h3><i class="fa fa-angle-right"></i> Movimiento: Lista -> guia</h3>
         <div class="row mt">
             <div class="col-lg-12">
                 <div class="content-panel">
@@ -11,8 +11,9 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Consecutivo</th>
                                     <th>Destinarario</th>
-                                    <th class="numeric">Und</th>
+                                    <th class="numeric">Cant</th>
                                     <th class="numeric">Peso</th>
                                     <th class="numeric">Declarado</th>
                                     <th class="numeric">Flete</th>
@@ -23,12 +24,13 @@
                                 {% for arGuia in arGuias %}
                                 <tr>
                                     <td>{{ arGuia.codigoGuiaPk  }}</td>
-                                    <td>AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-                                    <td class="numeric">$1.38</td>
-                                    <td class="numeric">-0.01</td>
-                                    <td class="numeric">-0.36%</td>
-                                    <td class="numeric">$1.39</td>
-                                    <td class="numeric">$1.39</td>
+                                    <td>{{ arGuia.consecutivo  }}</td>
+                                    <td>{{ arGuia.destinatario  }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.cantidad | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.peso | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.declarado | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.flete | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
