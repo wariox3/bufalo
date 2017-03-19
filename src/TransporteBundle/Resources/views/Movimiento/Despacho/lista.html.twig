@@ -11,26 +11,28 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for arDespacho in arDespachos %}
                                 <tr>
                                     <td>{{ arDespacho.codigoDespachoPk  }}</td>
+                                    <td><a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar') }}', 'buscarGuias', 600, 900)">Agregar</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </section>
                 </div><!-- /content-panel -->
-            </div><!-- /col-lg-4 -->			
+            </div><!-- /col-lg-4 -->
         </div><!-- /row -->
         <br />
         <div class="btn-toolbar" style="float: right">
             <div class="btn-group">
-                <a class="btn btn-default btn-sm" href="{{ path('tte_movimiento_despacho_nuevo', {'codigoDespacho': 0}) }}">Nuevo</a>                
-            </div>            
+                <a class="btn btn-default btn-sm" href="{{ path('tte_movimiento_despacho_nuevo', {'codigoDespacho': 0}) }}">Nuevo</a>
+            </div>
 
-        </div>         
+        </div>
     </section><! --/wrapper -->
 {% endblock %}

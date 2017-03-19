@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class TteGuiaType extends AbstractType
@@ -38,10 +39,11 @@ class TteGuiaType extends AbstractType
             ->add('barrio', TextType::class, array('required' => false))                
             ->add('telefono', TextType::class, array('required' => false))                    
             ->add('correo', TextType::class, array('required' => false))
-            ->add('cantidad', TextType::class, array('required' => false))
-            ->add('peso', TextType::class, array('required' => true))
-            ->add('pesoVolumen', TextType::class, array('required' => false))
-            ->add('declarado', TextType::class, array('required' => false))                            
+            ->add('cantidad', NumberType::class, array('required' => false))
+            ->add('peso', NumberType::class, array('required' => true))
+            ->add('pesoVolumen', NumberType::class, array('required' => false))
+            ->add('declarado', NumberType::class, array('required' => false))
+            ->add('documento', TextType::class, array('required' => false))                            
             ->add('guardar', SubmitType::class)
             ->add('guardarnuevo', SubmitType::class, array('label'  => 'Guardar y Nuevo'));        
     }

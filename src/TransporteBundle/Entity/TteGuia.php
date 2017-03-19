@@ -143,6 +143,11 @@ class TteGuia
      */    
     private $codigoEmpaqueFk; 
 
+    /**     
+     * @ORM\Column(name="estado_despacho_proveedor", type="boolean")
+     */    
+    private $estadoDespachoProveedor = false;      
+    
     /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="guiasEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
@@ -841,5 +846,29 @@ class TteGuia
     public function getConsecutivo()
     {
         return $this->consecutivo;
+    }
+
+    /**
+     * Set estadoDespachoProveedor
+     *
+     * @param boolean $estadoDespachoProveedor
+     *
+     * @return TteGuia
+     */
+    public function setEstadoDespachoProveedor($estadoDespachoProveedor)
+    {
+        $this->estadoDespachoProveedor = $estadoDespachoProveedor;
+
+        return $this;
+    }
+
+    /**
+     * Get estadoDespachoProveedor
+     *
+     * @return boolean
+     */
+    public function getEstadoDespachoProveedor()
+    {
+        return $this->estadoDespachoProveedor;
     }
 }

@@ -42,6 +42,11 @@ class TteCiudad
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="ciudadDestinoRel")
      */
     protected $guiasCiudadDestinoRel;       
+
+    /**
+     * @ORM\OneToMany(targetEntity="TteDestinatario", mappedBy="ciudadRel")
+     */
+    protected $destinatariosCiudadRel; 
     
     /**
      * Constructor
@@ -189,5 +194,39 @@ class TteCiudad
     public function getGuiasCiudadDestinoRel()
     {
         return $this->guiasCiudadDestinoRel;
+    }
+
+    /**
+     * Add destinatariosCiudadRel
+     *
+     * @param \TransporteBundle\Entity\TteDestinatario $destinatariosCiudadRel
+     *
+     * @return TteCiudad
+     */
+    public function addDestinatariosCiudadRel(\TransporteBundle\Entity\TteDestinatario $destinatariosCiudadRel)
+    {
+        $this->destinatariosCiudadRel[] = $destinatariosCiudadRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove destinatariosCiudadRel
+     *
+     * @param \TransporteBundle\Entity\TteDestinatario $destinatariosCiudadRel
+     */
+    public function removeDestinatariosCiudadRel(\TransporteBundle\Entity\TteDestinatario $destinatariosCiudadRel)
+    {
+        $this->destinatariosCiudadRel->removeElement($destinatariosCiudadRel);
+    }
+
+    /**
+     * Get destinatariosCiudadRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDestinatariosCiudadRel()
+    {
+        return $this->destinatariosCiudadRel;
     }
 }

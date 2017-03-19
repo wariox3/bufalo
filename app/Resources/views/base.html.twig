@@ -73,6 +73,12 @@
                                     <span>Despachos</span>
                                 </a>
                             </li>                            
+                            <li class="sub">
+                                <a href="{{ path('tte_base_destinatario') }}">
+                                    <i class="fa fa-book"></i>
+                                    <span>Destinatarios</span>
+                                </a>
+                            </li>                            
                         </ul>
                         <!-- sidebar menu end-->
                     </div>
@@ -94,6 +100,7 @@
             </section>        
         {% endblock %}
         {% block javascripts %}
+            <script src="{{ asset('js/general.js') }}"></script>
             <!-- js placed at the end of the document so the pages load faster -->    
             <script src="{{ asset('recursos/js/jquery.js') }}"></script>
             <script src="{{ asset('recursos/js/jquery-1.8.3.min.js') }}"></script>

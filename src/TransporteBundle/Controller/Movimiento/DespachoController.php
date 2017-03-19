@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use TransporteBundle\Form\Type\TteDespachoType;
-
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class DespachoController extends Controller
 {
     var $strListaDql = "";
@@ -23,6 +24,38 @@ class DespachoController extends Controller
             'arDespachos' => $arDespachos
             ));
     }
+    
+    /**
+     * @Route("/tte/movimiento/despacho/guia/agregar", name="tte_movimiento_despacho_guia_agregar")
+     */   
+    public function agrearGuiaAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');  
+        $form = $this->formularioAgregarGuia(); 
+        $form->handleRequest($request);
+        $this->listaGuiasPendientes();    
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                if ($form->get('BtnAgregar')->isClicked()) {
+                    $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                    if (count($arrSeleccionados) > 0) {
+                        foreach ($arrSeleccionados AS $codigo) {
+                            $arGuia = new \Brasa\TurnoBundle\Entity\TurGuia();
+                            $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigo);
+                            $em->persist($arGuia);
+                        }
+                    }
+                    $em->flush();            
+                    echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";            
+                }                
+            }   
+        }                     
+        $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 50);
+        return $this->render('TransporteBundle:Movimiento/Despacho:agregarGuia.html.twig', array(
+            'arGuias' => $arGuias,
+            'form' => $form->createView()
+            ));
+    }    
     
     /**
      * @Route("/tte/movimiento/despacho/nuevo/{codigoDespacho}", name="tte_movimiento_despacho_nuevo")
@@ -58,8 +91,20 @@ class DespachoController extends Controller
     
     private function lista() {        
         $em = $this->getDoctrine()->getManager();                  
-        $this->strListaDql = $em->getRepository('TransporteBundle:TteDespacho')->listaDQL($this->getUser()->getCodigoEmpresaFk());
-    }    
+        $this->strListaDql = $em->getRepository('TransporteBundle:TteDespacho')->listaDql($this->getUser()->getCodigoEmpresaFk());
+    }   
+    
+    private function listaGuiasPendientes() {        
+        $em = $this->getDoctrine()->getManager();                  
+        $this->strListaDql = $em->getRepository('TransporteBundle:TteGuia')->guiaPendienteDespachoDql($this->getUser()->getCodigoEmpresaFk());
+    }     
 
+    private function formularioAgregarGuia() {   
+        $session = new Session(); 
+        $form = $this->createFormBuilder()                                                
+            ->add('BtnAgregar', SubmitType::class, array('label'  => 'Agregar'))
+            ->getForm();        
+        return $form;
+    }    
     
 }

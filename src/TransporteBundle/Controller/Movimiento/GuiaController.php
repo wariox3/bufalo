@@ -32,16 +32,20 @@ class GuiaController extends Controller
         $arGuia = new \TransporteBundle\Entity\TteGuia();
         if ($codigoGuia != 0) {
             $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigoGuia);            
-        } else {
-            $arUsuario = $this->getUser();
+        } else {            
             $arGuia->setFecha(new \DateTime('now'));
-            $arGuia->setEmpresaRel($arUsuario->getEmpresaRel());
         }        
         $form = $this->createForm(TteGuiaType::class, $arGuia);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $arEmprea = $this->getUser()->getEmpresaRel();
                 $arGuia = $form->getData();
+                $manejo = $arEmprea->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
+                $arGuia->setManejo($manejo);
+                if($codigoGuia == 0) {                    
+                    $arGuia->setEmpresaRel($arEmprea);
+                }
                 $em->persist($arGuia);
                 $em->flush();
                 if ($form->get('guardarnuevo')->isClicked()) {

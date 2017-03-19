@@ -17,4 +17,10 @@ class TteGuiaRepository extends EntityRepository
         $dql .= " ORDER BY g.codigoGuiaPk DESC";
         return $dql;
     }     
+    
+    public function guiaPendienteDespachoDql($codigoEmpresa = "") {
+        $dql   = "SELECT g FROM TransporteBundle:TteGuia g WHERE g.codigoEmpresaFk = $codigoEmpresa AND g.estadoDespachoProveedor = 0 " ;            
+        $dql .= " ORDER BY g.codigoGuiaPk DESC";
+        return $dql;
+    }      
 }

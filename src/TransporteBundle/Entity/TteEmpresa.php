@@ -24,6 +24,11 @@ class TteEmpresa
     private $nombre;
 
     /**
+     * @ORM\Column(name="porcentaje_manejo", type="float")
+     */
+    private $porcentajeManejo = 0;    
+    
+    /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="empresaRel")
      */
     protected $guiasEmpresaRel;     
@@ -37,6 +42,11 @@ class TteEmpresa
      * @ORM\OneToMany(targetEntity="User", mappedBy="empresaRel")
      */
     protected $usersEmpresaRel;     
+    
+    /**
+     * @ORM\OneToMany(targetEntity="TteDestinatario", mappedBy="empresaRel")
+     */
+    protected $destinatariosEmpresaRel;    
     
     /**
      * Constructor
@@ -180,5 +190,63 @@ class TteEmpresa
     public function getDespachosEmpresaRel()
     {
         return $this->despachosEmpresaRel;
+    }
+
+    /**
+     * Add destinatariosEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\TteDestinatario $destinatariosEmpresaRel
+     *
+     * @return TteEmpresa
+     */
+    public function addDestinatariosEmpresaRel(\TransporteBundle\Entity\TteDestinatario $destinatariosEmpresaRel)
+    {
+        $this->destinatariosEmpresaRel[] = $destinatariosEmpresaRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove destinatariosEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\TteDestinatario $destinatariosEmpresaRel
+     */
+    public function removeDestinatariosEmpresaRel(\TransporteBundle\Entity\TteDestinatario $destinatariosEmpresaRel)
+    {
+        $this->destinatariosEmpresaRel->removeElement($destinatariosEmpresaRel);
+    }
+
+    /**
+     * Get destinatariosEmpresaRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDestinatariosEmpresaRel()
+    {
+        return $this->destinatariosEmpresaRel;
+    }
+
+    /**
+     * Set porcentajeManejo
+     *
+     * @param float $porcentajeManejo
+     *
+     * @return TteEmpresa
+     */
+    public function setPorcentajeManejo($porcentajeManejo)
+    {
+        $this->porcentajeManejo = $porcentajeManejo;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeManejo
+     *
+     * @return float
+     */
+    public function getPorcentajeManejo()
+    {
+        return $this->porcentajeManejo;
     }
 }

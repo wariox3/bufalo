@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Base: Lista -> destinatario</h3>
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="content-panel">
+                    <h4><i class="fa fa-angle-right"></i> Lista destinatarios</h4>
+                    <section id="unseen">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Direccion</th>
+                                    <th>Ciudad</th>
+                                    <th>Telefono</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for arDestinatario in arDestinatarios %}
+                                <tr>
+                                    <td>{{ arDestinatario.codigoDestinatarioPk  }}</td>
+                                    <td>{{ arDestinatario.nombreCorto  }}</td>
+                                    <td>{{ arDestinatario.direccion  }}</td>
+                                    <td>{{ arDestinatario.ciudadRel.nombre | default('')  }}</td>
+                                    <td>{{ arDestinatario.telefono  }}</td>
+                                    <td style="text-align: center"><a href="{{ path('tte_base_destinatario_nuevo', {'codigoDestinatario': arDestinatario.codigoDestinatarioPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </section>
+                </div><!-- /content-panel -->
+            </div><!-- /col-lg-4 -->			
+        </div><!-- /row -->
+        <br />
+        <div class="btn-toolbar" style="float: right">
+            <div class="btn-group">
+                <a class="btn btn-default btn-sm" href="{{ path('tte_base_destinatario_nuevo', {'codigoDestinatario': 0}) }}">Nuevo</a>                
+            </div>            
+
+        </div>         
+    </section><! --/wrapper -->
+{% endblock %}
