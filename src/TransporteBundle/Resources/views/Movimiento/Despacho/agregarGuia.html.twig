@@ -13,17 +13,31 @@
         {{ form_errors(form) }}                       
         <table  class="table table-striped table-bordered table-condensed table-hover">            
             <tr>
-                <th>Id</th>                
-                <th>Documento</th>                                
-                <th></th>
+                <th>Id</th>
+                <th>Guia</th>
+                <th>Documento</th>
+                <th>Destinatario</th>
+                <th>Destino</th>
+                <th class="numeric">Cant</th>
+                <th class="numeric">Peso</th>
+                <th class="numeric">Declarado</th>
+                <th class="numeric">Flete</th>
+                <th class="numeric">Manejo</th>
                 <th><input type="checkbox" name="ChkSeleccionarTodos" OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
             </tr>
-            {% for arGuias in arGuias %}
+            {% for arGuia in arGuias %}
                 <tr>
-                    <td><input type="hidden" name="LblCodigo[]" value="{{ arGuias.codigoGuiaPk }}">{{ arGuias.codigoGuiaPk }} </td>                    
-                    <td>{{ arGuias.documento }}</td>                                                                
-                    <td style="text-align: center"></td> 
-                    <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arGuias.codigoGuiaPk }}" /></td>
+                    <td><input type="hidden" name="LblCodigo[]" value="{{ arGuia.codigoGuiaPk }}">{{ arGuia.codigoGuiaPk }} </td>                    
+                    <td>{{ arGuia.consecutivo  }}</td>
+                    <td>{{ arGuia.documento  }}</td>
+                    <td>{{ arGuia.destinatario  }}</td>
+                    <td>{{ arGuia.ciudadDestinoRel.nombre  }}</td>
+                    <td class="numeric" style="text-align: right">{{ arGuia.cantidad | number_format(0, '.', ',') }}</td>
+                    <td class="numeric" style="text-align: right">{{ arGuia.peso | number_format(0, '.', ',') }}</td>
+                    <td class="numeric" style="text-align: right">{{ arGuia.declarado | number_format(0, '.', ',') }}</td>
+                    <td class="numeric" style="text-align: right">{{ arGuia.flete | number_format(0, '.', ',') }}</td>
+                    <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>
+                    <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arGuia.codigoGuiaPk }}" /></td>
                 </tr>
             {% endfor %} 
         </table>                                         

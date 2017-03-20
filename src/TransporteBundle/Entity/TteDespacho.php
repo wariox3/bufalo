@@ -34,11 +34,35 @@ class TteDespacho
     private $fecha;         
 
     /**
+     * @ORM\Column(name="cantidad", type="integer")
+     */    
+    private $cantidad = 0;    
+    
+    /**
+     * @ORM\Column(name="peso", type="float")
+     */
+    private $peso = 0;
+    
+    /**
+     * @ORM\Column(name="peso_volumen", type="float")
+     */
+    private $pesoVolumen = 0;      
+    
+    /**
+     * @ORM\Column(name="declarado", type="float")
+     */
+    private $declarado = 0;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="despachosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
     protected $empresaRel;     
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="despachoProveedorRel")
+     */
+    protected $guiasDespachoProveedorRel;     
 
     /**
      * Get codigoDespachoPk
@@ -144,5 +168,142 @@ class TteDespacho
     public function getEmpresaRel()
     {
         return $this->empresaRel;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->guiasDespachoProveedorRel = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add guiasDespachoProveedorRel
+     *
+     * @param \TransporteBundle\Entity\TteGuia $guiasDespachoProveedorRel
+     *
+     * @return TteDespacho
+     */
+    public function addGuiasDespachoProveedorRel(\TransporteBundle\Entity\TteGuia $guiasDespachoProveedorRel)
+    {
+        $this->guiasDespachoProveedorRel[] = $guiasDespachoProveedorRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove guiasDespachoProveedorRel
+     *
+     * @param \TransporteBundle\Entity\TteGuia $guiasDespachoProveedorRel
+     */
+    public function removeGuiasDespachoProveedorRel(\TransporteBundle\Entity\TteGuia $guiasDespachoProveedorRel)
+    {
+        $this->guiasDespachoProveedorRel->removeElement($guiasDespachoProveedorRel);
+    }
+
+    /**
+     * Get guiasDespachoProveedorRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGuiasDespachoProveedorRel()
+    {
+        return $this->guiasDespachoProveedorRel;
+    }
+
+    /**
+     * Set cantidad
+     *
+     * @param integer $cantidad
+     *
+     * @return TteDespacho
+     */
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+    /**
+     * Get cantidad
+     *
+     * @return integer
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * Set peso
+     *
+     * @param float $peso
+     *
+     * @return TteDespacho
+     */
+    public function setPeso($peso)
+    {
+        $this->peso = $peso;
+
+        return $this;
+    }
+
+    /**
+     * Get peso
+     *
+     * @return float
+     */
+    public function getPeso()
+    {
+        return $this->peso;
+    }
+
+    /**
+     * Set pesoVolumen
+     *
+     * @param float $pesoVolumen
+     *
+     * @return TteDespacho
+     */
+    public function setPesoVolumen($pesoVolumen)
+    {
+        $this->pesoVolumen = $pesoVolumen;
+
+        return $this;
+    }
+
+    /**
+     * Get pesoVolumen
+     *
+     * @return float
+     */
+    public function getPesoVolumen()
+    {
+        return $this->pesoVolumen;
+    }
+
+    /**
+     * Set declarado
+     *
+     * @param float $declarado
+     *
+     * @return TteDespacho
+     */
+    public function setDeclarado($declarado)
+    {
+        $this->declarado = $declarado;
+
+        return $this;
+    }
+
+    /**
+     * Get declarado
+     *
+     * @return float
+     */
+    public function getDeclarado()
+    {
+        return $this->declarado;
     }
 }

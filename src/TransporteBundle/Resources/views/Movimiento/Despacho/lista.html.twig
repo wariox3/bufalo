@@ -11,6 +11,10 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Fecha</th>
+                                    <th class="numeric">Cant</th>
+                                    <th class="numeric">Peso</th>
+                                    <th class="numeric">Declarado</th>                                    
                                     <th></th>
                                 </tr>
                             </thead>
@@ -18,7 +22,11 @@
                                 {% for arDespacho in arDespachos %}
                                 <tr>
                                     <td>{{ arDespacho.codigoDespachoPk  }}</td>
-                                    <td><a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar') }}', 'buscarGuias', 600, 900)">Agregar</a></td>
+                                    <td>{{ arDespacho.fecha |date('Y-m-d')  }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arDespacho.cantidad | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arDespacho.peso | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arDespacho.declarado | number_format(0, '.', ',') }}</td>                                    
+                                    <td><a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

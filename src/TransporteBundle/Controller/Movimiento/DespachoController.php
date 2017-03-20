@@ -26,9 +26,9 @@ class DespachoController extends Controller
     }
     
     /**
-     * @Route("/tte/movimiento/despacho/guia/agregar", name="tte_movimiento_despacho_guia_agregar")
+     * @Route("/tte/movimiento/despacho/guia/agregar/{codigoDespacho}", name="tte_movimiento_despacho_guia_agregar")
      */   
-    public function agrearGuiaAction(Request $request) {
+    public function agrearGuiaAction(Request $request, $codigoDespacho) {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');  
         $form = $this->formularioAgregarGuia(); 
@@ -39,11 +39,28 @@ class DespachoController extends Controller
                 if ($form->get('BtnAgregar')->isClicked()) {
                     $arrSeleccionados = $request->request->get('ChkSeleccionar');
                     if (count($arrSeleccionados) > 0) {
+                        $arDespacho = new \TransporteBundle\Entity\TteDespacho();
+                        $arDespacho = $em->getRepository('TransporteBundle:TteDespacho')->find($codigoDespacho);
+                        $cantidad = $arDespacho->getCantidad();
+                        $peso = $arDespacho->getPeso();
+                        $pesoVolumen = $arDespacho->getPesoVolumen();
+                        $declarado = $arDespacho->getDeclarado();
                         foreach ($arrSeleccionados AS $codigo) {
-                            $arGuia = new \Brasa\TurnoBundle\Entity\TurGuia();
+                            $arGuia = new \TransporteBundle\Entity\TteGuia;
                             $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigo);
+                            $cantidad += $arGuia->getCantidad();
+                            $peso += $arGuia->getPeso();
+                            $pesoVolumen += $arGuia->getPesoVolumen();
+                            $declarado += $arGuia->getDeclarado();  
+                            $arGuia->setDespachoProveedorRel($arDespacho);
+                            $arGuia->setEstadoDespachoProveedor(1);
                             $em->persist($arGuia);
                         }
+                        $arDespacho->setCantidad($cantidad);
+                        $arDespacho->setPeso($peso);
+                        $arDespacho->setPesoVolumen($pesoVolumen);
+                        $arDespacho->setDeclarado($declarado);
+                        $em->persist($arDespacho);
                     }
                     $em->flush();            
                     echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";            

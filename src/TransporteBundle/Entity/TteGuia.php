@@ -149,6 +149,11 @@ class TteGuia
     private $estadoDespachoProveedor = false;      
     
     /**
+     * @ORM\Column(name="codigo_despacho_proveedor_fk", type="integer", nullable=true)
+     */    
+    private $codigoDespachoProveedorFk;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="guiasEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -165,6 +170,12 @@ class TteGuia
      * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
      */
     protected $empaqueRel;      
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="TteDespacho", inversedBy="guiasDespachoProveedorRel")
+     * @ORM\JoinColumn(name="codigo_despacho_proveedor_fk", referencedColumnName="codigo_despacho_pk")
+     */
+    protected $despachoProveedorRel;     
     
     /**
      * Get codigoGuiaPk
@@ -870,5 +881,53 @@ class TteGuia
     public function getEstadoDespachoProveedor()
     {
         return $this->estadoDespachoProveedor;
+    }
+
+    /**
+     * Set codigoDespachoProveedorFk
+     *
+     * @param integer $codigoDespachoProveedorFk
+     *
+     * @return TteGuia
+     */
+    public function setCodigoDespachoProveedorFk($codigoDespachoProveedorFk)
+    {
+        $this->codigoDespachoProveedorFk = $codigoDespachoProveedorFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoDespachoProveedorFk
+     *
+     * @return integer
+     */
+    public function getCodigoDespachoProveedorFk()
+    {
+        return $this->codigoDespachoProveedorFk;
+    }
+
+    /**
+     * Set despachoProveedorRel
+     *
+     * @param \TransporteBundle\Entity\TteDespacho $despachoProveedorRel
+     *
+     * @return TteGuia
+     */
+    public function setDespachoProveedorRel(\TransporteBundle\Entity\TteDespacho $despachoProveedorRel = null)
+    {
+        $this->despachoProveedorRel = $despachoProveedorRel;
+
+        return $this;
+    }
+
+    /**
+     * Get despachoProveedorRel
+     *
+     * @return \TransporteBundle\Entity\TteDespacho
+     */
+    public function getDespachoProveedorRel()
+    {
+        return $this->despachoProveedorRel;
     }
 }
