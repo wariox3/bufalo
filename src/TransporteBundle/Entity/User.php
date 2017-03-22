@@ -338,30 +338,6 @@ class User implements UserInterface, \Serializable {
 
 
     /**
-     * Set rolRel
-     *
-     * @param \ArdidBundle\Entity\SegRoles $rolRel
-     *
-     * @return User
-     */
-    public function setRolRel(\ArdidBundle\Entity\SegRoles $rolRel = null)
-    {
-        $this->rolRel = $rolRel;
-
-        return $this;
-    }
-
-    /**
-     * Get rolRel
-     *
-     * @return \ArdidBundle\Entity\SegRoles
-     */
-    public function getRolRel()
-    {
-        return $this->rolRel;
-    }
-
-    /**
      * Set empaqueRel
      *
      * @param \TransporteBundle\Entity\TteEmpresa $empaqueRel
