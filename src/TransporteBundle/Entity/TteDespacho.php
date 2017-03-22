@@ -34,6 +34,11 @@ class TteDespacho
     private $fecha;         
 
     /**
+     * @ORM\Column(name="guias", type="integer")
+     */    
+    private $guias = 0;
+    
+    /**
      * @ORM\Column(name="cantidad", type="integer")
      */    
     private $cantidad = 0;    
@@ -305,5 +310,29 @@ class TteDespacho
     public function getDeclarado()
     {
         return $this->declarado;
+    }
+
+    /**
+     * Set guias
+     *
+     * @param integer $guias
+     *
+     * @return TteDespacho
+     */
+    public function setGuias($guias)
+    {
+        $this->guias = $guias;
+
+        return $this;
+    }
+
+    /**
+     * Get guias
+     *
+     * @return integer
+     */
+    public function getGuias()
+    {
+        return $this->guias;
     }
 }

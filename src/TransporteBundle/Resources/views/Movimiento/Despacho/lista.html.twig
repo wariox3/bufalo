@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block content %}
     <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Movimiento: Lista -> despacho</h3>
+        <h3><i class="fa fa-angle-right"></i> Movimiento: Desapcho -> lista</h3>
         <div class="row mt">
             <div class="col-lg-12">
                 <div class="content-panel">
@@ -12,9 +12,11 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Fecha</th>
+                                    <th class="numeric">Guias</th>
                                     <th class="numeric">Cant</th>
                                     <th class="numeric">Peso</th>
                                     <th class="numeric">Declarado</th>                                    
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -23,10 +25,12 @@
                                 <tr>
                                     <td>{{ arDespacho.codigoDespachoPk  }}</td>
                                     <td>{{ arDespacho.fecha |date('Y-m-d')  }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arDespacho.guias | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arDespacho.cantidad | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arDespacho.peso | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arDespacho.declarado | number_format(0, '.', ',') }}</td>                                    
-                                    <td><a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a></td>
+                                    <td><a class="btn btn-default btn-sm btn-xs" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a></td>
+                                    <td style="text-align: center"><a href="{{ path('tte_movimiento_despacho_detalle', { 'codigoDespacho': arDespacho.codigoDespachoPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22></a></td>                                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>

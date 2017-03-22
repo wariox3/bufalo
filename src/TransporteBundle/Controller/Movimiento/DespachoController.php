@@ -26,6 +26,59 @@ class DespachoController extends Controller
     }
     
     /**
+     * @Route("/tte/movimiento/despacho/detalle/{codigoDespacho}", name="tte_movimiento_despacho_detalle")
+     */   
+    public function detalleAction(Request $request, $codigoDespacho) {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');      
+        $arDespacho = new \TransporteBundle\Entity\TteDespacho();
+        $arDespacho = $em->getRepository('TransporteBundle:TteDespacho')->find($codigoDespacho);
+        $form = $this->formularioDetalle(); 
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                if ($form->get('BtnDetalleEliminar')->isClicked()) {
+                    $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                    if (count($arrSeleccionados) > 0) {
+                        $guias = $arDespacho->getGuias();
+                        $cantidad = $arDespacho->getCantidad();
+                        $peso = $arDespacho->getPeso();
+                        $pesoVolumen = $arDespacho->getPesoVolumen();
+                        $declarado = $arDespacho->getDeclarado();
+                        foreach ($arrSeleccionados AS $codigo) {
+                            $arGuia = new \TransporteBundle\Entity\TteGuia;
+                            $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigo);
+                            $guias--;
+                            $cantidad -= $arGuia->getCantidad();
+                            $peso -= $arGuia->getPeso();
+                            $pesoVolumen -= $arGuia->getPesoVolumen();
+                            $declarado -= $arGuia->getDeclarado();  
+                            $arGuia->setDespachoProveedorRel(null);
+                            $arGuia->setEstadoDespachoProveedor(0);
+                            $em->persist($arGuia);
+                        }
+                        $arDespacho->setGuias($guias);
+                        $arDespacho->setCantidad($cantidad);
+                        $arDespacho->setPeso($peso);
+                        $arDespacho->setPesoVolumen($pesoVolumen);
+                        $arDespacho->setDeclarado($declarado);
+                        $em->persist($arDespacho);
+                    }
+                    $em->flush();  
+                    return $this->redirect($this->generateUrl('tte_movimiento_despacho_detalle', array('codigoDespacho' => $codigoDespacho)));
+                }
+            }   
+        }
+        $dql = $em->getRepository('TransporteBundle:TteGuia')->guiasDespachoDql($codigoDespacho);
+        $arGuias = $paginator->paginate($em->createQuery($dql), $request->query->get('page', 1), 50);
+        return $this->render('TransporteBundle:Movimiento/Despacho:detalle.html.twig', array(
+            'arDespacho' => $arDespacho,
+            'arGuias' => $arGuias,
+            'form' => $form->createView()
+            ));
+    }    
+    
+    /**
      * @Route("/tte/movimiento/despacho/guia/agregar/{codigoDespacho}", name="tte_movimiento_despacho_guia_agregar")
      */   
     public function agrearGuiaAction(Request $request, $codigoDespacho) {
@@ -41,6 +94,7 @@ class DespachoController extends Controller
                     if (count($arrSeleccionados) > 0) {
                         $arDespacho = new \TransporteBundle\Entity\TteDespacho();
                         $arDespacho = $em->getRepository('TransporteBundle:TteDespacho')->find($codigoDespacho);
+                        $guias = $arDespacho->getGuias();
                         $cantidad = $arDespacho->getCantidad();
                         $peso = $arDespacho->getPeso();
                         $pesoVolumen = $arDespacho->getPesoVolumen();
@@ -48,6 +102,7 @@ class DespachoController extends Controller
                         foreach ($arrSeleccionados AS $codigo) {
                             $arGuia = new \TransporteBundle\Entity\TteGuia;
                             $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigo);
+                            $guias++;
                             $cantidad += $arGuia->getCantidad();
                             $peso += $arGuia->getPeso();
                             $pesoVolumen += $arGuia->getPesoVolumen();
@@ -56,6 +111,7 @@ class DespachoController extends Controller
                             $arGuia->setEstadoDespachoProveedor(1);
                             $em->persist($arGuia);
                         }
+                        $arDespacho->setGuias($guias);
                         $arDespacho->setCantidad($cantidad);
                         $arDespacho->setPeso($peso);
                         $arDespacho->setPesoVolumen($pesoVolumen);
@@ -123,5 +179,14 @@ class DespachoController extends Controller
             ->getForm();        
         return $form;
     }    
+    
+    private function formularioDetalle() {   
+        $session = new Session(); 
+        $form = $this->createFormBuilder()                                                
+            ->add('BtnImprimir', SubmitType::class, array('label'  => 'Imprimir'))
+            ->add('BtnDetalleEliminar', SubmitType::class, array('label'  => 'Eliminar'))
+            ->getForm();        
+        return $form;
+    }     
     
 }
