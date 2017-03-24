@@ -37,6 +37,10 @@ class DespachoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                if ($form->get('BtnImprimir')->isClicked()) {
+                    $objDespacho = new \TransporteBundle\Formato\Despacho();
+                    $objDespacho->Generar($em, $codigoDespacho);
+                }
                 if ($form->get('BtnDetalleEliminar')->isClicked()) {
                     $arrSeleccionados = $request->request->get('ChkSeleccionar');
                     if (count($arrSeleccionados) > 0) {
