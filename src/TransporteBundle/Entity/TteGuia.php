@@ -104,6 +104,11 @@ class TteGuia
     private $pesoVolumen = 0;      
     
     /**
+     * @ORM\Column(name="peso_facturar", type="float")
+     */
+    private $pesoFacturar = 0;    
+    
+    /**
      * @ORM\Column(name="declarado", type="float")
      */
     private $declarado = 0;     
@@ -134,6 +139,11 @@ class TteGuia
     private $ancho = 0;    
     
     /**
+     * @ORM\Column(name="observacion", type="string", length=1000, nullable=true)
+     */    
+    private $observacion;    
+    
+    /**
      * @ORM\Column(name="codigo_ciudad_destino_fk", type="integer", nullable=true)
      */    
     private $codigoCiudadDestinoFk;    
@@ -143,6 +153,11 @@ class TteGuia
      */    
     private $codigoEmpaqueFk; 
 
+    /**
+     * @ORM\Column(name="codigo_empaque_empresa_fk", type="integer", nullable=true)
+     */    
+    private $codigoEmpaqueEmpresaFk;    
+    
     /**     
      * @ORM\Column(name="estado_despacho_proveedor", type="boolean")
      */    
@@ -172,11 +187,18 @@ class TteGuia
     protected $empaqueRel;      
     
     /**
+     * @ORM\ManyToOne(targetEntity="TteEmpaqueEmpresa", inversedBy="guiasEmpaqueEmpresaRel")
+     * @ORM\JoinColumn(name="codigo_empaque_empresa_fk", referencedColumnName="codigo_empaque_empresa_pk")
+     */
+    protected $empaqueEmpresaRel;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TteDespacho", inversedBy="guiasDespachoProveedorRel")
      * @ORM\JoinColumn(name="codigo_despacho_proveedor_fk", referencedColumnName="codigo_despacho_pk")
      */
     protected $despachoProveedorRel;     
     
+
     /**
      * Get codigoGuiaPk
      *
@@ -185,6 +207,30 @@ class TteGuia
     public function getCodigoGuiaPk()
     {
         return $this->codigoGuiaPk;
+    }
+
+    /**
+     * Set consecutivo
+     *
+     * @param float $consecutivo
+     *
+     * @return TteGuia
+     */
+    public function setConsecutivo($consecutivo)
+    {
+        $this->consecutivo = $consecutivo;
+
+        return $this;
+    }
+
+    /**
+     * Get consecutivo
+     *
+     * @return float
+     */
+    public function getConsecutivo()
+    {
+        return $this->consecutivo;
     }
 
     /**
@@ -209,6 +255,30 @@ class TteGuia
     public function getCodigoEmpresaFk()
     {
         return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return TteGuia
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
     }
 
     /**
@@ -452,54 +522,6 @@ class TteGuia
     }
 
     /**
-     * Set codigoCiudadDestinoFk
-     *
-     * @param integer $codigoCiudadDestinoFk
-     *
-     * @return TteGuia
-     */
-    public function setCodigoCiudadDestinoFk($codigoCiudadDestinoFk)
-    {
-        $this->codigoCiudadDestinoFk = $codigoCiudadDestinoFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoCiudadDestinoFk
-     *
-     * @return integer
-     */
-    public function getCodigoCiudadDestinoFk()
-    {
-        return $this->codigoCiudadDestinoFk;
-    }
-
-    /**
-     * Set ciudadDestinoRel
-     *
-     * @param \TransporteBundle\Entity\TteCiudad $ciudadDestinoRel
-     *
-     * @return TteGuia
-     */
-    public function setCiudadDestinoRel(\TransporteBundle\Entity\TteCiudad $ciudadDestinoRel = null)
-    {
-        $this->ciudadDestinoRel = $ciudadDestinoRel;
-
-        return $this;
-    }
-
-    /**
-     * Get ciudadDestinoRel
-     *
-     * @return \TransporteBundle\Entity\TteCiudad
-     */
-    public function getCiudadDestinoRel()
-    {
-        return $this->ciudadDestinoRel;
-    }
-
-    /**
      * Set documento
      *
      * @param string $documento
@@ -596,6 +618,30 @@ class TteGuia
     }
 
     /**
+     * Set pesoFacturar
+     *
+     * @param float $pesoFacturar
+     *
+     * @return TteGuia
+     */
+    public function setPesoFacturar($pesoFacturar)
+    {
+        $this->pesoFacturar = $pesoFacturar;
+
+        return $this;
+    }
+
+    /**
+     * Get pesoFacturar
+     *
+     * @return float
+     */
+    public function getPesoFacturar()
+    {
+        return $this->pesoFacturar;
+    }
+
+    /**
      * Set declarado
      *
      * @param float $declarado
@@ -617,6 +663,54 @@ class TteGuia
     public function getDeclarado()
     {
         return $this->declarado;
+    }
+
+    /**
+     * Set flete
+     *
+     * @param float $flete
+     *
+     * @return TteGuia
+     */
+    public function setFlete($flete)
+    {
+        $this->flete = $flete;
+
+        return $this;
+    }
+
+    /**
+     * Get flete
+     *
+     * @return float
+     */
+    public function getFlete()
+    {
+        return $this->flete;
+    }
+
+    /**
+     * Set manejo
+     *
+     * @param float $manejo
+     *
+     * @return TteGuia
+     */
+    public function setManejo($manejo)
+    {
+        $this->manejo = $manejo;
+
+        return $this;
+    }
+
+    /**
+     * Get manejo
+     *
+     * @return float
+     */
+    public function getManejo()
+    {
+        return $this->manejo;
     }
 
     /**
@@ -692,6 +786,54 @@ class TteGuia
     }
 
     /**
+     * Set observacion
+     *
+     * @param string $observacion
+     *
+     * @return TteGuia
+     */
+    public function setObservacion($observacion)
+    {
+        $this->observacion = $observacion;
+
+        return $this;
+    }
+
+    /**
+     * Get observacion
+     *
+     * @return string
+     */
+    public function getObservacion()
+    {
+        return $this->observacion;
+    }
+
+    /**
+     * Set codigoCiudadDestinoFk
+     *
+     * @param integer $codigoCiudadDestinoFk
+     *
+     * @return TteGuia
+     */
+    public function setCodigoCiudadDestinoFk($codigoCiudadDestinoFk)
+    {
+        $this->codigoCiudadDestinoFk = $codigoCiudadDestinoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCiudadDestinoFk
+     *
+     * @return integer
+     */
+    public function getCodigoCiudadDestinoFk()
+    {
+        return $this->codigoCiudadDestinoFk;
+    }
+
+    /**
      * Set codigoEmpaqueFk
      *
      * @param integer $codigoEmpaqueFk
@@ -716,147 +858,27 @@ class TteGuia
     }
 
     /**
-     * Set empaqueRel
+     * Set codigoEmpaqueEmpresaFk
      *
-     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
+     * @param integer $codigoEmpaqueEmpresaFk
      *
      * @return TteGuia
      */
-    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
+    public function setCodigoEmpaqueEmpresaFk($codigoEmpaqueEmpresaFk)
     {
-        $this->empaqueRel = $empaqueRel;
+        $this->codigoEmpaqueEmpresaFk = $codigoEmpaqueEmpresaFk;
 
         return $this;
     }
 
     /**
-     * Get empaqueRel
+     * Get codigoEmpaqueEmpresaFk
      *
-     * @return \TransporteBundle\Entity\TteEmpaque
+     * @return integer
      */
-    public function getEmpaqueRel()
+    public function getCodigoEmpaqueEmpresaFk()
     {
-        return $this->empaqueRel;
-    }
-
-    /**
-     * Set empresaRel
-     *
-     * @param \TransporteBundle\Entity\TteEmpresa $empresaRel
-     *
-     * @return TteGuia
-     */
-    public function setEmpresaRel(\TransporteBundle\Entity\TteEmpresa $empresaRel = null)
-    {
-        $this->empresaRel = $empresaRel;
-
-        return $this;
-    }
-
-    /**
-     * Get empresaRel
-     *
-     * @return \TransporteBundle\Entity\TteEmpresa
-     */
-    public function getEmpresaRel()
-    {
-        return $this->empresaRel;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return TteGuia
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * Set manejo
-     *
-     * @param float $manejo
-     *
-     * @return TteGuia
-     */
-    public function setManejo($manejo)
-    {
-        $this->manejo = $manejo;
-
-        return $this;
-    }
-
-    /**
-     * Get manejo
-     *
-     * @return float
-     */
-    public function getManejo()
-    {
-        return $this->manejo;
-    }
-
-    /**
-     * Set flete
-     *
-     * @param float $flete
-     *
-     * @return TteGuia
-     */
-    public function setFlete($flete)
-    {
-        $this->flete = $flete;
-
-        return $this;
-    }
-
-    /**
-     * Get flete
-     *
-     * @return float
-     */
-    public function getFlete()
-    {
-        return $this->flete;
-    }
-
-    /**
-     * Set consecutivo
-     *
-     * @param float $consecutivo
-     *
-     * @return TteGuia
-     */
-    public function setConsecutivo($consecutivo)
-    {
-        $this->consecutivo = $consecutivo;
-
-        return $this;
-    }
-
-    /**
-     * Get consecutivo
-     *
-     * @return float
-     */
-    public function getConsecutivo()
-    {
-        return $this->consecutivo;
+        return $this->codigoEmpaqueEmpresaFk;
     }
 
     /**
@@ -905,6 +927,102 @@ class TteGuia
     public function getCodigoDespachoProveedorFk()
     {
         return $this->codigoDespachoProveedorFk;
+    }
+
+    /**
+     * Set empresaRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpresa $empresaRel
+     *
+     * @return TteGuia
+     */
+    public function setEmpresaRel(\TransporteBundle\Entity\TteEmpresa $empresaRel = null)
+    {
+        $this->empresaRel = $empresaRel;
+
+        return $this;
+    }
+
+    /**
+     * Get empresaRel
+     *
+     * @return \TransporteBundle\Entity\TteEmpresa
+     */
+    public function getEmpresaRel()
+    {
+        return $this->empresaRel;
+    }
+
+    /**
+     * Set ciudadDestinoRel
+     *
+     * @param \TransporteBundle\Entity\TteCiudad $ciudadDestinoRel
+     *
+     * @return TteGuia
+     */
+    public function setCiudadDestinoRel(\TransporteBundle\Entity\TteCiudad $ciudadDestinoRel = null)
+    {
+        $this->ciudadDestinoRel = $ciudadDestinoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get ciudadDestinoRel
+     *
+     * @return \TransporteBundle\Entity\TteCiudad
+     */
+    public function getCiudadDestinoRel()
+    {
+        return $this->ciudadDestinoRel;
+    }
+
+    /**
+     * Set empaqueRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
+     *
+     * @return TteGuia
+     */
+    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
+    {
+        $this->empaqueRel = $empaqueRel;
+
+        return $this;
+    }
+
+    /**
+     * Get empaqueRel
+     *
+     * @return \TransporteBundle\Entity\TteEmpaque
+     */
+    public function getEmpaqueRel()
+    {
+        return $this->empaqueRel;
+    }
+
+    /**
+     * Set empaqueEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpaqueEmpresa $empaqueEmpresaRel
+     *
+     * @return TteGuia
+     */
+    public function setEmpaqueEmpresaRel(\TransporteBundle\Entity\TteEmpaqueEmpresa $empaqueEmpresaRel = null)
+    {
+        $this->empaqueEmpresaRel = $empaqueEmpresaRel;
+
+        return $this;
+    }
+
+    /**
+     * Get empaqueEmpresaRel
+     *
+     * @return \TransporteBundle\Entity\TteEmpaqueEmpresa
+     */
+    public function getEmpaqueEmpresaRel()
+    {
+        return $this->empaqueEmpresaRel;
     }
 
     /**

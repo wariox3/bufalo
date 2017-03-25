@@ -12,5 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class TtePrecioDetalleRepository extends EntityRepository
 {
-     
+    public function listaDql($codigoEmpresa = "", $codigoDestinatario = "", $nombreDestinatario ="") {
+        $dql   = "SELECT pd FROM TransporteBundle:TtePrecioDetalle pd WHERE pd.codigoEmpresaFk = $codigoEmpresa " ;            
+        $dql .= " ORDER BY pd.codigoPrecioDetallePk DESC";
+        return $dql;
+    }     
 }

@@ -24,6 +24,36 @@ class TteEmpresa
     private $nombre;
 
     /**
+     * @ORM\Column(name="nit", type="string", length=15, nullable=true)
+     */    
+    private $nit;    
+    
+    /**
+     * @ORM\Column(name="direccion", type="string", length=120, nullable=true)
+     */    
+    private $direccion;    
+    
+    /**
+     * @ORM\Column(name="telefono", type="string", length=50, nullable=true)
+     */    
+    private $telefono;    
+
+    /**
+     * @ORM\Column(name="consecutivo_guia", type="integer")
+     */
+    private $consecutivoGuia = 0;    
+    
+    /**
+     * @ORM\Column(name="consecutivo_guia_desde", type="integer")
+     */
+    private $consecutivoGuiaDesde = 0;
+
+    /**
+     * @ORM\Column(name="consecutivo_guia_hasta", type="integer")
+     */
+    private $consecutivoGuiaHasta = 0;
+    
+    /**
      * @ORM\Column(name="porcentaje_manejo", type="float")
      */
     private $porcentajeManejo = 0;    
@@ -49,11 +79,24 @@ class TteEmpresa
     protected $destinatariosEmpresaRel;    
     
     /**
+     * @ORM\OneToMany(targetEntity="TteEmpaqueEmpresa", mappedBy="empresaRel")
+     */
+    protected $empaquesEmpresasEmpresaRel;     
+
+    /**
+     * @ORM\OneToMany(targetEntity="TtePrecioDetalle", mappedBy="empresaRel")
+     */
+    protected $preciosDetallesEmpresaRel;    
+    
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->guiasEmpresaRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->despachosEmpresaRel = new \Doctrine\Common\Collections\ArrayCollection();
         $this->usersEmpresaRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->destinatariosEmpresaRel = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -91,37 +134,27 @@ class TteEmpresa
     }
 
     /**
-     * Add usersEmpresaRel
+     * Set porcentajeManejo
      *
-     * @param \TransporteBundle\Entity\User $usersEmpresaRel
+     * @param float $porcentajeManejo
      *
      * @return TteEmpresa
      */
-    public function addUsersEmpresaRel(\TransporteBundle\Entity\User $usersEmpresaRel)
+    public function setPorcentajeManejo($porcentajeManejo)
     {
-        $this->usersEmpresaRel[] = $usersEmpresaRel;
+        $this->porcentajeManejo = $porcentajeManejo;
 
         return $this;
     }
 
     /**
-     * Remove usersEmpresaRel
+     * Get porcentajeManejo
      *
-     * @param \TransporteBundle\Entity\User $usersEmpresaRel
+     * @return float
      */
-    public function removeUsersEmpresaRel(\TransporteBundle\Entity\User $usersEmpresaRel)
+    public function getPorcentajeManejo()
     {
-        $this->usersEmpresaRel->removeElement($usersEmpresaRel);
-    }
-
-    /**
-     * Get usersEmpresaRel
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUsersEmpresaRel()
-    {
-        return $this->usersEmpresaRel;
+        return $this->porcentajeManejo;
     }
 
     /**
@@ -193,6 +226,40 @@ class TteEmpresa
     }
 
     /**
+     * Add usersEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\User $usersEmpresaRel
+     *
+     * @return TteEmpresa
+     */
+    public function addUsersEmpresaRel(\TransporteBundle\Entity\User $usersEmpresaRel)
+    {
+        $this->usersEmpresaRel[] = $usersEmpresaRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove usersEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\User $usersEmpresaRel
+     */
+    public function removeUsersEmpresaRel(\TransporteBundle\Entity\User $usersEmpresaRel)
+    {
+        $this->usersEmpresaRel->removeElement($usersEmpresaRel);
+    }
+
+    /**
+     * Get usersEmpresaRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsersEmpresaRel()
+    {
+        return $this->usersEmpresaRel;
+    }
+
+    /**
      * Add destinatariosEmpresaRel
      *
      * @param \TransporteBundle\Entity\TteDestinatario $destinatariosEmpresaRel
@@ -227,26 +294,214 @@ class TteEmpresa
     }
 
     /**
-     * Set porcentajeManejo
+     * Add empaquesEmpresasEmpresaRel
      *
-     * @param float $porcentajeManejo
+     * @param \TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpresaRel
      *
      * @return TteEmpresa
      */
-    public function setPorcentajeManejo($porcentajeManejo)
+    public function addEmpaquesEmpresasEmpresaRel(\TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpresaRel)
     {
-        $this->porcentajeManejo = $porcentajeManejo;
+        $this->empaquesEmpresasEmpresaRel[] = $empaquesEmpresasEmpresaRel;
 
         return $this;
     }
 
     /**
-     * Get porcentajeManejo
+     * Remove empaquesEmpresasEmpresaRel
      *
-     * @return float
+     * @param \TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpresaRel
      */
-    public function getPorcentajeManejo()
+    public function removeEmpaquesEmpresasEmpresaRel(\TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpresaRel)
     {
-        return $this->porcentajeManejo;
+        $this->empaquesEmpresasEmpresaRel->removeElement($empaquesEmpresasEmpresaRel);
+    }
+
+    /**
+     * Get empaquesEmpresasEmpresaRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmpaquesEmpresasEmpresaRel()
+    {
+        return $this->empaquesEmpresasEmpresaRel;
+    }
+
+    /**
+     * Add preciosDetallesEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpresaRel
+     *
+     * @return TteEmpresa
+     */
+    public function addPreciosDetallesEmpresaRel(\TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpresaRel)
+    {
+        $this->preciosDetallesEmpresaRel[] = $preciosDetallesEmpresaRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove preciosDetallesEmpresaRel
+     *
+     * @param \TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpresaRel
+     */
+    public function removePreciosDetallesEmpresaRel(\TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpresaRel)
+    {
+        $this->preciosDetallesEmpresaRel->removeElement($preciosDetallesEmpresaRel);
+    }
+
+    /**
+     * Get preciosDetallesEmpresaRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPreciosDetallesEmpresaRel()
+    {
+        return $this->preciosDetallesEmpresaRel;
+    }
+
+    /**
+     * Set nit
+     *
+     * @param string $nit
+     *
+     * @return TteEmpresa
+     */
+    public function setNit($nit)
+    {
+        $this->nit = $nit;
+
+        return $this;
+    }
+
+    /**
+     * Get nit
+     *
+     * @return string
+     */
+    public function getNit()
+    {
+        return $this->nit;
+    }
+
+    /**
+     * Set direccion
+     *
+     * @param string $direccion
+     *
+     * @return TteEmpresa
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return string
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * Set telefono
+     *
+     * @param string $telefono
+     *
+     * @return TteEmpresa
+     */
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get telefono
+     *
+     * @return string
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * Set consecutivoGuia
+     *
+     * @param integer $consecutivoGuia
+     *
+     * @return TteEmpresa
+     */
+    public function setConsecutivoGuia($consecutivoGuia)
+    {
+        $this->consecutivoGuia = $consecutivoGuia;
+
+        return $this;
+    }
+
+    /**
+     * Get consecutivoGuia
+     *
+     * @return integer
+     */
+    public function getConsecutivoGuia()
+    {
+        return $this->consecutivoGuia;
+    }
+
+    /**
+     * Set consecutivoGuiaDesde
+     *
+     * @param integer $consecutivoGuiaDesde
+     *
+     * @return TteEmpresa
+     */
+    public function setConsecutivoGuiaDesde($consecutivoGuiaDesde)
+    {
+        $this->consecutivoGuiaDesde = $consecutivoGuiaDesde;
+
+        return $this;
+    }
+
+    /**
+     * Get consecutivoGuiaDesde
+     *
+     * @return integer
+     */
+    public function getConsecutivoGuiaDesde()
+    {
+        return $this->consecutivoGuiaDesde;
+    }
+
+    /**
+     * Set consecutivoGuiaHasta
+     *
+     * @param integer $consecutivoGuiaHasta
+     *
+     * @return TteEmpresa
+     */
+    public function setConsecutivoGuiaHasta($consecutivoGuiaHasta)
+    {
+        $this->consecutivoGuiaHasta = $consecutivoGuiaHasta;
+
+        return $this;
+    }
+
+    /**
+     * Get consecutivoGuiaHasta
+     *
+     * @return integer
+     */
+    public function getConsecutivoGuiaHasta()
+    {
+        return $this->consecutivoGuiaHasta;
     }
 }

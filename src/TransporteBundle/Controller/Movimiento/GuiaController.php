@@ -32,19 +32,36 @@ class GuiaController extends Controller
         $arGuia = new \TransporteBundle\Entity\TteGuia();
         if ($codigoGuia != 0) {
             $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigoGuia);            
-        } else {            
+        } else {  
+            $arEmprea = $this->getUser()->getEmpresaRel();
+            $arGuia->setEmpresaRel($arEmprea);
             $arGuia->setFecha(new \DateTime('now'));
         }        
         $form = $this->createForm(TteGuiaType::class, $arGuia);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $arEmprea = $this->getUser()->getEmpresaRel();
+            if ($form->isValid()) {                
                 $arGuia = $form->getData();
-                $manejo = $arEmprea->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
-                $arGuia->setManejo($manejo);
-                if($codigoGuia == 0) {                    
-                    $arGuia->setEmpresaRel($arEmprea);
+                $arGuia->setEmpaqueRel($arGuia->getEmpaqueEmpresaRel()->getEmpaqueRel());
+                $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
+                $pesoFacturar = 0;
+                if($arGuia->getPeso() >= $arGuia->getPesoVolumen()) {
+                    $pesoFacturar = $arGuia->getPeso();
+                } else {
+                    $pesoFacturar = $arGuia->getPesoVolumen();
+                }
+                $flete = 0;
+                if($pesoFacturar > 0) {
+                    $arPrecioDetalle = $em->getRepository('TransporteBundle:TtePrecioDetalle')->findOneBy(array('codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoEmpaqueFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()));
+                    if($arPrecioDetalle) {
+                        $flete = $arPrecioDetalle->getVrKilo() * $pesoFacturar;
+                    }
+                }
+                $arGuia->setManejo(round($manejo));
+                $arGuia->setFlete(round($flete));
+                if($codigoGuia == 0) {
+                    $consecutivo = $em->getRepository('TransporteBundle:TteGuia')->consecutivo($arGuia->getEmpresaRel()->getCodigoEmpresaPk());
+                    $arGuia->setConsecutivo($consecutivo);
                 }
                 $em->persist($arGuia);
                 $em->flush();

@@ -21,7 +21,8 @@ class TteDestinatarioType extends AbstractType
                     return $er->createQueryBuilder('c')
                     ->orderBy('c.nombre', 'ASC');},
                 'choice_label' => 'nombre',
-                'required' => true))                                                            
+                'required' => true))                                        
+            ->add('identificacion', TextType::class, array('required' => true))                            
             ->add('nombreCorto', TextType::class, array('required' => true))                
             ->add('nombre1', TextType::class, array('required' => false))                
             ->add('nombre2', TextType::class, array('required' => false))                

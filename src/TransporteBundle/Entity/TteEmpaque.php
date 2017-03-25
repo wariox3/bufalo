@@ -21,12 +21,31 @@ class TteEmpaque
     /**
      * @ORM\Column(name="nombre", type="string", length=80, nullable=true)
      */    
-    private $nombre;
-
+    private $nombre;           
+    
     /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="empaqueRel")
      */
     protected $guiasEmpaqueRel;       
+
+    /**
+     * @ORM\OneToMany(targetEntity="TtePrecioDetalle", mappedBy="empaqueRel")
+     */
+    protected $preciosDetallesEmpaqueRel;     
+    
+    /**
+     * @ORM\OneToMany(targetEntity="TteEmpaqueEmpresa", mappedBy="empaqueRel")
+     */
+    protected $empaquesEmpresasEmpaqueRel; 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->guiasEmpaqueRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->preciosDetallesEmpaqueRel = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get codigoEmpaquePk
@@ -61,13 +80,6 @@ class TteEmpaque
     {
         return $this->nombre;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->guiasEmpaqueRel = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add guiasEmpaqueRel
@@ -101,5 +113,73 @@ class TteEmpaque
     public function getGuiasEmpaqueRel()
     {
         return $this->guiasEmpaqueRel;
+    }
+
+    /**
+     * Add preciosDetallesEmpaqueRel
+     *
+     * @param \TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpaqueRel
+     *
+     * @return TteEmpaque
+     */
+    public function addPreciosDetallesEmpaqueRel(\TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpaqueRel)
+    {
+        $this->preciosDetallesEmpaqueRel[] = $preciosDetallesEmpaqueRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove preciosDetallesEmpaqueRel
+     *
+     * @param \TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpaqueRel
+     */
+    public function removePreciosDetallesEmpaqueRel(\TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesEmpaqueRel)
+    {
+        $this->preciosDetallesEmpaqueRel->removeElement($preciosDetallesEmpaqueRel);
+    }
+
+    /**
+     * Get preciosDetallesEmpaqueRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPreciosDetallesEmpaqueRel()
+    {
+        return $this->preciosDetallesEmpaqueRel;
+    }
+
+    /**
+     * Add empaquesEmpresasEmpaqueRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpaqueRel
+     *
+     * @return TteEmpaque
+     */
+    public function addEmpaquesEmpresasEmpaqueRel(\TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpaqueRel)
+    {
+        $this->empaquesEmpresasEmpaqueRel[] = $empaquesEmpresasEmpaqueRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove empaquesEmpresasEmpaqueRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpaqueRel
+     */
+    public function removeEmpaquesEmpresasEmpaqueRel(\TransporteBundle\Entity\TteEmpaqueEmpresa $empaquesEmpresasEmpaqueRel)
+    {
+        $this->empaquesEmpresasEmpaqueRel->removeElement($empaquesEmpresasEmpaqueRel);
+    }
+
+    /**
+     * Get empaquesEmpresasEmpaqueRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmpaquesEmpresasEmpaqueRel()
+    {
+        return $this->empaquesEmpresasEmpaqueRel;
     }
 }

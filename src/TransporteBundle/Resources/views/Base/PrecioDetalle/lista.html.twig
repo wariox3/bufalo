@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Base: Lista -> precios</h3>
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="content-panel">
+                    <h4><i class="fa fa-angle-right"></i> Lista precios</h4>
+                    <section id="unseen">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Destino</th>
+                                    <th>Empaque</th>
+                                    <th>Kilo</th>
+                                    <th>Unidad</th>                                                                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {% for arPrecioDetalle in arPreciosDetalles %}
+                                <tr>
+                                    <td>{{ arPrecioDetalle.codigoPrecioDetallePk  }}</td>
+                                    <td>{{ arPrecioDetalle.ciudadRel.nombre  }}</td>
+                                    <td>{{ arPrecioDetalle.empaqueRel.nombre  }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arPrecioDetalle.vrKilo | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arPrecioDetalle.vrUnidad | number_format(0, '.', ',') }}</td>                                  
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </section>
+                </div><!-- /content-panel -->
+            </div><!-- /col-lg-4 -->			
+        </div><!-- /row -->
+        <br />        
+    </section><! --/wrapper -->
+{% endblock %}

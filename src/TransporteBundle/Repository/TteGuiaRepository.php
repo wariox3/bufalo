@@ -29,4 +29,15 @@ class TteGuiaRepository extends EntityRepository
         $dql .= " ORDER BY g.codigoGuiaPk DESC";
         return $dql;
     }      
+
+    public function consecutivo($codigoEmpresa) {
+        $em = $this->getEntityManager();        
+        $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();        
+        $arEmpresa = $em->getRepository('TransporteBundle:TteEmpresa')->find($codigoEmpresa);  
+        $consecutivo = $arEmpresa->getConsecutivoGuia();
+        $arEmpresa->setConsecutivoGuia($consecutivo + 1);
+        $em->persist($arEmpresa);
+        $em->flush();
+        return $consecutivo;
+    }        
 }

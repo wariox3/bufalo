@@ -11,6 +11,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Identificacion</th>
                                     <th>Nombre</th>
                                     <th>Direccion</th>
                                     <th>Ciudad</th>
@@ -22,6 +23,7 @@
                                 {% for arDestinatario in arDestinatarios %}
                                 <tr>
                                     <td>{{ arDestinatario.codigoDestinatarioPk  }}</td>
+                                    <td>{{ arDestinatario.identificacion  }}</td>
                                     <td>{{ arDestinatario.nombreCorto  }}</td>
                                     <td>{{ arDestinatario.direccion  }}</td>
                                     <td>{{ arDestinatario.ciudadRel.nombre | default('')  }}</td>

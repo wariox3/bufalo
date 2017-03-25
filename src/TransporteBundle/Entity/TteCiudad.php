@@ -47,6 +47,11 @@ class TteCiudad
      * @ORM\OneToMany(targetEntity="TteDestinatario", mappedBy="ciudadRel")
      */
     protected $destinatariosCiudadRel; 
+
+    /**
+     * @ORM\OneToMany(targetEntity="TtePrecioDetalle", mappedBy="ciudadRel")
+     */
+    protected $preciosDetallesCiudadRel; 
     
     /**
      * Constructor
@@ -228,5 +233,39 @@ class TteCiudad
     public function getDestinatariosCiudadRel()
     {
         return $this->destinatariosCiudadRel;
+    }
+
+    /**
+     * Add preciosDetallesCiudadRel
+     *
+     * @param \TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesCiudadRel
+     *
+     * @return TteCiudad
+     */
+    public function addPreciosDetallesCiudadRel(\TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesCiudadRel)
+    {
+        $this->preciosDetallesCiudadRel[] = $preciosDetallesCiudadRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove preciosDetallesCiudadRel
+     *
+     * @param \TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesCiudadRel
+     */
+    public function removePreciosDetallesCiudadRel(\TransporteBundle\Entity\TtePrecioDetalle $preciosDetallesCiudadRel)
+    {
+        $this->preciosDetallesCiudadRel->removeElement($preciosDetallesCiudadRel);
+    }
+
+    /**
+     * Get preciosDetallesCiudadRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPreciosDetallesCiudadRel()
+    {
+        return $this->preciosDetallesCiudadRel;
     }
 }
