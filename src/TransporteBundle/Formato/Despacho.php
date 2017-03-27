@@ -51,7 +51,7 @@ class Despacho extends \FPDF {
         $this->SetXY(10, 40);
         $this->SetFillColor(200, 200, 200); 
         $this->SetFont('Arial','B',8);
-        $this->Cell(30, 6, utf8_decode("CÓDIGO:") , 1, 0, 'L', 1);
+        $this->Cell(30, 6, utf8_decode("NUMERO:") , 1, 0, 'L', 1);
         $this->SetFillColor(272, 272, 272); 
         $this->SetFont('Arial','',8);
         $this->Cell(30, 6, $arDespacho->getCodigoDespachoPk(), 1, 0, 'R', 1);
@@ -93,17 +93,19 @@ class Despacho extends \FPDF {
     }
 
     public function Body($pdf) {
+        $arDespacho = new \TransporteBundle\Entity\TteDespacho();
+        $arDespacho = self::$em->getRepository('TransporteBundle:TteDespacho')->find(self::$codigoDespacho);        
         $arGuias = new \TransporteBundle\Entity\TteGuia;
         $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoDespachoProveedorFk' => self::$codigoDespacho));        
         $pdf->SetX(10);
         $pdf->SetFont('Arial', '', 5);
         $var = 0;
         foreach ($arGuias as $arGuia) {             
-            $pdf->Cell(15, 4, $arGuia->getCodigoGuiaPk(), 1, 0, 'L');
+            $pdf->Cell(15, 4, $arGuia->getConsecutivo(), 1, 0, 'L');
             $pdf->Cell(20, 4, $arGuia->getDocumento(), 1, 0, 'L');             
-            $pdf->Cell(55, 4, $arGuia->getDestinatario(), 1, 0, 'L');
+            $pdf->Cell(55, 4, utf8_decode($arGuia->getDestinatario()), 1, 0, 'L');
             $pdf->Cell(15, 4, substr($arGuia->getDireccion(), 0, 10), 1, 0, 'L');
-            $pdf->Cell(35, 4, $arGuia->getCiudadDestinoRel()->getNombre(), 1, 0, 'L');
+            $pdf->Cell(35, 4, utf8_decode($arGuia->getCiudadDestinoRel()->getNombre()), 1, 0, 'L');
             $pdf->Cell(10, 4, number_format($arGuia->getCantidad(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(10, 4, number_format($arGuia->getPeso(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arGuia->getFlete(), 0, '.', ','), 1, 0, 'R');
@@ -114,9 +116,9 @@ class Despacho extends \FPDF {
             
         }
             $pdf->SetFont('Arial', 'B', 7);
-            $pdf->Cell(175, 5, "TOTAL: ", 1, 0, 'R');
+            $pdf->Cell(175, 5, "NUMERO GUIAS: ", 1, 0, 'R');
             $pdf->SetFont('Arial', '', 7);
-            $pdf->Cell(15, 5, number_format($var,0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(15, 5, number_format($arDespacho->getGuias(),0, '.', ','), 1, 0, 'R');
         
     }
 
