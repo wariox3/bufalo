@@ -16,7 +16,7 @@ security:
                 # if you're using multiple entity managers
                 # manager_name: customer
 
-    firewalls:
+    firewalls:       
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -29,7 +29,11 @@ security:
             anonymous: ~
             form_login:
                 login_path: login
-                check_path: login            
+                check_path: login 
+            logout:
+                path:   /logout
+                target: /                
+               
             # activate different ways to authenticate
 
             # http_basic: ~

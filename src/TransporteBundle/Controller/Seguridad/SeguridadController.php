@@ -33,7 +33,7 @@ class SeguridadController extends Controller
     }
 
     /**
-     * @Route("/login", name="logout")
+     * @Route("/logout", name="logout")
      */
     public function logoutAction(Request $request)
     {
