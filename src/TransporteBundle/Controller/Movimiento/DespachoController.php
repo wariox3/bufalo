@@ -41,6 +41,10 @@ class DespachoController extends Controller
                     $objDespacho = new \TransporteBundle\Formato\Despacho();
                     $objDespacho->Generar($em, $codigoDespacho);
                 }
+                if ($form->get('BtnImprimirEtiquetas')->isClicked()) {
+                    $objDespacho = new \TransporteBundle\Formato\Etiqueta();
+                    $objDespacho->Generar($em, $codigoDespacho);
+                }                
                 if ($form->get('BtnDetalleEliminar')->isClicked()) {
                     $arrSeleccionados = $request->request->get('ChkSeleccionar');
                     if (count($arrSeleccionados) > 0) {
@@ -188,6 +192,7 @@ class DespachoController extends Controller
         $session = new Session(); 
         $form = $this->createFormBuilder()                                                
             ->add('BtnImprimir', SubmitType::class, array('label'  => 'Imprimir'))
+            ->add('BtnImprimirEtiquetas', SubmitType::class, array('label'  => 'Imprimir etiquetas'))
             ->add('BtnDetalleEliminar', SubmitType::class, array('label'  => 'Eliminar'))
             ->getForm();        
         return $form;

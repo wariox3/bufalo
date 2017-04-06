@@ -26,7 +26,7 @@ class Despacho extends \FPDF {
         $this->SetFont('Arial','B',10);
         //Logo
         
-        //$this->Image('imagenes/logos/logo.jpg', 12, 13, 35, 17);
+        $this->Image('imagenes/logo.jpg', 12, 13, 35, 17);
         //INFORMACIÓN EMPRESA
         $this->SetXY(50, 10);
         $this->Cell(150, 7, utf8_decode("RELACION DESPACHO"), 0, 0, 'C', 1);
