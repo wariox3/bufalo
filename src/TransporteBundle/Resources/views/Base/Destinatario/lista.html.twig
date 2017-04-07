@@ -2,6 +2,8 @@
 {% block content %}
     <section class="wrapper">
         <h3><i class="fa fa-angle-right"></i> Base: Lista -> destinatario</h3>
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        {{ form_errors(form) }}
         <div class="row mt">
             <div class="col-lg-12">
                 <div class="content-panel">
@@ -17,6 +19,7 @@
                                     <th>Ciudad</th>
                                     <th>Telefono</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,8 +30,9 @@
                                     <td>{{ arDestinatario.nombreCorto  }}</td>
                                     <td>{{ arDestinatario.direccion  }}</td>
                                     <td>{{ arDestinatario.ciudadRel.nombre | default('')  }}</td>
-                                    <td>{{ arDestinatario.telefono  }}</td>
+                                    <td>{{ arDestinatario.telefono  }}</td>                                    
                                     <td style="text-align: center"><a href="{{ path('tte_base_destinatario_nuevo', {'codigoDestinatario': arDestinatario.codigoDestinatarioPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>
+                                    <td style="text-align: center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arDestinatario.codigoDestinatarioPk }}" /></td>                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -41,8 +45,12 @@
         <div class="btn-toolbar" style="float: right">
             <div class="btn-group">
                 <a class="btn btn-default btn-sm" href="{{ path('tte_base_destinatario_nuevo', {'codigoDestinatario': 0}) }}">Nuevo</a>                
+            </div> 
+            <div class="btn-group">                                
+                {{ form_widget(form.BtnEliminar, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
             </div>            
-
-        </div>         
+        </div>            
+        {{ form_rest(form) }}
+        {{ form_end(form) }}            
     </section><! --/wrapper -->
 {% endblock %}

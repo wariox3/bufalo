@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use TransporteBundle\Form\Type\TteDestinatarioType;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DestinatarioController extends Controller
 {
@@ -17,10 +19,27 @@ class DestinatarioController extends Controller
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');      
-        $this->lista();                     
+        $form = $this->formularioLista();
+        $form->handleRequest($request);        
+        $this->lista();  
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                if ($form->get('BtnEliminar')->isClicked()) {
+                    $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                    if(count($arrSeleccionados) > 0) {
+                        foreach ($arrSeleccionados AS $codigo) {                            
+                            $arDestinatarioEliminar = $em->getRepository('TransporteBundle:TteDestinatario')->find($codigo);                                
+                            $em->remove($arDestinatarioEliminar);                                                            
+                        }
+                        $em->flush();
+                    }                    
+                }
+            }   
+        }
         $arDestinatarios = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 50);
         return $this->render('TransporteBundle:Base/Destinatario:lista.html.twig', array(
-            'arDestinatarios' => $arDestinatarios
+            'arDestinatarios' => $arDestinatarios,
+            'form' => $form->createView()
             ));
     }
     
@@ -60,5 +79,13 @@ class DestinatarioController extends Controller
         $this->strListaDql = $em->getRepository('TransporteBundle:TteDestinatario')->listaDQL($this->getUser()->getCodigoEmpresaFk());
     }    
 
+    private function formularioLista() {
+        $em = $this->getDoctrine()->getManager();
+        $session = new session;        
+        $form = $this->createFormBuilder()
+                ->add('BtnEliminar', SubmitType::class, array('label' => 'Eliminar'))
+                ->getForm();
+        return $form;
+    }    
     
 }
