@@ -5,8 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -49,7 +48,8 @@ class TteGuiaType extends AbstractType
             ->add('pesoVolumen', NumberType::class, array('required' => false))
             ->add('declarado', NumberType::class, array('required' => false))
             ->add('documento', TextType::class, array('required' => false))
-            ->add('observacion', TextareaType::class, array('required' => false))                            
+            ->add('devolverDocumento', CheckboxType::class, array('required' => false))                            
+            ->add('observacion', TextareaType::class, array('required' => false))            
             ->add('guardar', SubmitType::class)
             ->add('guardarnuevo', SubmitType::class, array('label'  => 'Guardar y Nuevo'));        
     }

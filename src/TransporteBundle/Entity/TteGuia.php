@@ -168,6 +168,11 @@ class TteGuia
      */    
     private $codigoDespachoProveedorFk;    
     
+    /**     
+     * @ORM\Column(name="devolver_documento", type="boolean")
+     */    
+    private $devolverDocumento = false;     
+    
     /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="guiasEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
@@ -1047,5 +1052,29 @@ class TteGuia
     public function getDespachoProveedorRel()
     {
         return $this->despachoProveedorRel;
+    }
+
+    /**
+     * Set devolverDocumento
+     *
+     * @param boolean $devolverDocumento
+     *
+     * @return TteGuia
+     */
+    public function setDevolverDocumento($devolverDocumento)
+    {
+        $this->devolverDocumento = $devolverDocumento;
+
+        return $this;
+    }
+
+    /**
+     * Get devolverDocumento
+     *
+     * @return boolean
+     */
+    public function getDevolverDocumento()
+    {
+        return $this->devolverDocumento;
     }
 }
