@@ -85,11 +85,16 @@ class EmpresaController extends Controller
         $form = $this->formularioDetalle(); 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            if ($form->isValid()) {                
+            if ($form->isValid()) { 
+                if ($form->get('BtnEliminarTodo')->isClicked()) {
+                    $strSql = "DELETE FROM tte_precio_detalle WHERE codigo_empresa_fk = " . $codigoEmpresa;
+                    $em->getConnection()->executeQuery($strSql);                    
+                }
+                return $this->redirect($this->generateUrl('tte_base_empresa_detalle', array('codigoEmpresa' => $codigoEmpresa)));
             }   
         }
         $dql = $em->getRepository('TransporteBundle:TtePrecioDetalle')->listaDql($codigoEmpresa);
-        $arPrecioDetalles = $paginator->paginate($em->createQuery($dql), $request->query->get('page', 1), 50);
+        $arPrecioDetalles = $paginator->paginate($em->createQuery($dql), $request->query->get('page', 1), 1000);
         return $this->render('TransporteBundle:Base/Empresa:detalle.html.twig', array(
             'arEmpresa' => $arEmpresa,
             'arPrecioDetalles' => $arPrecioDetalles,
@@ -177,7 +182,8 @@ class EmpresaController extends Controller
     
     private function formularioDetalle() {   
         $session = new Session(); 
-        $form = $this->createFormBuilder()                                                
+        $form = $this->createFormBuilder()   
+            ->add('BtnEliminarTodo', SubmitType::class, array('label' => 'Eliminar todo'))
             ->getForm();        
         return $form;
     }     

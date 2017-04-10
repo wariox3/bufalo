@@ -28,6 +28,9 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th class="numeric">Origen</th>
+                                    <th class="numeric">Destino</th>
+                                    <th class="numeric">Empaque</th>
                                     <th class="numeric">Kilo</th>
                                     <th class="numeric">Unidad</th>
                                     <th><input type="checkbox" name="ChkSeleccionarTodos" OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
@@ -36,10 +39,13 @@
                             <tbody>
                                 {% for arPrecioDetalle in arPrecioDetalles %}
                                 <tr>
-                                    <td>{{ arPrecioDetalle.codigoListaPrecioDetallePk  }}</td>
+                                    <td>{{ arPrecioDetalle.codigoPrecioDetallePk  }}</td>
+                                    <td>{{ arPrecioDetalle.ciudadOrigenRel.nombre  }}</td>
+                                    <td>{{ arPrecioDetalle.ciudadRel.nombre  }}</td>
+                                    <td>{{ arPrecioDetalle.empaqueRel.nombre  }}</td>
                                     <td class="numeric" style="text-align: right">{{ arPrecioDetalle.vrKilo | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arPrecioDetalle.vrUnidad | number_format(0, '.', ',') }}</td>
-                                    <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arPrecioDetalle.codigoListaPrecioDetallePk }}" /></td>                                    
+                                    <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arPrecioDetalle.codigoPrecioDetallePk }}" /></td>                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -58,8 +64,11 @@
         </div>
         <div class="btn-toolbar" style="float:right">
             <div class="btn-group">
-                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_base_empresa_cargar_precio', {'codigoEmpresa': arEmpresa.codigoEmpresaPk }) }}', 'CargarPagosAdicionales', 600, 900)" >Cargar</a>
+                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_base_empresa_cargar_precio', {'codigoEmpresa': arEmpresa.codigoEmpresaPk }) }}', 'CargarPagosAdicionales', 600, 900)" >Cargar</a>                
             </div>
+            <div class="btn-group">                
+                {{ form_widget(form.BtnEliminarTodo, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}                
+            </div>            
         </div>             
         {{ form_rest(form) }}
         {{ form_end(form) }}            
