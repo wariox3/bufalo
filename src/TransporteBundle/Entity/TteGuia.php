@@ -197,6 +197,11 @@ class TteGuia
      */
     protected $despachoProveedorRel;         
 
+    /**
+     * @ORM\ManyToOne(targetEntity="TteEmpaque", inversedBy="guiasEmpaqueRel")
+     * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
+     */
+    protected $empaqueRel;         
 
     /**
      * Get codigoGuiaPk
@@ -1046,5 +1051,29 @@ class TteGuia
     public function getDespachoProveedorRel()
     {
         return $this->despachoProveedorRel;
+    }
+
+    /**
+     * Set empaqueRel
+     *
+     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
+     *
+     * @return TteGuia
+     */
+    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
+    {
+        $this->empaqueRel = $empaqueRel;
+
+        return $this;
+    }
+
+    /**
+     * Get empaqueRel
+     *
+     * @return \TransporteBundle\Entity\TteEmpaque
+     */
+    public function getEmpaqueRel()
+    {
+        return $this->empaqueRel;
     }
 }
