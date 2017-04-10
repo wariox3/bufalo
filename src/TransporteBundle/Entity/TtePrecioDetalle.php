@@ -24,6 +24,11 @@ class TtePrecioDetalle
     private $codigoPrecioFk;    
 
     /**
+     * @ORM\Column(name="codigo_ciudad_origen_fk", type="integer", nullable=true)
+     */    
+    private $codigoCiudadOrigenFk;    
+    
+    /**
      * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
      */    
     private $codigoCiudadFk;    
@@ -61,10 +66,18 @@ class TtePrecioDetalle
     protected $ciudadRel;    
 
     /**
+     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="preciosDetallesCiudadOrigenRel")
+     * @ORM\JoinColumn(name="codigo_ciudad_origen_fk", referencedColumnName="codigo_ciudad_pk")
+     */
+    protected $ciudadOrigenRel;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpaque", inversedBy="preciosDetallesEmpaqueRel")
      * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
      */
     protected $empaqueRel;    
+
+
 
     /**
      * Get codigoPrecioDetallePk
@@ -98,6 +111,30 @@ class TtePrecioDetalle
     public function getCodigoPrecioFk()
     {
         return $this->codigoPrecioFk;
+    }
+
+    /**
+     * Set codigoCiudadOrigenFk
+     *
+     * @param integer $codigoCiudadOrigenFk
+     *
+     * @return TtePrecioDetalle
+     */
+    public function setCodigoCiudadOrigenFk($codigoCiudadOrigenFk)
+    {
+        $this->codigoCiudadOrigenFk = $codigoCiudadOrigenFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCiudadOrigenFk
+     *
+     * @return integer
+     */
+    public function getCodigoCiudadOrigenFk()
+    {
+        return $this->codigoCiudadOrigenFk;
     }
 
     /**
@@ -266,6 +303,30 @@ class TtePrecioDetalle
     public function getCiudadRel()
     {
         return $this->ciudadRel;
+    }
+
+    /**
+     * Set ciudadOrigenRel
+     *
+     * @param \TransporteBundle\Entity\TteCiudad $ciudadOrigenRel
+     *
+     * @return TtePrecioDetalle
+     */
+    public function setCiudadOrigenRel(\TransporteBundle\Entity\TteCiudad $ciudadOrigenRel = null)
+    {
+        $this->ciudadOrigenRel = $ciudadOrigenRel;
+
+        return $this;
+    }
+
+    /**
+     * Get ciudadOrigenRel
+     *
+     * @return \TransporteBundle\Entity\TteCiudad
+     */
+    public function getCiudadOrigenRel()
+    {
+        return $this->ciudadOrigenRel;
     }
 
     /**
