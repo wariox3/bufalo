@@ -37,6 +37,11 @@ class TteCiudad
      * @ORM\Column(name="codigo_dane", type="string", length=10, nullable=true)
      */    
     private $codigoDane;
+
+    /**
+     * @ORM\Column(name="codigo_dane_numerico", type="float", nullable=true)
+     */    
+    private $codigoDaneNumerico = 0;
     
     /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="ciudadDestinoRel")
@@ -306,5 +311,29 @@ class TteCiudad
     public function getPreciosDetallesCiudadOrigenRel()
     {
         return $this->preciosDetallesCiudadOrigenRel;
+    }
+
+    /**
+     * Set codigoDaneNumerico
+     *
+     * @param float $codigoDaneNumerico
+     *
+     * @return TteCiudad
+     */
+    public function setCodigoDaneNumerico($codigoDaneNumerico)
+    {
+        $this->codigoDaneNumerico = $codigoDaneNumerico;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoDaneNumerico
+     *
+     * @return float
+     */
+    public function getCodigoDaneNumerico()
+    {
+        return $this->codigoDaneNumerico;
     }
 }
