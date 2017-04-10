@@ -79,6 +79,11 @@ class TteDestinatario
     private $codigoCiudadFk;    
     
     /**
+     * @ORM\Column(name="codigo_tipo_identificacion_fk", type="string", length=2, nullable=true)
+     */    
+    private $codigoTipoIdentificacionFk;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="destinatariosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -89,6 +94,12 @@ class TteDestinatario
      * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadRel;      
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="TteTipoIdentificacion", inversedBy="destinatariosTipoIdentificacionRel")
+     * @ORM\JoinColumn(name="codigo_tipo_identificacion_fk", referencedColumnName="codigo_tipo_identificacion_pk")
+     */
+    protected $tipoIdentificacionRel;     
     
     /**
      * Get codigoDestinatarioPk
@@ -434,5 +445,53 @@ class TteDestinatario
     public function getCiudadRel()
     {
         return $this->ciudadRel;
+    }
+
+    /**
+     * Set codigoTipoIdentificacionFk
+     *
+     * @param string $codigoTipoIdentificacionFk
+     *
+     * @return TteDestinatario
+     */
+    public function setCodigoTipoIdentificacionFk($codigoTipoIdentificacionFk)
+    {
+        $this->codigoTipoIdentificacionFk = $codigoTipoIdentificacionFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoTipoIdentificacionFk
+     *
+     * @return string
+     */
+    public function getCodigoTipoIdentificacionFk()
+    {
+        return $this->codigoTipoIdentificacionFk;
+    }
+
+    /**
+     * Set tipoIdentificacionRel
+     *
+     * @param \TransporteBundle\Entity\TteTipoIdentificacion $tipoIdentificacionRel
+     *
+     * @return TteDestinatario
+     */
+    public function setTipoIdentificacionRel(\TransporteBundle\Entity\TteTipoIdentificacion $tipoIdentificacionRel = null)
+    {
+        $this->tipoIdentificacionRel = $tipoIdentificacionRel;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoIdentificacionRel
+     *
+     * @return \TransporteBundle\Entity\TteTipoIdentificacion
+     */
+    public function getTipoIdentificacionRel()
+    {
+        return $this->tipoIdentificacionRel;
     }
 }

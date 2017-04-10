@@ -21,7 +21,14 @@ class TteDestinatarioType extends AbstractType
                     return $er->createQueryBuilder('c')
                     ->orderBy('c.nombre', 'ASC');},
                 'choice_label' => 'nombre',
-                'required' => true))                                        
+                'required' => true))      
+            ->add('tipoIdentificacionRel', EntityType::class, array(
+                'class' => 'TransporteBundle:TteTipoIdentificacion',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('ti')
+                    ->orderBy('ti.nombre', 'ASC');},
+                'choice_label' => 'nombre',
+                'required' => true))                             
             ->add('identificacion', TextType::class, array('required' => true))                            
             ->add('nombreCorto', TextType::class, array('required' => true))                
             ->add('nombre1', TextType::class, array('required' => false))                
