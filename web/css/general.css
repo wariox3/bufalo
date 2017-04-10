@@ -1,0 +1,9 @@
+.black-bg {
+    background: #2ca02c;    
+    border-bottom: 1px solid #2B2E30;
+}
+
+ul.top-menu > li > .logout {
+    border: 1px solid #333 !important;
+    background: #F1C500;
+}

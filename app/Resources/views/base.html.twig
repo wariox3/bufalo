@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Bufalo App{% endblock %}</title>
-        {% block stylesheets %}
+        {% block stylesheets %}            
             <link rel="stylesheet" href="{{ asset('recursos/css/bootstrap.css') }}">
             <link rel="stylesheet" href="{{ asset('recursos/font-awesome/css/font-awesome.css') }}">
             <link rel="stylesheet" href="{{ asset('recursos/css/zabuto_calendar.css') }}">
@@ -11,6 +11,7 @@
             <link rel="stylesheet" href="{{ asset('recursos/lineicons/style.css') }}">
             <link rel="stylesheet" href="{{ asset('recursos/css/style.css') }}">
             <link rel="stylesheet" href="{{ asset('recursos/css/style-responsive.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/general.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -37,7 +38,7 @@
                     </div>
                     <div class="top-menu">
                         <ul class="nav pull-right top-menu">
-                            <li><a class="logout" href="{{ path('logout') }}">Logout</a></li>
+                            <li><a class="logout btn btn-sm btn-default" href="{{ path('logout') }}">Logout</a></li>
                         </ul>
                     </div>
                 </header>
