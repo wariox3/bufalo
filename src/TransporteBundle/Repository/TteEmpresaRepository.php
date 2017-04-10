@@ -12,5 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class TteEmpresaRepository extends EntityRepository
 {
-     
+    public function listaDql() {
+        $dql   = "SELECT e FROM TransporteBundle:TteEmpresa e WHERE e.codigoEmpresaPk <> 0" ;            
+        $dql .= " ORDER BY e.nombre ASC";
+        return $dql;
+    }          
 }
