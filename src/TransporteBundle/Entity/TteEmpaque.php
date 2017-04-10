@@ -14,7 +14,6 @@ class TteEmpaque
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_empaque_pk", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */        
     private $codigoEmpaquePk;           
     
@@ -38,6 +37,7 @@ class TteEmpaque
      */
     protected $empaquesEmpresasEmpaqueRel; 
 
+
     /**
      * Constructor
      */
@@ -45,6 +45,21 @@ class TteEmpaque
     {
         $this->guiasEmpaqueRel = new \Doctrine\Common\Collections\ArrayCollection();
         $this->preciosDetallesEmpaqueRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->empaquesEmpresasEmpaqueRel = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set codigoEmpaquePk
+     *
+     * @param integer $codigoEmpaquePk
+     *
+     * @return TteEmpaque
+     */
+    public function setCodigoEmpaquePk($codigoEmpaquePk)
+    {
+        $this->codigoEmpaquePk = $codigoEmpaquePk;
+
+        return $this;
     }
 
     /**
