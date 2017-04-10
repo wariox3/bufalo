@@ -34,6 +34,11 @@ class TteDestinatario
     private $identificacion;      
     
     /**
+     * @ORM\Column(name="digito_verificacion", type="string", length=1, nullable=true)
+     */    
+    private $digitoVerificacion;      
+    
+    /**
      * @ORM\Column(name="nombre1", type="string", length=60, nullable=true)
      */    
     private $nombre1;
@@ -493,5 +498,29 @@ class TteDestinatario
     public function getTipoIdentificacionRel()
     {
         return $this->tipoIdentificacionRel;
+    }
+
+    /**
+     * Set digitoVerificacion
+     *
+     * @param string $digitoVerificacion
+     *
+     * @return TteDestinatario
+     */
+    public function setDigitoVerificacion($digitoVerificacion)
+    {
+        $this->digitoVerificacion = $digitoVerificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get digitoVerificacion
+     *
+     * @return string
+     */
+    public function getDigitoVerificacion()
+    {
+        return $this->digitoVerificacion;
     }
 }
