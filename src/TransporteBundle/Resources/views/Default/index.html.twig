@@ -4,45 +4,13 @@
 
         <div class="row">
             <div class="col-lg-9 main-chart">
-
-                <div class="row mtbox">
-                    <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
-                        <div class="box1">
-                            <span class="li_heart"></span>
-                            <h3>933</h3>
-                        </div>
-                        <p>933 People liked your page the last 24hs. Whoohoo!</p>
-                    </div>
-                    <div class="col-md-2 col-sm-2 box0">
-                        <div class="box1">
-                            <span class="li_cloud"></span>
-                            <h3>+48</h3>
-                        </div>
-                        <p>48 New files were added in your cloud storage.</p>
-                    </div>
-                    <div class="col-md-2 col-sm-2 box0">
-                        <div class="box1">
-                            <span class="li_stack"></span>
-                            <h3>23</h3>
-                        </div>
-                        <p>You have 23 unread messages in your inbox.</p>
-                    </div>
-                    <div class="col-md-2 col-sm-2 box0">
-                        <div class="box1">
-                            <span class="li_news"></span>
-                            <h3>+10</h3>
-                        </div>
-                        <p>More than 10 news were added in your reader.</p>
-                    </div>
-                    <div class="col-md-2 col-sm-2 box0">
-                        <div class="box1">
-                            <span class="li_data"></span>
-                            <h3>OK!</h3>
-                        </div>
-                        <p>Your server is working perfectly. Relax & enjoy.</p>
-                    </div>
-                </div><!-- /row mt -->	
-            </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                {% for arNoticia in arNoticias %}
+                      <h2>{{ arNoticia.titulo }}</h2>
+                      {{ arNoticia.noticia }}
+                      <br><br>                  
+                      <hr>
+                {% endfor %}
+            </div>
 
 
             <!-- **********************************************************************************************************************************************************
@@ -52,15 +20,18 @@
             <div class="col-lg-3 ds">
 
                 <!-- USERS ONLINE SECTION -->
-                <h3>EQUIPO TRABAJO</h3>
+                <h3>SUCURSALES</h3>
                 <!-- First Member -->
                 <div class="desc">
                     <div class="thumb">
                         <img class="img-circle" src="{{ asset('recursos/img/ui-divya.jpg') }}" width="35px" height="35px" align="">
                     </div>
                     <div class="details">
-                        <p><a href="#">PEPITO PEREZ</a><br/>
-                        <muted>Aacturacion</muted>
+                        <p><a href="#">Principal Bucaramanga</a><br/>
+                        <muted>Carrera 17 #59-51, Bodega 2 Interior 5, Barrio el Palenque, Girón, Santander</muted>
+                        <muted>(7) 646-3232</muted>
+                        <muted>310-2014444</muted>
+                        <muted>servicioalcliente@cotrascalsas.com</muted>
                         </p>
                     </div>
                 </div>
@@ -70,8 +41,9 @@
                         <img class="img-circle" src="{{ asset('recursos/img/ui-sherman.jpg') }}" width="35px" height="35px" align="">
                     </div>
                     <div class="details">
-                        <p><a href="#">PEPITO PEREZ</a><br/>
-                        <muted>Jefe logistica</muted>
+                        <p><a href="#">Sucursal Bogotá</a><br/>
+                        <muted>Av Calle 24 #95-12 Bodega 18, Parque industrial portos, Fontibón, Bogotá</muted>
+                        <muted>310-3265989 / 314-2471027</muted>
                         </p>
                     </div>
                 </div>
@@ -81,8 +53,9 @@
                         <img class="img-circle" src="{{ asset('recursos/img/ui-danro.jpg') }}" width="35px" height="35px" align="">
                     </div>
                     <div class="details">
-                        <p><a href="#">PEPITO PEREZ</a><br/>
-                        <muted>Cargo</muted>
+                        <p><a href="#">Sucursal Medellín</a><br/>
+                        <muted>Calle 29D #65–02, Zona Industrial de Belen, Medellín, Antioquia</muted>
+                        <muted>312-3019579 / 312-3020764</muted>
                         </p>
                     </div>
                 </div>
@@ -92,8 +65,9 @@
                         <img class="img-circle" src="{{ asset('recursos/img/ui-zac.jpg') }}" width="35px" height="35px" align="">
                     </div>
                     <div class="details">
-                        <p><a href="#">PEPITO PEREZ</a><br/>
-                        <muted>Cargo</muted>
+                        <p><a href="#">Sucursal Cúcuta</a><br/>
+                        <muted>Calle 33A #4E-41, Barrio Santa Rosa de Lima o Juana Paula, Los patios, Norte de Santander</muted>
+                        <muted>320-8844667 / 320-3502010</muted>
                         </p>
                     </div>
                 </div>
@@ -103,12 +77,23 @@
                         <img class="img-circle" src="{{ asset('recursos/img/ui-sam.jpg') }}" width="35px" height="35px" align="">
                     </div>
                     <div class="details">
-                        <p><a href="#">PEPITO PEREZ</a><br/>
-                        <muted>Cargo</muted>
+                        <p><a href="#">Sucursal Valledupar</a><br/>
+                        <muted>Carrera 6B #22-25, Barrio San Jorge, Valledupar, Cesar</muted>
+                        <muted>320-8807401 / 320-9045648</muted>
                         </p>
                     </div>
                 </div>
-
+                <div class="desc">
+                    <div class="thumb">
+                        <img class="img-circle" src="{{ asset('recursos/img/ui-sam.jpg') }}" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#">Sucursal Barranquilla</a><br/>
+                        <muted>Calle 30 #19–81, Barrio Boyacá, Barranquilla, Atlántico</muted>
+                        <muted>320-9250557 / 310-2822736</muted>
+                        </p>
+                    </div>
+                </div>
                 <!-- CALENDAR-->
                 <div id="calendar" class="mb">
                     <div class="panel green-panel no-margin">
