@@ -183,13 +183,7 @@ class TteGuia
      * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="guiasCiudadDestinoRel")
      * @ORM\JoinColumn(name="codigo_ciudad_destino_fk", referencedColumnName="codigo_ciudad_pk")
      */
-    protected $ciudadDestinoRel;     
-
-    /**
-     * @ORM\ManyToOne(targetEntity="TteEmpaque", inversedBy="guiasEmpaqueRel")
-     * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
-     */
-    protected $empaqueRel;      
+    protected $ciudadDestinoRel;          
     
     /**
      * @ORM\ManyToOne(targetEntity="TteEmpaqueEmpresa", inversedBy="guiasEmpaqueEmpresaRel")
@@ -201,8 +195,8 @@ class TteGuia
      * @ORM\ManyToOne(targetEntity="TteDespacho", inversedBy="guiasDespachoProveedorRel")
      * @ORM\JoinColumn(name="codigo_despacho_proveedor_fk", referencedColumnName="codigo_despacho_pk")
      */
-    protected $despachoProveedorRel;     
-    
+    protected $despachoProveedorRel;         
+
 
     /**
      * Get codigoGuiaPk
@@ -935,6 +929,30 @@ class TteGuia
     }
 
     /**
+     * Set devolverDocumento
+     *
+     * @param boolean $devolverDocumento
+     *
+     * @return TteGuia
+     */
+    public function setDevolverDocumento($devolverDocumento)
+    {
+        $this->devolverDocumento = $devolverDocumento;
+
+        return $this;
+    }
+
+    /**
+     * Get devolverDocumento
+     *
+     * @return boolean
+     */
+    public function getDevolverDocumento()
+    {
+        return $this->devolverDocumento;
+    }
+
+    /**
      * Set empresaRel
      *
      * @param \TransporteBundle\Entity\TteEmpresa $empresaRel
@@ -983,30 +1001,6 @@ class TteGuia
     }
 
     /**
-     * Set empaqueRel
-     *
-     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
-     *
-     * @return TteGuia
-     */
-    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
-    {
-        $this->empaqueRel = $empaqueRel;
-
-        return $this;
-    }
-
-    /**
-     * Get empaqueRel
-     *
-     * @return \TransporteBundle\Entity\TteEmpaque
-     */
-    public function getEmpaqueRel()
-    {
-        return $this->empaqueRel;
-    }
-
-    /**
      * Set empaqueEmpresaRel
      *
      * @param \TransporteBundle\Entity\TteEmpaqueEmpresa $empaqueEmpresaRel
@@ -1052,29 +1046,5 @@ class TteGuia
     public function getDespachoProveedorRel()
     {
         return $this->despachoProveedorRel;
-    }
-
-    /**
-     * Set devolverDocumento
-     *
-     * @param boolean $devolverDocumento
-     *
-     * @return TteGuia
-     */
-    public function setDevolverDocumento($devolverDocumento)
-    {
-        $this->devolverDocumento = $devolverDocumento;
-
-        return $this;
-    }
-
-    /**
-     * Get devolverDocumento
-     *
-     * @return boolean
-     */
-    public function getDevolverDocumento()
-    {
-        return $this->devolverDocumento;
     }
 }

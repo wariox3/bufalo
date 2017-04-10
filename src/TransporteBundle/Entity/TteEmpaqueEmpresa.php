@@ -32,19 +32,22 @@ class TteEmpaqueEmpresa
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="empaquesEmpresasEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
-    protected $empresaRel;         
-
-    /**
-     * @ORM\ManyToOne(targetEntity="TteEmpaque", inversedBy="empaquesEmpresasEmpaqueRel")
-     * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
-     */
-    protected $empaqueRel;     
+    protected $empresaRel;              
 
     /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="empaqueEmpresaRel")
      */
     protected $guiasEmpaqueEmpresaRel;     
     
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->guiasEmpaqueEmpresaRel = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get codigoEmpaqueEmpresaPk
      *
@@ -125,37 +128,6 @@ class TteEmpaqueEmpresa
     public function getEmpresaRel()
     {
         return $this->empresaRel;
-    }
-
-    /**
-     * Set empaqueRel
-     *
-     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
-     *
-     * @return TteEmpaqueEmpresa
-     */
-    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
-    {
-        $this->empaqueRel = $empaqueRel;
-
-        return $this;
-    }
-
-    /**
-     * Get empaqueRel
-     *
-     * @return \TransporteBundle\Entity\TteEmpaque
-     */
-    public function getEmpaqueRel()
-    {
-        return $this->empaqueRel;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->guiasEmpaqueEmpresaRel = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

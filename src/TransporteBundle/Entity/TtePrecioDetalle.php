@@ -60,12 +60,7 @@ class TtePrecioDetalle
      */
     protected $ciudadRel;    
 
-    /**
-     * @ORM\ManyToOne(targetEntity="TteEmpaque", inversedBy="preciosDetallesEmpaqueRel")
-     * @ORM\JoinColumn(name="codigo_empaque_fk", referencedColumnName="codigo_empaque_pk")
-     */
-    protected $empaqueRel;     
-    
+
     /**
      * Get codigoPrecioDetallePk
      *
@@ -101,30 +96,6 @@ class TtePrecioDetalle
     }
 
     /**
-     * Set precioRel
-     *
-     * @param \TransporteBundle\Entity\TtePrecio $precioRel
-     *
-     * @return TtePrecioDetalle
-     */
-    public function setPrecioRel(\TransporteBundle\Entity\TtePrecio $precioRel = null)
-    {
-        $this->precioRel = $precioRel;
-
-        return $this;
-    }
-
-    /**
-     * Get precioRel
-     *
-     * @return \TransporteBundle\Entity\TtePrecio
-     */
-    public function getPrecioRel()
-    {
-        return $this->precioRel;
-    }
-
-    /**
      * Set codigoCiudadFk
      *
      * @param integer $codigoCiudadFk
@@ -146,30 +117,6 @@ class TtePrecioDetalle
     public function getCodigoCiudadFk()
     {
         return $this->codigoCiudadFk;
-    }
-
-    /**
-     * Set ciudadRel
-     *
-     * @param \TransporteBundle\Entity\TteCiudad $ciudadRel
-     *
-     * @return TtePrecioDetalle
-     */
-    public function setCiudadRel(\TransporteBundle\Entity\TteCiudad $ciudadRel = null)
-    {
-        $this->ciudadRel = $ciudadRel;
-
-        return $this;
-    }
-
-    /**
-     * Get ciudadRel
-     *
-     * @return \TransporteBundle\Entity\TteCiudad
-     */
-    public function getCiudadRel()
-    {
-        return $this->ciudadRel;
     }
 
     /**
@@ -197,27 +144,27 @@ class TtePrecioDetalle
     }
 
     /**
-     * Set empaqueRel
+     * Set codigoEmpresaFk
      *
-     * @param \TransporteBundle\Entity\TteEmpaque $empaqueRel
+     * @param integer $codigoEmpresaFk
      *
      * @return TtePrecioDetalle
      */
-    public function setEmpaqueRel(\TransporteBundle\Entity\TteEmpaque $empaqueRel = null)
+    public function setCodigoEmpresaFk($codigoEmpresaFk)
     {
-        $this->empaqueRel = $empaqueRel;
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
 
         return $this;
     }
 
     /**
-     * Get empaqueRel
+     * Get codigoEmpresaFk
      *
-     * @return \TransporteBundle\Entity\TteEmpaque
+     * @return integer
      */
-    public function getEmpaqueRel()
+    public function getCodigoEmpresaFk()
     {
-        return $this->empaqueRel;
+        return $this->codigoEmpresaFk;
     }
 
     /**
@@ -269,30 +216,6 @@ class TtePrecioDetalle
     }
 
     /**
-     * Set codigoEmpresaFk
-     *
-     * @param integer $codigoEmpresaFk
-     *
-     * @return TtePrecioDetalle
-     */
-    public function setCodigoEmpresaFk($codigoEmpresaFk)
-    {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoEmpresaFk
-     *
-     * @return integer
-     */
-    public function getCodigoEmpresaFk()
-    {
-        return $this->codigoEmpresaFk;
-    }
-
-    /**
      * Set empresaRel
      *
      * @param \TransporteBundle\Entity\TteEmpresa $empresaRel
@@ -314,5 +237,29 @@ class TtePrecioDetalle
     public function getEmpresaRel()
     {
         return $this->empresaRel;
+    }
+
+    /**
+     * Set ciudadRel
+     *
+     * @param \TransporteBundle\Entity\TteCiudad $ciudadRel
+     *
+     * @return TtePrecioDetalle
+     */
+    public function setCiudadRel(\TransporteBundle\Entity\TteCiudad $ciudadRel = null)
+    {
+        $this->ciudadRel = $ciudadRel;
+
+        return $this;
+    }
+
+    /**
+     * Get ciudadRel
+     *
+     * @return \TransporteBundle\Entity\TteCiudad
+     */
+    public function getCiudadRel()
+    {
+        return $this->ciudadRel;
     }
 }
