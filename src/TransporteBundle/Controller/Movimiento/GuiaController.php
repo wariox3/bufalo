@@ -42,35 +42,39 @@ class GuiaController extends Controller
         if ($form->isSubmitted()) {
             if ($form->isValid()) {                
                 $arGuia = $form->getData();
-                $arGuia->setEmpaqueRel($arGuia->getEmpaqueEmpresaRel()->getEmpaqueRel());
-                $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
-                $pesoFacturar = 0;
-                if($arGuia->getPeso() >= $arGuia->getPesoVolumen()) {
-                    $pesoFacturar = $arGuia->getPeso();
-                } else {
-                    $pesoFacturar = $arGuia->getPesoVolumen();
-                }
-                $flete = 0;
-                if($pesoFacturar > 0) {
-                    $arPrecioDetalle = $em->getRepository('TransporteBundle:TtePrecioDetalle')->findOneBy(array('codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoEmpaqueFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()));
-                    if($arPrecioDetalle) {
-                        $flete = $arPrecioDetalle->getVrKilo() * $pesoFacturar;
+                if($arGuia->getEmpaqueEmpresaRel()) {
+                    $arGuia->setEmpaqueRel($arGuia->getEmpaqueEmpresaRel()->getEmpaqueRel());
+                    $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
+                    $pesoFacturar = 0;
+                    if($arGuia->getPeso() >= $arGuia->getPesoVolumen()) {
+                        $pesoFacturar = $arGuia->getPeso();
+                    } else {
+                        $pesoFacturar = $arGuia->getPesoVolumen();
                     }
-                }
-                $arGuia->setManejo(round($manejo));
-                $arGuia->setFlete(round($flete));
-                if($codigoGuia == 0) {
-                    $consecutivo = $em->getRepository('TransporteBundle:TteGuia')->consecutivo($arGuia->getEmpresaRel()->getCodigoEmpresaPk());
-                    $arGuia->setConsecutivo($consecutivo);
-                }
-                $em->persist($arGuia);
-                $em->flush();
-                if ($form->get('guardarnuevo')->isClicked()) {
-                    return $this->redirect($this->generateUrl('tte_movimiento_guia_nuevo', array('codigoGuia' => 0)));
+                    $flete = 0;
+                    if($pesoFacturar > 0) {
+                        $arPrecioDetalle = $em->getRepository('TransporteBundle:TtePrecioDetalle')->findOneBy(array('codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoEmpaqueFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()));
+                        if($arPrecioDetalle) {
+                            $flete = $arPrecioDetalle->getVrKilo() * $pesoFacturar;
+                        }
+                    }
+                    $arGuia->setManejo(round($manejo));
+                    $arGuia->setFlete(round($flete));
+                    if($codigoGuia == 0) {
+                        $consecutivo = $em->getRepository('TransporteBundle:TteGuia')->consecutivo($arGuia->getEmpresaRel()->getCodigoEmpresaPk());
+                        $arGuia->setConsecutivo($consecutivo);
+                    }
+                    $em->persist($arGuia);
+                    $em->flush();
+                    if ($form->get('guardarnuevo')->isClicked()) {
+                        return $this->redirect($this->generateUrl('tte_movimiento_guia_nuevo', array('codigoGuia' => 0)));
+                    } else {
+                        return $this->redirect($this->generateUrl('tte_movimiento_guia'));
+                        //return $this->redirect($this->generateUrl('brs_tur_movimiento_pedido_detalle', array('codigoPedido' => $arPedido->getCodigoPedidoPk())));
+                    }                     
                 } else {
-                    return $this->redirect($this->generateUrl('tte_movimiento_guia'));
-                    //return $this->redirect($this->generateUrl('brs_tur_movimiento_pedido_detalle', array('codigoPedido' => $arPedido->getCodigoPedidoPk())));
-                }                
+                    echo "Debe seleccionar un empaque";
+                }
             }
         }
         return $this->render('TransporteBundle:Movimiento/Guia:nuevo.html.twig', array(

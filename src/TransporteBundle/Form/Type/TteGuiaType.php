@@ -33,7 +33,7 @@ class TteGuiaType extends AbstractType
                     ->orderBy('ee.codigoEmpaqueFk', 'ASC');},
                 'choice_label' => 'empaqueRel.nombre',
                 'required' => true))                                             
-            ->add('identificacion', TextType::class, array('required' => true))
+            ->add('identificacion', TextType::class, array('required' => false))
             ->add('destinatario', TextType::class, array('required' => true))                
             ->add('nombre1', TextType::class, array('required' => false))                
             ->add('nombre2', TextType::class, array('required' => false))                
