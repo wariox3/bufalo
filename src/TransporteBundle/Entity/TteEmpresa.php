@@ -59,6 +59,11 @@ class TteEmpresa
     private $porcentajeManejo = 0;    
     
     /**
+     * @ORM\Column(name="cuenta_kit", type="string", length=15, nullable=true)
+     */    
+    private $cuentaKit;    
+    
+    /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="empresaRel")
      */
     protected $guiasEmpresaRel;     
@@ -503,5 +508,29 @@ class TteEmpresa
     public function getConsecutivoGuiaHasta()
     {
         return $this->consecutivoGuiaHasta;
+    }
+
+    /**
+     * Set cuentaKit
+     *
+     * @param string $cuentaKit
+     *
+     * @return TteEmpresa
+     */
+    public function setCuentaKit($cuentaKit)
+    {
+        $this->cuentaKit = $cuentaKit;
+
+        return $this;
+    }
+
+    /**
+     * Get cuentaKit
+     *
+     * @return string
+     */
+    public function getCuentaKit()
+    {
+        return $this->cuentaKit;
     }
 }
