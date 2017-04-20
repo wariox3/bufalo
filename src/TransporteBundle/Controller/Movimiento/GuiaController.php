@@ -43,7 +43,11 @@ class GuiaController extends Controller
             if ($form->isValid()) {                
                 $arGuia = $form->getData();
                 if($arGuia->getEmpaqueEmpresaRel()) {
-                    $arGuia->setEmpaqueRel($arGuia->getEmpaqueEmpresaRel()->getEmpaqueRel());
+                    $arUsuario = $this->getUser();
+                    $arCiudadOrigen = new \TransporteBundle\Entity\TteCiudad();
+                    $arCiudadOrigen = $em->getRepository('TransporteBundle:TteCiudad')->find($arUsuario->getCodigoCiudadFk());                    
+                    $arGuia->setCiudadOrigenRel($arCiudadOrigen);
+                    $arGuia->setEmpaqueRel($arGuia->getEmpaqueEmpresaRel()->getEmpaqueRel());                    
                     $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
                     $pesoFacturar = 0;
                     if($arGuia->getPeso() >= $arGuia->getPesoVolumen()) {
@@ -53,7 +57,7 @@ class GuiaController extends Controller
                     }
                     $flete = 0;
                     if($pesoFacturar > 0) {
-                        $arPrecioDetalle = $em->getRepository('TransporteBundle:TtePrecioDetalle')->findOneBy(array('codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoEmpaqueFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()));
+                        $arPrecioDetalle = $em->getRepository('TransporteBundle:TtePrecioDetalle')->findOneBy(array('codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadOrigenFk' => $arCiudadOrigen->getCodigoCiudadPk(), 'codigoCiudadFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoEmpaqueFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()));
                         if($arPrecioDetalle) {
                             $flete = $arPrecioDetalle->getVrKilo() * $pesoFacturar;
                         }

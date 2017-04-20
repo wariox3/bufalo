@@ -49,6 +49,11 @@ class TteCiudad
     protected $guiasCiudadDestinoRel;       
 
     /**
+     * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="ciudadOrigenRel")
+     */
+    protected $guiasCiudadOrigenRel;    
+    
+    /**
      * @ORM\OneToMany(targetEntity="TteDestinatario", mappedBy="ciudadRel")
      */
     protected $destinatariosCiudadRel; 
@@ -335,5 +340,39 @@ class TteCiudad
     public function getCodigoDaneNumerico()
     {
         return $this->codigoDaneNumerico;
+    }
+
+    /**
+     * Add guiasCiudadOrigenRel
+     *
+     * @param \TransporteBundle\Entity\TteGuia $guiasCiudadOrigenRel
+     *
+     * @return TteCiudad
+     */
+    public function addGuiasCiudadOrigenRel(\TransporteBundle\Entity\TteGuia $guiasCiudadOrigenRel)
+    {
+        $this->guiasCiudadOrigenRel[] = $guiasCiudadOrigenRel;
+
+        return $this;
+    }
+
+    /**
+     * Remove guiasCiudadOrigenRel
+     *
+     * @param \TransporteBundle\Entity\TteGuia $guiasCiudadOrigenRel
+     */
+    public function removeGuiasCiudadOrigenRel(\TransporteBundle\Entity\TteGuia $guiasCiudadOrigenRel)
+    {
+        $this->guiasCiudadOrigenRel->removeElement($guiasCiudadOrigenRel);
+    }
+
+    /**
+     * Get guiasCiudadOrigenRel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGuiasCiudadOrigenRel()
+    {
+        return $this->guiasCiudadOrigenRel;
     }
 }

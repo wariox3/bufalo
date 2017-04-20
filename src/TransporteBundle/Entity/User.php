@@ -56,6 +56,11 @@ class User implements UserInterface, \Serializable {
     private $isActive;
 
     /**
+     * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
+     */    
+    private $codigoCiudadFk;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="usersEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -383,5 +388,29 @@ class User implements UserInterface, \Serializable {
     public function getEmpresaRel()
     {
         return $this->empresaRel;
+    }
+
+    /**
+     * Set codigoCiudadFk
+     *
+     * @param integer $codigoCiudadFk
+     *
+     * @return User
+     */
+    public function setCodigoCiudadFk($codigoCiudadFk)
+    {
+        $this->codigoCiudadFk = $codigoCiudadFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCiudadFk
+     *
+     * @return integer
+     */
+    public function getCodigoCiudadFk()
+    {
+        return $this->codigoCiudadFk;
     }
 }

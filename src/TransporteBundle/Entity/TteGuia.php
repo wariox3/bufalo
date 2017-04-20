@@ -144,6 +144,11 @@ class TteGuia
     private $observacion;    
     
     /**
+     * @ORM\Column(name="codigo_ciudad_origen_fk", type="integer", nullable=true)
+     */    
+    private $codigoCiudadOrigenFk;    
+    
+    /**
      * @ORM\Column(name="codigo_ciudad_destino_fk", type="integer", nullable=true)
      */    
     private $codigoCiudadDestinoFk;    
@@ -184,6 +189,12 @@ class TteGuia
      * @ORM\JoinColumn(name="codigo_ciudad_destino_fk", referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadDestinoRel;          
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="guiasCiudadOrigenRel")
+     * @ORM\JoinColumn(name="codigo_ciudad_origen_fk", referencedColumnName="codigo_ciudad_pk")
+     */
+    protected $ciudadOrigenRel; 
     
     /**
      * @ORM\ManyToOne(targetEntity="TteEmpaqueEmpresa", inversedBy="guiasEmpaqueEmpresaRel")
@@ -1075,5 +1086,53 @@ class TteGuia
     public function getEmpaqueRel()
     {
         return $this->empaqueRel;
+    }
+
+    /**
+     * Set codigoCiudadOrigenFk
+     *
+     * @param integer $codigoCiudadOrigenFk
+     *
+     * @return TteGuia
+     */
+    public function setCodigoCiudadOrigenFk($codigoCiudadOrigenFk)
+    {
+        $this->codigoCiudadOrigenFk = $codigoCiudadOrigenFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCiudadOrigenFk
+     *
+     * @return integer
+     */
+    public function getCodigoCiudadOrigenFk()
+    {
+        return $this->codigoCiudadOrigenFk;
+    }
+
+    /**
+     * Set ciudadOrigenRel
+     *
+     * @param \TransporteBundle\Entity\TteCiudad $ciudadOrigenRel
+     *
+     * @return TteGuia
+     */
+    public function setCiudadOrigenRel(\TransporteBundle\Entity\TteCiudad $ciudadOrigenRel = null)
+    {
+        $this->ciudadOrigenRel = $ciudadOrigenRel;
+
+        return $this;
+    }
+
+    /**
+     * Get ciudadOrigenRel
+     *
+     * @return \TransporteBundle\Entity\TteCiudad
+     */
+    public function getCiudadOrigenRel()
+    {
+        return $this->ciudadOrigenRel;
     }
 }
