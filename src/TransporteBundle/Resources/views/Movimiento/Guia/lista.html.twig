@@ -14,6 +14,7 @@
                                     <th>Guia</th>
                                     <th>Documento</th>
                                     <th>Destinatario</th>
+                                    <th>Origen</th>
                                     <th>Destino</th>
                                     <th class="numeric">Cant</th>
                                     <th class="numeric">Peso</th>
@@ -30,6 +31,7 @@
                                     <td>{{ arGuia.consecutivo  }}</td>
                                     <td>{{ arGuia.documento  }}</td>
                                     <td>{{ arGuia.destinatario  }}</td>
+                                    <td>{{ arGuia.ciudadOrigenRel.nombre  }}</td>
                                     <td>{{ arGuia.ciudadDestinoRel.nombre  }}</td>
                                     <td class="numeric" style="text-align: right">{{ arGuia.cantidad | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arGuia.peso | number_format(0, '.', ',') }}</td>

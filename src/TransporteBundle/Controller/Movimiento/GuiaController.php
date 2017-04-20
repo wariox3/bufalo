@@ -55,6 +55,7 @@ class GuiaController extends Controller
                     } else {
                         $pesoFacturar = $arGuia->getPesoVolumen();
                     }
+                    $arGuia->setPesoFacturar($pesoFacturar);
                     $flete = 0;
                     if($pesoFacturar > 0) {
                         $arPrecioDetalle = $em->getRepository('TransporteBundle:TtePrecioDetalle')->findOneBy(array('codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadOrigenFk' => $arCiudadOrigen->getCodigoCiudadPk(), 'codigoCiudadFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoEmpaqueFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()));
