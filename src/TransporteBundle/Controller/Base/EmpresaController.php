@@ -143,9 +143,9 @@ class EmpresaController extends Controller
                     $arEmpaque = new \TransporteBundle\Entity\TteEmpaque();
                     $arEmpaque = $em->getRepository('TransporteBundle:TteEmpaque')->find($carga['producto']);
                     $arCiudadOrigen = new \TransporteBundle\Entity\TteCiudad();
-                    $arCiudadOrigen = $em->getRepository('TransporteBundle:TteCiudad')->findOneBy(array('codigoDane' => $carga['origen']));                    
+                    $arCiudadOrigen = $em->getRepository('TransporteBundle:TteCiudad')->find($carga['origen']);                    
                     $arCiudadDestino = new \TransporteBundle\Entity\TteCiudad();
-                    $arCiudadDestino = $em->getRepository('TransporteBundle:TteCiudad')->findOneBy(array('codigoDane' => $carga['destino']));                                        
+                    $arCiudadDestino = $em->getRepository('TransporteBundle:TteCiudad')->find($carga['destino']);                                        
                     if($arEmpresa && $arEmpaque && $arCiudadOrigen && $arCiudadDestino) {
                         $arPrecioDetalle = new \TransporteBundle\Entity\TtePrecioDetalle();
                         $arPrecioDetalle->setEmpresaRel($arEmpresa);
