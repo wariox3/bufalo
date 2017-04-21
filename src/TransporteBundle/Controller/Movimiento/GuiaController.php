@@ -49,6 +49,9 @@ class GuiaController extends Controller
                     $arGuia->setCiudadOrigenRel($arCiudadOrigen);
                     $arGuia->setEmpaqueRel($arGuia->getEmpaqueEmpresaRel()->getEmpaqueRel());                    
                     $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getDeclarado() / 100;                
+                    if($arGuia->getEmpresaRel()->getManejoMinimoDespacho() > $manejo) {
+                        $manejo = $arGuia->getEmpresaRel()->getManejoMinimoDespacho();
+                    }
                     $pesoFacturar = 0;
                     if($arGuia->getPeso() >= $arGuia->getPesoVolumen()) {
                         $pesoFacturar = $arGuia->getPeso();

@@ -59,6 +59,11 @@ class TteEmpresa
     private $porcentajeManejo = 0;    
     
     /**
+     * @ORM\Column(name="manejo_minimo_despacho", type="float")
+     */
+    private $manejoMinimoDespacho = 0;     
+    
+    /**
      * @ORM\Column(name="cuenta_kit", type="string", length=15, nullable=true)
      */    
     private $cuentaKit;    
@@ -532,5 +537,29 @@ class TteEmpresa
     public function getCuentaKit()
     {
         return $this->cuentaKit;
+    }
+
+    /**
+     * Set manejoMinimoDespacho
+     *
+     * @param float $manejoMinimoDespacho
+     *
+     * @return TteEmpresa
+     */
+    public function setManejoMinimoDespacho($manejoMinimoDespacho)
+    {
+        $this->manejoMinimoDespacho = $manejoMinimoDespacho;
+
+        return $this;
+    }
+
+    /**
+     * Get manejoMinimoDespacho
+     *
+     * @return float
+     */
+    public function getManejoMinimoDespacho()
+    {
+        return $this->manejoMinimoDespacho;
     }
 }
