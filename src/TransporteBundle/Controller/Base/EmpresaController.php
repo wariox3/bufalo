@@ -51,10 +51,7 @@ class EmpresaController extends Controller
         $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
         if ($codigoEmpresa != 0) {
             $arEmpresa = $em->getRepository('TransporteBundle:TteEmpresa')->find($codigoEmpresa);            
-        } else {
-            $arUsuario = $this->getUser();            
-            $arEmpresa->setEmpresaRel($arUsuario->getEmpresaRel());
-        }        
+        }
         $form = $this->createForm(TteEmpresaType::class, $arEmpresa);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -116,6 +113,8 @@ class EmpresaController extends Controller
             if($form->get('BtnCargar')->isClicked()) {                
                 set_time_limit(0);
                 ini_set("memory_limit", -1);
+                $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
+                $arEmpresa = $em->getRepository('TransporteBundle:TteEmpresa')->find($codigoEmpresa);
                 $form['attachment']->getData()->move("/var/www/temporal/", "archivo.xls");
                 $ruta = "/var/www/temporal/archivo.xls";
                 $arrCarga = array();
@@ -138,8 +137,6 @@ class EmpresaController extends Controller
                 }
                 $error = "";
                 foreach ($arrCarga as $carga) {                    
-                    $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
-                    $arEmpresa = $em->getRepository('TransporteBundle:TteEmpresa')->find($carga['empresa']);
                     $arEmpaque = new \TransporteBundle\Entity\TteEmpaque();
                     $arEmpaque = $em->getRepository('TransporteBundle:TteEmpaque')->find($carga['producto']);
                     $arCiudadOrigen = new \TransporteBundle\Entity\TteCiudad();
@@ -174,8 +171,7 @@ class EmpresaController extends Controller
     private function formularioLista() {
         $em = $this->getDoctrine()->getManager();
         $session = new session;        
-        $form = $this->createFormBuilder()
-                ->add('BtnEliminar', SubmitType::class, array('label' => 'Eliminar'))
+        $form = $this->createFormBuilder()                
                 ->getForm();
         return $form;
     }   
