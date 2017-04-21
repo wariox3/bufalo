@@ -16,11 +16,23 @@ class GuiaController extends Controller
      */   
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('knp_paginator');      
+        $paginator = $this->get('knp_paginator');              
         $this->lista();                     
+        $arEmpresa = $this->getUser()->getEmpresaRel();
+        $alertaGuias = "";
+        if(($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 50 ) {
+            $alertaGuias = "Por favor solicitar mas remesas a sistemas@cotrascalsas.com";
+        }
+        $bloquearNuevo = 0;
+        if(($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 0 ) {
+            $bloquearNuevo = 1;
+            $alertaGuias .= " ya no tiene mas consecutivos no puede crear mas guias";
+        }
         $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 50);
         return $this->render('TransporteBundle:Movimiento/Guia:lista.html.twig', array(
-            'arGuias' => $arGuias
+            'arGuias' => $arGuias,
+            'alertaGuias' => $alertaGuias,
+            'bloquearNuevo' => $bloquearNuevo
             ));
     }
     

@@ -6,6 +6,10 @@
             <div class="col-lg-12">
                 <div class="content-panel">
                     <h4><i class="fa fa-angle-right"></i> Lista guias</h4>
+                    {% if alertaGuias != "" %}
+                        <div class="alert alert-danger" role="alert">{{ alertaGuias }}</div>                    
+                    {% endif %}    
+                    
                     <section id="unseen">
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
@@ -50,7 +54,9 @@
         <br />
         <div class="btn-toolbar" style="float: right">
             <div class="btn-group">
-                <a class="btn btn-default btn-sm" href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': 0}) }}">Nuevo</a>                
+                {% if bloquearNuevo == 0 %}
+                    <a class="btn btn-default btn-sm" href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': 0}) }}">Nuevo</a>                
+                {% endif %}                
             </div>            
 
         </div>         
