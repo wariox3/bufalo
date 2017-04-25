@@ -41,8 +41,8 @@
                                     <td class="numeric" style="text-align: right">{{ arGuia.peso | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arGuia.declarado | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arGuia.flete | number_format(0, '.', ',') }}</td>
-                                    <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>
-                                    <td style="text-align: center"><a href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': arGuia.codigoGuiaPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>                                                                                                                
+                                    <td style="text-align: center">{% if arGuia.estadoDespachoProveedor == 0 %}<a href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': arGuia.codigoGuiaPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a>{% endif %}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

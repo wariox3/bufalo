@@ -123,6 +123,13 @@ class Despacho extends \FPDF {
     }
 
     public function Footer() {
+        $this->Text(10, 240, "FIRMA ENTREGA MERCANCIA: ________________________________________");
+        $this->Text(10, 247, "NOMBRE:");
+        $this->Text(10, 254, "C.C.:     ______________________ de ____________________");
+        $this->Text(110, 240, "FIRMA RECIBE MERCANCIA: ________________________________________");
+        $this->Text(110, 247, "NOMBRE:");
+        $this->Text(110, 254, "C.C.:     ______________________ de ____________________");
+        $this->SetFont('Arial', '', 8);        
         $this->SetFont('Arial','', 8);  
         $this->Text(170, 290, utf8_decode('Página ') . $this->PageNo() . ' de {nb}');
     }    

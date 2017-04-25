@@ -4,12 +4,12 @@
     <section class="content-header">
         <h1>
             Buscar
-            <small>Cliente</small>
+            <small>Destinatario</small>
         </h1>
     </section>    
     <section class="content"> 
         <script language="javascript">
-            function selTercero(identificacion, nombreCorto, nombre1, nombre2, apellido1, apellido2, direccion, barrio, telefono, correo)
+            function selTercero(identificacion, nombreCorto, nombre1, nombre2, apellido1, apellido2, direccion, barrio, telefono, correo, destino)
             {
                 opener.document.getElementById('form_identificacion').value = identificacion;        
                 opener.document.getElementById('form_destinatario').value = nombreCorto;
@@ -21,6 +21,7 @@
                 opener.document.getElementById('form_barrio').value = barrio;
                 opener.document.getElementById('form_telefono').value = telefono;
                 opener.document.getElementById('form_correo').value = correo;
+                opener.document.getElementById('form_ciudadDestinoRel').value = destino;
                 opener.document.getElementById('form_destinatario').focus();
                 self.close();
             }
@@ -63,7 +64,7 @@
                     <td><input type="hidden" name="LblCodigo[]" value="{{ arDestinatarios.codigoDestinatarioPk }}">{{ arDestinatarios.codigoDestinatarioPk }} </td>                    
                     <td>{{ arDestinatarios.identificacion }}</td>
                     <td>{{ arDestinatarios.nombreCorto }}</td>                                                                
-                    <td style="text-align: center"><a href="javascript:selTercero('{{ arDestinatarios.identificacion }}', '{{ arDestinatarios.nombreCorto }}', '{{ arDestinatarios.nombre1 }}', '{{ arDestinatarios.nombre2 }}', '{{ arDestinatarios.apellido1 }}', '{{ arDestinatarios.apellido2 }}', '{{ arDestinatarios.direccion }}', '{{ arDestinatarios.barrio }}', '{{ arDestinatarios.telefono }}', '{{ arDestinatarios.correo }}')" ><img src="{{ asset('imagenes/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>                                                
+                    <td style="text-align: center"><a href="javascript:selTercero('{{ arDestinatarios.identificacion }}', '{{ arDestinatarios.nombreCorto }}', '{{ arDestinatarios.nombre1 }}', '{{ arDestinatarios.nombre2 }}', '{{ arDestinatarios.apellido1 }}', '{{ arDestinatarios.apellido2 }}', '{{ arDestinatarios.direccion }}', '{{ arDestinatarios.barrio }}', '{{ arDestinatarios.telefono }}', '{{ arDestinatarios.correo }}', '{{ arDestinatarios.codigoCiudadFk }}')" ><img src="{{ asset('imagenes/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>                                                
                 </tr>
             {% endfor %} 
         </table>                                         
