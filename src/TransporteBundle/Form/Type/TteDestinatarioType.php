@@ -29,7 +29,7 @@ class TteDestinatarioType extends AbstractType
                     ->orderBy('ti.nombre', 'ASC');},
                 'choice_label' => 'nombre',
                 'required' => true))                             
-            ->add('identificacion', TextType::class, array('required' => true))                            
+            ->add('identificacion', TextType::class, array('required' => false))                            
             ->add('digitoVerificacion', TextType::class, array('required' => false))                            
             ->add('nombreCorto', TextType::class, array('required' => true))                
             ->add('nombre1', TextType::class, array('required' => false))                
