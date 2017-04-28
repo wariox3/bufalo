@@ -78,7 +78,7 @@ class Despacho extends \FPDF {
         $this->SetFont('', 'B', 5);
 
         //creamos la cabecera de la tabla.
-        $w = array(15, 20, 55, 15, 35, 10, 10, 15, 15);
+        $w = array(15, 20, 55, 35, 15, 10, 10, 15, 15);
         for ($i = 0; $i < count($header); $i++)
             if ($i == 0 || $i == 1)
                 $this->Cell($w[$i], 4, $header[$i], 1, 0, 'L', 1);
@@ -104,8 +104,8 @@ class Despacho extends \FPDF {
             $pdf->Cell(15, 4, $arGuia->getConsecutivo(), 1, 0, 'L');
             $pdf->Cell(20, 4, $arGuia->getDocumento(), 1, 0, 'L');             
             $pdf->Cell(55, 4, utf8_decode($arGuia->getDestinatario()), 1, 0, 'L');
-            $pdf->Cell(15, 4, substr($arGuia->getDireccion(), 0, 10), 1, 0, 'L');
-            $pdf->Cell(35, 4, utf8_decode($arGuia->getCiudadDestinoRel()->getNombre()), 1, 0, 'L');
+            $pdf->Cell(35, 4, substr($arGuia->getDireccion(), 0, 30), 1, 0, 'L');
+            $pdf->Cell(15, 4, substr(utf8_decode($arGuia->getCiudadDestinoRel()->getNombre()), 0, 10), 1, 0, 'L');
             $pdf->Cell(10, 4, number_format($arGuia->getCantidad(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(10, 4, number_format($arGuia->getPeso(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arGuia->getFlete(), 0, '.', ','), 1, 0, 'R');
