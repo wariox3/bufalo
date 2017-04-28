@@ -7,15 +7,41 @@
                 <div class="content-panel">
                     <h4><i class="fa fa-angle-right"></i> Lista guias</h4>
                     {% if alertaGuias != "" %}
-                       <h2> <div class="alert alert-danger" role="alert">{{ alertaGuias }}</div> </h2>                   
+                        <h2> <div class="alert alert-danger" role="alert">{{ alertaGuias }}</div> </h2>                   
                     {% endif %}    
-                    
+
                     <section id="unseen">
+                        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+                        {{ form_errors(form) }}                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Filtros de busqueda</div>
+                            <div class="panel-body">                                       
+                                <div class="form-group form-group-sm">  
+                                    <label for="form_fechaDesde" class="col-sm-2 control-label">Desde:</label>
+                                    <div class="col-sm-10">                  
+                                        {{ form_widget(form.fechaDesde) }} 
+                                    </div>
+                                </div>                     
+                                <div class="form-group form-group-sm">  
+                                    <label for="form_fechaHasta" class="col-sm-2 control-label">Hasta:</label>
+                                    <div class="col-sm-10">                  
+                                        {{ form_widget(form.fechaHasta) }} 
+                                    </div>
+                                </div>    
+                                <div class="form-group form-group-sm">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                                    </div>
+                                </div>                                                    
+                            </div>
+                        </div>                         
+
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>Guia</th>
+                                    <th>Fecha</th>
                                     <th>Documento</th>
                                     <th>Destinatario</th>
                                     <th>Origen</th>
@@ -30,20 +56,21 @@
                             </thead>
                             <tbody>
                                 {% for arGuia in arGuias %}
-                                <tr>
-                                    <td>{{ arGuia.codigoGuiaPk  }}</td>
-                                    <td>{{ arGuia.consecutivo  }}</td>
-                                    <td>{{ arGuia.documento  }}</td>
-                                    <td>{{ arGuia.destinatario  }}</td>
-                                    <td>{{ arGuia.ciudadOrigenRel.nombre  }}</td>
-                                    <td>{{ arGuia.ciudadDestinoRel.nombre  }}</td>
-                                    <td class="numeric" style="text-align: right">{{ arGuia.cantidad | number_format(0, '.', ',') }}</td>
-                                    <td class="numeric" style="text-align: right">{{ arGuia.peso | number_format(0, '.', ',') }}</td>
-                                    <td class="numeric" style="text-align: right">{{ arGuia.declarado | number_format(0, '.', ',') }}</td>
-                                    <td class="numeric" style="text-align: right">{{ arGuia.flete | number_format(0, '.', ',') }}</td>
-                                    <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>                                                                                                                
-                                    <td style="text-align: center">{% if arGuia.estadoDespachoProveedor == 0 %}<a href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': arGuia.codigoGuiaPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a>{% endif %}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ arGuia.codigoGuiaPk  }}</td>
+                                        <td>{{ arGuia.consecutivo  }}</td>
+                                        <td>{{ arGuia.fecha | date('Y-m-d')  }}</td>
+                                        <td>{{ arGuia.documento  }}</td>
+                                        <td>{{ arGuia.destinatario  }}</td>
+                                        <td>{{ arGuia.ciudadOrigenRel.nombre  }}</td>
+                                        <td>{{ arGuia.ciudadDestinoRel.nombre  }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.cantidad | number_format(0, '.', ',') }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.peso | number_format(0, '.', ',') }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.declarado | number_format(0, '.', ',') }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.flete | number_format(0, '.', ',') }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>                                                                                                                
+                                        <td style="text-align: center">{% if arGuia.estadoDespachoProveedor == 0 %}<a href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': arGuia.codigoGuiaPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a>{% endif %}</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -59,6 +86,8 @@
                 {% endif %}                
             </div>            
 
-        </div>         
+        </div> 
+        {{ form_rest(form) }}
+        {{ form_end(form) }}            
     </section><! --/wrapper -->
 {% endblock %}

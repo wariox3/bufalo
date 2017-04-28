@@ -5,7 +5,10 @@ namespace TransporteBundle\Controller\Movimiento;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use TransporteBundle\Form\Type\TteGuiaType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class GuiaController extends Controller
 {
@@ -17,7 +20,16 @@ class GuiaController extends Controller
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');              
-        $this->lista();                     
+        $form = $this->formularioLista();
+        $form->handleRequest($request);
+        $this->lista();  
+        if ($form->isValid()) {
+            if ($form->get('BtnFiltrar')->isClicked()) {
+                $this->filtrarLista($form, $request);
+                $this->lista();
+            }
+        }        
+        
         $arEmpresa = $this->getUser()->getEmpresaRel();
         $alertaGuias = "";
         if(($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 50 ) {
@@ -32,7 +44,8 @@ class GuiaController extends Controller
         return $this->render('TransporteBundle:Movimiento/Guia:lista.html.twig', array(
             'arGuias' => $arGuias,
             'alertaGuias' => $alertaGuias,
-            'bloquearNuevo' => $bloquearNuevo
+            'bloquearNuevo' => $bloquearNuevo,
+            'form' => $form->createView()
             ));
     }
     
@@ -102,9 +115,43 @@ class GuiaController extends Controller
     }    
     
     private function lista() {        
-        $em = $this->getDoctrine()->getManager();                  
-        $this->strListaDql = $em->getRepository('TransporteBundle:TteGuia')->listaDQL($this->getUser()->getCodigoEmpresaFk());
+        $session = new Session;        
+        $em = $this->getDoctrine()->getManager(); 
+        $this->strListaDql = $em->getRepository('TransporteBundle:TteGuia')->listaDQL(
+                $this->getUser()->getCodigoEmpresaFk(),
+                $session->get('filtroGuiaFechaDesde'),
+                $session->get('filtroGuiaFechaHasta')
+                );
     }    
 
+    private function formularioLista() {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');               
+        $dateFecha = new \DateTime('now');
+        $strFechaDesde = $dateFecha->format('Y-m-d');        
+        $strFechaHasta = $dateFecha->format('Y-m-d');
+        if ($session->get('filtroGuiaFechaDesde') != "") {
+            $strFechaDesde = $session->get('filtroGuiaFechaDesde');
+        }
+        if ($session->get('filtroGuiaFechaHasta') != "") {
+            $strFechaHasta = $session->get('filtroGuiaFechaHasta');
+        }
+        $dateFechaDesde = date_create($strFechaDesde);
+        $dateFechaHasta = date_create($strFechaHasta);
+
+        $form = $this->createFormBuilder()
+                ->add('fechaDesde', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaDesde))
+                ->add('fechaHasta', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaHasta))
+                ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
+                ->getForm();
+        return $form;
+    }   
     
+    private function filtrarLista($form) {
+        $session = $this->get('session');
+        $dateFechaDesde = $form->get('fechaDesde')->getData();
+        $dateFechaHasta = $form->get('fechaHasta')->getData();
+        $session->set('filtroGuiaFechaDesde', $dateFechaDesde->format('Y-m-d'));
+        $session->set('filtroGuiaFechaHasta', $dateFechaHasta->format('Y-m-d'));
+    }    
 }
