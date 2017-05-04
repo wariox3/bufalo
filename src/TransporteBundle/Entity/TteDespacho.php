@@ -58,6 +58,11 @@ class TteDespacho
      */
     private $declarado = 0;    
     
+    /**     
+     * @ORM\Column(name="estado_impreso", type="boolean")
+     */    
+    private $estadoImpreso = false;     
+    
     /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="despachosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
@@ -334,5 +339,29 @@ class TteDespacho
     public function getGuias()
     {
         return $this->guias;
+    }
+
+    /**
+     * Set estadoImpreso
+     *
+     * @param boolean $estadoImpreso
+     *
+     * @return TteDespacho
+     */
+    public function setEstadoImpreso($estadoImpreso)
+    {
+        $this->estadoImpreso = $estadoImpreso;
+
+        return $this;
+    }
+
+    /**
+     * Get estadoImpreso
+     *
+     * @return boolean
+     */
+    public function getEstadoImpreso()
+    {
+        return $this->estadoImpreso;
     }
 }

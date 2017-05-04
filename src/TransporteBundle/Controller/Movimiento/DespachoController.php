@@ -33,13 +33,18 @@ class DespachoController extends Controller
         $paginator = $this->get('knp_paginator');      
         $arDespacho = new \TransporteBundle\Entity\TteDespacho();
         $arDespacho = $em->getRepository('TransporteBundle:TteDespacho')->find($codigoDespacho);
-        $form = $this->formularioDetalle(); 
+        $form = $this->formularioDetalle($arDespacho); 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 if ($form->get('BtnImprimir')->isClicked()) {
                     $objDespacho = new \TransporteBundle\Formato\Despacho();
                     $objDespacho->Generar($em, $codigoDespacho);
+                    if($arDespacho->getEstadoImpreso() == 0) {
+                        $arDespacho->setEstadoImpreso(1);
+                        $em->persist($arDespacho);
+                        $em->flush();
+                    }
                 }
                 if ($form->get('BtnImprimirEtiquetas')->isClicked()) {
                     $objDespacho = new \TransporteBundle\Formato\Etiqueta();
@@ -188,12 +193,17 @@ class DespachoController extends Controller
         return $form;
     }    
     
-    private function formularioDetalle() {   
+    private function formularioDetalle($ar) {   
         $session = new Session(); 
+        $arrBotonImprimir = array('label' => 'Imprimir', 'disabled' => false);
+        $arrBotonDetalleEliminar = array('label' => 'Eliminar', 'disabled' => false);
+        if($ar->getEstadoImpreso() == 1) {
+            $arrBotonDetalleEliminar['disabled'] = true;
+        }
         $form = $this->createFormBuilder()                                                
-            ->add('BtnImprimir', SubmitType::class, array('label'  => 'Imprimir'))
+            ->add('BtnImprimir', SubmitType::class, $arrBotonImprimir)
             ->add('BtnImprimirEtiquetas', SubmitType::class, array('label'  => 'Imprimir etiquetas'))
-            ->add('BtnDetalleEliminar', SubmitType::class, array('label'  => 'Eliminar'))
+            ->add('BtnDetalleEliminar', SubmitType::class, $arrBotonDetalleEliminar)
             ->getForm();        
         return $form;
     }     

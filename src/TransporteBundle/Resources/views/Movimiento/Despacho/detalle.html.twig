@@ -110,9 +110,12 @@
             </div>            
         </div>        
         <div class="btn-toolbar" style="float: right">
-            <div class="btn-group">                                                
-                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a>                
-            </div>            
+            {% if arDespacho.estadoImpreso == 0 %}
+                <div class="btn-group">                                                
+                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a>                
+                </div>                                
+            {% endif %}
+
             <div class="btn-group">
                 {{ form_widget(form.BtnDetalleEliminar, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}                
             </div>

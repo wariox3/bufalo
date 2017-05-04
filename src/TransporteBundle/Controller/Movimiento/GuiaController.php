@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use TransporteBundle\Form\Type\TteGuiaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class GuiaController extends Controller
@@ -120,7 +122,9 @@ class GuiaController extends Controller
         $this->strListaDql = $em->getRepository('TransporteBundle:TteGuia')->listaDQL(
                 $this->getUser()->getCodigoEmpresaFk(),
                 $session->get('filtroGuiaFechaDesde'),
-                $session->get('filtroGuiaFechaHasta')
+                $session->get('filtroGuiaFechaHasta'),
+                $session->get('filtroGuiaCodigo'),
+                $session->get('filtroGuiaConsecutivo')
                 );
     }    
 
@@ -140,6 +144,8 @@ class GuiaController extends Controller
         $dateFechaHasta = date_create($strFechaHasta);
 
         $form = $this->createFormBuilder()
+                ->add('codigo', NumberType::class)
+                ->add('consecutivo', TextType::class)
                 ->add('fechaDesde', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaDesde))
                 ->add('fechaHasta', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaHasta))
                 ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
@@ -153,5 +159,7 @@ class GuiaController extends Controller
         $dateFechaHasta = $form->get('fechaHasta')->getData();
         $session->set('filtroGuiaFechaDesde', $dateFechaDesde->format('Y-m-d'));
         $session->set('filtroGuiaFechaHasta', $dateFechaHasta->format('Y-m-d'));
+        $session->set('filtroGuiaCodigo', $form->get('codigo')->getData());
+        $session->set('filtroGuiaConsecutivo', $form->get('consecutivo')->getData());
     }    
 }

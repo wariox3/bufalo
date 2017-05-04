@@ -29,7 +29,7 @@
                                     <td class="numeric" style="text-align: right">{{ arDespacho.cantidad | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arDespacho.peso | number_format(0, '.', ',') }}</td>
                                     <td class="numeric" style="text-align: right">{{ arDespacho.declarado | number_format(0, '.', ',') }}</td>                                    
-                                    <td><a class="btn btn-default btn-sm btn-xs" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a></td>
+                                    <td>{% if arDespacho.estadoImpreso == 0 %}<a class="btn btn-default btn-sm btn-xs" href="javascript:abrirVentana3('{{ path('tte_movimiento_despacho_guia_agregar', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a>{% endif %}</td>
                                     <td style="text-align: center"><a href="{{ path('tte_movimiento_despacho_detalle', { 'codigoDespacho': arDespacho.codigoDespachoPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22></a></td>                                                    
                                 </tr>
                                 {% endfor %}
