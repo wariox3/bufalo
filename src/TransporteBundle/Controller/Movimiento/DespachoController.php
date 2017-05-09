@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use TransporteBundle\Form\Type\TteDespachoType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 class DespachoController extends Controller
 {
     var $strListaDql = "";
@@ -17,11 +19,20 @@ class DespachoController extends Controller
      */   
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('knp_paginator');      
-        $this->lista();                     
+        $paginator = $this->get('knp_paginator'); 
+        $form = $this->formularioLista();
+        $form->handleRequest($request);        
+        $this->lista();       
+        if ($form->isValid()) {
+            if ($form->get('BtnFiltrar')->isClicked()) {
+                $this->filtrarLista($form, $request);
+                $this->lista();
+            }
+        }        
         $arDespachos = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 50);
         return $this->render('TransporteBundle:Movimiento/Despacho:lista.html.twig', array(
-            'arDespachos' => $arDespachos
+            'arDespachos' => $arDespachos,
+            'form' => $form->createView()
             ));
     }
     
@@ -175,9 +186,15 @@ class DespachoController extends Controller
                     'form' => $form->createView()));
     }    
     
-    private function lista() {        
-        $em = $this->getDoctrine()->getManager();                  
-        $this->strListaDql = $em->getRepository('TransporteBundle:TteDespacho')->listaDql($this->getUser()->getCodigoEmpresaFk());
+    private function lista() {
+        $session = new Session;        
+        $em = $this->getDoctrine()->getManager(); 
+        $this->strListaDql = $em->getRepository('TransporteBundle:TteDespacho')->listaDql(
+                $this->getUser()->getCodigoEmpresaFk(),
+                $session->get('filtroDespachoFechaDesde'),
+                $session->get('filtroDespachoFechaHasta'),
+                $session->get('filtroGuiaCodigo')
+                );                        
     }   
     
     private function listaGuiasPendientes() {        
@@ -185,6 +202,30 @@ class DespachoController extends Controller
         $this->strListaDql = $em->getRepository('TransporteBundle:TteGuia')->guiaPendienteDespachoDql($this->getUser()->getCodigoEmpresaFk());
     }     
 
+    private function formularioLista() {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');               
+        $dateFecha = new \DateTime('now');
+        $strFechaDesde = $dateFecha->format('Y-m-d');        
+        $strFechaHasta = $dateFecha->format('Y-m-d');
+        if ($session->get('filtroDespachoFechaDesde') != "") {
+            $strFechaDesde = $session->get('filtroDespachoFechaDesde');
+        }
+        if ($session->get('filtroDespachoFechaHasta') != "") {
+            $strFechaHasta = $session->get('filtroDespachoFechaHasta');
+        }
+        $dateFechaDesde = date_create($strFechaDesde);
+        $dateFechaHasta = date_create($strFechaHasta);
+
+        $form = $this->createFormBuilder()
+                ->add('codigo', NumberType::class)                
+                ->add('fechaDesde', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaDesde))
+                ->add('fechaHasta', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaHasta))
+                ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
+                ->getForm();
+        return $form;
+    }    
+    
     private function formularioAgregarGuia() {   
         $session = new Session(); 
         $form = $this->createFormBuilder()                                                
@@ -207,5 +248,14 @@ class DespachoController extends Controller
             ->getForm();        
         return $form;
     }     
+    
+    private function filtrarLista($form) {
+        $session = $this->get('session');
+        $dateFechaDesde = $form->get('fechaDesde')->getData();
+        $dateFechaHasta = $form->get('fechaHasta')->getData();
+        $session->set('filtroDespachoFechaDesde', $dateFechaDesde->format('Y-m-d'));
+        $session->set('filtroDespachoFechaHasta', $dateFechaHasta->format('Y-m-d'));
+        $session->set('filtroGuiaCodigo', $form->get('codigo')->getData());        
+    }    
     
 }

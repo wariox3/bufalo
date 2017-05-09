@@ -12,8 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class TteDespachoRepository extends EntityRepository
 {
-    public function listaDql($codigoEmpresa = "") {
-        $dql   = "SELECT d FROM TransporteBundle:TteDespacho d WHERE d.codigoEmpresaFk = $codigoEmpresa " ;            
+    public function listaDql($codigoEmpresa = "", $fechaDesde = "", $fechaHasta = "", $codigo = "") {
+        $dql   = "SELECT d FROM TransporteBundle:TteDespacho d WHERE d.codigoEmpresaFk = $codigoEmpresa " ;  
+        if($fechaDesde != "") {
+            $dql .= " AND d.fecha >= '" . $fechaDesde . "'";
+        }
+        if($fechaHasta != "") {
+            $dql .= " AND d.fecha <= '" . $fechaHasta . "'";
+        }        
+        if($codigo != "") {
+            $dql .= " AND d.codigoDespachoPk = " . $codigo;
+        }                 
         $dql .= " ORDER BY d.codigoDespachoPk DESC";
         return $dql;
     }     

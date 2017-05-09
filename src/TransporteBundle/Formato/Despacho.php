@@ -99,7 +99,8 @@ class Despacho extends \FPDF {
         $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoDespachoProveedorFk' => self::$codigoDespacho));        
         $pdf->SetX(10);
         $pdf->SetFont('Arial', '', 5);
-        $var = 0;
+        $flete = 0;
+        $declarado = 0;       
         foreach ($arGuias as $arGuia) {             
             $pdf->Cell(15, 4, $arGuia->getConsecutivo(), 1, 0, 'L');
             $pdf->Cell(20, 4, $arGuia->getDocumento(), 1, 0, 'L');             
@@ -110,15 +111,20 @@ class Despacho extends \FPDF {
             $pdf->Cell(10, 4, number_format($arGuia->getPeso(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arGuia->getFlete(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arGuia->getDeclarado(), 0, '.', ','), 1, 0, 'R');
-            $var += 0;
+            $flete += $arGuia->getFlete();
+            $declarado += $arGuia->getDeclarado();
             $pdf->Ln();
             $pdf->SetAutoPageBreak(true, 15);
             
         }
             $pdf->SetFont('Arial', 'B', 7);
-            $pdf->Cell(175, 5, "NUMERO GUIAS: ", 1, 0, 'R');
-            $pdf->SetFont('Arial', '', 7);
-            $pdf->Cell(15, 5, number_format($arDespacho->getGuias(),0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(15, 4, $arDespacho->getGuias(), 1, 0, 'L');
+            $pdf->Cell(125, 4, "", 1, 0, 'L');             
+            $pdf->Cell(10, 4, number_format($arDespacho->getCantidad(), 0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(10, 4, number_format($arDespacho->getPeso(), 0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(15, 4, number_format($flete, 0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(15, 4, number_format($declarado, 0, '.', ','), 1, 0, 'R');        
+        
         
     }
 
