@@ -15,6 +15,7 @@
             <tr>
                 <th>Id</th>
                 <th>Guia</th>
+                <th>Fecha</th>
                 <th>Documento</th>
                 <th>Destinatario</th>
                 <th>Destino</th>
@@ -29,6 +30,7 @@
                 <tr>
                     <td><input type="hidden" name="LblCodigo[]" value="{{ arGuia.codigoGuiaPk }}">{{ arGuia.codigoGuiaPk }} </td>                    
                     <td>{{ arGuia.consecutivo  }}</td>
+                    <td>{{ arGuia.fecha | date('Y-m-d')  }}</td>
                     <td>{{ arGuia.documento  }}</td>
                     <td>{{ arGuia.destinatario  }}</td>
                     <td>{{ arGuia.ciudadDestinoRel.nombre  }}</td>
