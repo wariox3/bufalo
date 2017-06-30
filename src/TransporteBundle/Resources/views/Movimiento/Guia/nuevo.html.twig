@@ -110,11 +110,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Observacion:</label>
                             <div class="col-sm-4">
-                                {{ form_widget(form.observacion, { 'attr': {'class': 'form-control'} }) }}
+                                {{ form_widget(form.observacion, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
                             </div>
-                            <label class="col-sm-2 col-sm-2 control-label"></label>
+                            <label class="col-sm-2 col-sm-2 control-label">Relacion documentos:</label>
                             <div class="col-sm-4">
-
+                                {{ form_widget(form.documentoRelacion, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
                             </div>
                         </div>                            
                         <div class="modal-footer">

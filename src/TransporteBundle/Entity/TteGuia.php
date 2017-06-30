@@ -144,6 +144,11 @@ class TteGuia
     private $observacion;    
     
     /**
+     * @ORM\Column(name="documento_relacion", type="string", length=2000, nullable=true)
+     */    
+    private $documentoRelacion;    
+    
+    /**
      * @ORM\Column(name="codigo_ciudad_origen_fk", type="integer", nullable=true)
      */    
     private $codigoCiudadOrigenFk;    
@@ -1134,5 +1139,29 @@ class TteGuia
     public function getCiudadOrigenRel()
     {
         return $this->ciudadOrigenRel;
+    }
+
+    /**
+     * Set documentoRelacion
+     *
+     * @param string $documentoRelacion
+     *
+     * @return TteGuia
+     */
+    public function setDocumentoRelacion($documentoRelacion)
+    {
+        $this->documentoRelacion = $documentoRelacion;
+
+        return $this;
+    }
+
+    /**
+     * Get documentoRelacion
+     *
+     * @return string
+     */
+    public function getDocumentoRelacion()
+    {
+        return $this->documentoRelacion;
     }
 }

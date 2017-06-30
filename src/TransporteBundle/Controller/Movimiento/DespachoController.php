@@ -60,6 +60,10 @@ class DespachoController extends Controller
                 if ($form->get('BtnImprimirEtiquetas')->isClicked()) {
                     $objDespacho = new \TransporteBundle\Formato\Etiqueta();
                     $objDespacho->Generar($em, $codigoDespacho);
+                }      
+                if ($form->get('BtnImprimirRelacionDocumentos')->isClicked()) {
+                    $objDespacho = new \TransporteBundle\Formato\DespachoRelacionDocumentos();
+                    $objDespacho->Generar($em, $codigoDespacho);
                 }                
                 if ($form->get('BtnDetalleEliminar')->isClicked()) {
                     $arrSeleccionados = $request->request->get('ChkSeleccionar');
@@ -237,12 +241,14 @@ class DespachoController extends Controller
     private function formularioDetalle($ar) {   
         $session = new Session(); 
         $arrBotonImprimir = array('label' => 'Imprimir', 'disabled' => false);
+        $arrBotonImprimirRelacionDocumentos = array('label' => 'Imprimir relacion documentos', 'disabled' => false);
         $arrBotonDetalleEliminar = array('label' => 'Eliminar', 'disabled' => false);
         if($ar->getEstadoImpreso() == 1) {
             $arrBotonDetalleEliminar['disabled'] = true;
         }
         $form = $this->createFormBuilder()                                                
             ->add('BtnImprimir', SubmitType::class, $arrBotonImprimir)
+            ->add('BtnImprimirRelacionDocumentos', SubmitType::class, $arrBotonImprimirRelacionDocumentos)
             ->add('BtnImprimirEtiquetas', SubmitType::class, array('label'  => 'Imprimir etiquetas'))
             ->add('BtnDetalleEliminar', SubmitType::class, $arrBotonDetalleEliminar)
             ->getForm();        

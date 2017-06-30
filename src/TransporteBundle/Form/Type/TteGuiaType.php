@@ -50,6 +50,7 @@ class TteGuiaType extends AbstractType
             ->add('documento', TextType::class, array('required' => false))
             ->add('devolverDocumento', CheckboxType::class, array('required' => false))                            
             ->add('observacion', TextareaType::class, array('required' => false))            
+            ->add('documentoRelacion', TextareaType::class, array('required' => false))            
             ->add('guardar', SubmitType::class)
             ->add('guardarnuevo', SubmitType::class, array('label'  => 'Guardar y Nuevo'));        
     }
