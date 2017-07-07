@@ -133,9 +133,11 @@ class GuiaController extends Controller
             }   
         }
         //Linea del tiempo tomada de https://codepen.io/bsngr/pen/Ifvbi/
-        $url ='http://192.168.1.50/serviciowebbufalo/guiaestado.php?guia=' . $arGuia->getConsecutivo();
+        $url ='http://localhost/serviciowebbufalo/guiaestado.php?guia=' . $arGuia->getConsecutivo();
+        echo $url;
         $json = file_get_contents($url);
-        $array = json_decode($json,true);        
+        $array = json_decode($json,true);  
+        print_r(array_values($array));
         return $this->render('TransporteBundle:Movimiento/Guia:detalle.html.twig', array(
             'arGuia' => $arGuia,
             'arrInformacionGuia' => $array,
