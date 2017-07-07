@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Movimiento: Guia -> detalle</h3>
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        {{ form_errors(form) }}
+        <div class="row mt">
+            <div class="col-lg-12">                
+                    <div class="btn-group">
+
+                    </div>
+                   
+
+                <div class="content-panel">                                                                                                   
+                    
+                    <section id="unseen">
+                        <div class="container">
+                          <div class="page-header">
+                            <h1 id="timeline">Estado de la guia {{ arGuia.consecutivo }}</h1>
+                          </div>
+                          <ul class="timeline">
+                            {%if arrInformacionGuia.estadoRecibida == 1 %}
+                            <li>
+                              <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+                              <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                  <h4 class="timeline-title">Recibido en bodega</h4>
+                                  <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ arrInformacionGuia.fechaEntrada }}</small></p>
+                                </div>
+                                <div class="timeline-body">
+                                  <p>La mercancia ya fue recibida en bodega, revisada y en lista de ruta para ser entregada.</p>
+                                </div>
+                              </div>
+                            </li>                                
+                            {%endif%}
+                            {%if arrInformacionGuia.estadoReparto == 1 %}
+                            <li class="timeline-inverted">
+                              <div class="timeline-badge warning"><i class="glyphicon glyphicon-credit-card"></i></div>
+                              <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                  <h4 class="timeline-title">Despachada o en reparto</h4>
+                                </div>
+                                <div class="timeline-body">
+                                  <p>La entrega esta emproceso de reparto, nuestros funcionarios se encuentran trabajando para entregar su mercancia en las mejores condiciones y en un tiempo record</p>                                  
+                                </div>
+                              </div>
+                            </li>                                
+                            {%endif%}    
+                            {%if arrInformacionGuia.estadoEntregada == 1 %}
+                            <li>
+                              <div class="timeline-badge danger"><i class="glyphicon glyphicon-credit-card"></i></div>
+                              <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                  <h4 class="timeline-title">Fue un gusto servirle, su mercancia ya fue entregada</h4>
+                                  <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ arrInformacionGuia.fechaEntrega }}</small></p>
+                                </div>
+                                <div class="timeline-body">
+                                  <p>Nuestros funcionarios ya entregaron la mercancia, estamos en proceso de digitalizar la fima de recibido y devolver los documentos firmados</p>
+                                </div>
+                              </div>
+                            </li>                                
+                            {%endif%}    
+                            {%if arrInformacionGuia.estadoCumplida == 1 %}
+                            <li class="timeline-inverted">
+                              <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
+                              <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                  <h4 class="timeline-title">Cumplidos devueltos</h4>
+                                </div>
+                                <div class="timeline-body">
+                                  <p>La cadena de entrega se cumplio satisfactoriamente, la mercancia fue entregada y los cumplidos fueron entregados correctamente diligenciados.</p>
+                                </div>
+                              </div>
+                            </li>                                
+                            {%endif%}                                
+                          </ul>
+                        </div>
+                    </section>
+
+                </div><!-- /content-panel -->
+
+            </div><!-- /col-lg-4 -->			
+        </div><!-- /row -->
+        <br />
+        <div class="btn-toolbar" style="float: left">
+            <div class="btn-group">
+                <a class="btn btn-default btn-sm" href="{{ path('tte_movimiento_guia') }}">Volver</a>                
+            </div>            
+        </div>           
+        {{ form_rest(form) }}
+        {{ form_end(form) }}            
+    </section><! --/wrapper -->
+{% endblock %}

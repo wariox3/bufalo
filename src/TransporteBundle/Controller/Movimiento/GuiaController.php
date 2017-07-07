@@ -42,7 +42,8 @@ class GuiaController extends Controller
             $bloquearNuevo = 1;
             $alertaGuias .= " ya no tiene mas consecutivos no puede crear mas guias";
         }
-        $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 50);
+        
+        $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 500);
         return $this->render('TransporteBundle:Movimiento/Guia:lista.html.twig', array(
             'arGuias' => $arGuias,
             'alertaGuias' => $alertaGuias,
@@ -116,6 +117,32 @@ class GuiaController extends Controller
                     'form' => $form->createView()));
     }    
     
+    /**
+     * @Route("/tte/movimiento/guia/detalle/{codigoGuia}", name="tte_movimiento_guia_detalle")
+     */   
+    public function detalleAction(Request $request, $codigoGuia) {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');      
+        $arGuia = new \TransporteBundle\Entity\TteGuia();        
+        $arGuia = $em->getRepository('TransporteBundle:TteGuia')->find($codigoGuia);
+        $form = $this->formularioDetalle($arGuia); 
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+
+            }   
+        }
+        //Linea del tiempo tomada de https://codepen.io/bsngr/pen/Ifvbi/
+        $url ='http://192.168.1.11/serviciowebbufalo/guiaestado.php?guia=' . $arGuia->getConsecutivo();
+        $json = file_get_contents($url);
+        $array = json_decode($json,true);        
+        return $this->render('TransporteBundle:Movimiento/Guia:detalle.html.twig', array(
+            'arGuia' => $arGuia,
+            'arrInformacionGuia' => $array,
+            'form' => $form->createView()
+            ));
+    }    
+    
     private function lista() {        
         $session = new Session;        
         $em = $this->getDoctrine()->getManager(); 
@@ -152,6 +179,12 @@ class GuiaController extends Controller
                 ->getForm();
         return $form;
     }   
+    
+    private function formularioDetalle($ar) {   
+        $form = $this->createFormBuilder()                                                
+            ->getForm();        
+        return $form;
+    }      
     
     private function filtrarLista($form) {
         $session = $this->get('session');

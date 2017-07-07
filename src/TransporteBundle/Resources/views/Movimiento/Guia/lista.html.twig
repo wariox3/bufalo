@@ -60,6 +60,7 @@
                                     <th class="numeric">Flete</th>
                                     <th class="numeric">Manejo</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,6 +79,7 @@
                                         <td class="numeric" style="text-align: right">{{ arGuia.flete | number_format(0, '.', ',') }}</td>
                                         <td class="numeric" style="text-align: right">{{ arGuia.manejo | number_format(0, '.', ',') }}</td>                                                                                                                
                                         <td style="text-align: center">{% if arGuia.estadoDespachoProveedor == 0 %}<a href="{{ path('tte_movimiento_guia_nuevo', {'codigoGuia': arGuia.codigoGuiaPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a>{% endif %}</td>
+                                        <td style="text-align: center"><a href="{{ path('tte_movimiento_guia_detalle', { 'codigoGuia': arGuia.codigoGuiaPk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22></a></td>                                                                                            
                                     </tr>
                                 {% endfor %}
                             </tbody>
