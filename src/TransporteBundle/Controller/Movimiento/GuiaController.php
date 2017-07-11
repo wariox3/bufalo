@@ -43,7 +43,7 @@ class GuiaController extends Controller
             $alertaGuias .= " ya no tiene mas consecutivos no puede crear mas guias";
         }
         
-        $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 500);
+        $arGuias = $paginator->paginate($em->createQuery($this->strListaDql), $request->query->get('page', 1), 30);
         return $this->render('TransporteBundle:Movimiento/Guia:lista.html.twig', array(
             'arGuias' => $arGuias,
             'alertaGuias' => $alertaGuias,

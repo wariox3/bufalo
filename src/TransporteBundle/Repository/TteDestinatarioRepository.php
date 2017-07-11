@@ -14,6 +14,9 @@ class TteDestinatarioRepository extends EntityRepository
 {
     public function listaDql($codigoEmpresa = "", $codigoDestinatario = "", $nombreDestinatario ="") {
         $dql   = "SELECT d FROM TransporteBundle:TteDestinatario d WHERE d.codigoEmpresaFk = $codigoEmpresa " ;            
+        if($nombreDestinatario != "") {
+            $dql .= " AND d.nombreCorto LIKE '%" . $nombreDestinatario . "%'";
+        }
         $dql .= " ORDER BY d.codigoDestinatarioPk DESC";
         return $dql;
     }     

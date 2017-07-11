@@ -41,16 +41,16 @@ class DestinatarioController extends Controller
         $em = $this->getDoctrine()->getManager();
         $this->strDqlLista = $em->getRepository('TransporteBundle:TteDestinatario')->listaDql(
                 $this->getUser()->getCodigoEmpresaFk(),
-                $session->get('codigoCodigoDestinatario'),                
-                $session->get('codigoNombreDestinatario')
+                $session->get('codigoDestinatario'),                
+                $session->get('nombreDestinatario')
                 ); 
     }       
     
     private function formularioLista() {   
         $session = new Session(); 
         $form = $this->createFormBuilder()                                                
-            ->add('TxtNombre', TextType::class, array('label'  => 'Nombre','data' => $session->get('codigoDestinatario')))
-            ->add('TxtCodigo', TextType::class, array('label'  => 'Codigo','data' => $session->get('nombreDestinatario')))                            
+            ->add('TxtNombre', TextType::class, array('label'  => 'Nombre','data' => $session->get('nombreDestinatario')))
+            ->add('TxtCodigo', TextType::class, array('label'  => 'Codigo','data' => $session->get('codigoDestinatario')))                            
             ->add('BtnFiltrar', SubmitType::class, array('label'  => 'Filtrar'))
             ->getForm();        
         return $form;
