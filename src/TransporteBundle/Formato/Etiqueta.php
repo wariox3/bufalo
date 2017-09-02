@@ -1,5 +1,8 @@
 <?php
 namespace TransporteBundle\Formato;
+use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
+use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
+
 class Etiqueta extends \FPDF {
     public static $em;
     public static $codigoDespacho;
@@ -9,7 +12,7 @@ class Etiqueta extends \FPDF {
         //$em = $miThis->getDoctrine()->getManager();
         self::$em = $em;
         self::$codigoDespacho = $codigoDespacho;
-        $pdf = new Etiqueta('P','mm',array(80,50));
+        $pdf = new Etiqueta('L','mm',array(50,75));
         $pdf->AliasNbPages();
         $pdf->AddPage();
         $pdf->SetFont('Times', '', 12);
@@ -22,7 +25,7 @@ class Etiqueta extends \FPDF {
         $arDespacho = self::$em->getRepository('TransporteBundle:TteDespacho')->find(self::$codigoDespacho);                        
         $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
         $arEmpresa = $arDespacho->getEmpresaRel();        
-        $this->Image('imagenes/logo.jpg', 1, 1, 10, 10);        
+        $this->Image('imagenes/logo.jpg', 5, 5, 10, 10);        
         $this->EncabezadoDetalles();
     }
 
@@ -31,19 +34,29 @@ class Etiqueta extends \FPDF {
     }
 
     public function Body($pdf) {
+        //https://github.com/paterik/BGBarcodeBundle
+        $ruta = "C:\\xampp\\htdocs\\img2\\";
+        $ruta = "/var/www/imgbarras/";
+        $myBarcode = new barCode();
+        
+        $myBarcode->savePath = $ruta;                 
+        
         $arGuias = new \TransporteBundle\Entity\TteGuia;
         $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoDespachoProveedorFk' => self::$codigoDespacho));                
         foreach ($arGuias as $arGuia) {
-           $pdf->SetFont('Arial', 'B', 5);
-           $pdf->Text(15, 10, "INFORMACION DESTINATARIO");
-           $pdf->SetFont('Arial', '', 5);
-           $pdf->Text(2, 15, "Cedula:" . $arGuia->getIdentificacion());
-           $pdf->Text(30, 15, "Documento:" . $arGuia->getDocumento());
-           $pdf->Text(2, 18, "Destinatario:" . $arGuia->getDestinatario());
-           $pdf->Text(2, 21, "Direccion:" . $arGuia->getDireccion());
-           $pdf->Text(2, 24, "Telefono:" . $arGuia->getTelefono());
-           $pdf->Text(2, 27, "Destino:" . $arGuia->getCiudadDestinoRel()->getNombre());
-           $pdf->AddPage(); 
+            $bcPathAbs = $myBarcode->getBarcodePNGPath($arGuia->getConsecutivo(), 'C39', 1.75, 45);
+            $pdf->SetFont('Arial', 'B', 7);
+            $pdf->Text(20, 10, "INFORMACION DESTINATARIO");
+            $pdf->SetFont('Arial', '', 7);
+            $pdf->Text(15, 18, "NIT:" . $arGuia->getIdentificacion());
+            $pdf->Text(40, 18, "DOC:" . $arGuia->getDocumento());
+            $pdf->Text(15, 21, "NOMBRE:" . utf8_decode($arGuia->getDestinatario()));
+            $pdf->Text(15, 24, "DIR:" . $arGuia->getDireccion());
+            $pdf->Text(15, 27, "TEL:" . $arGuia->getTelefono());
+            $pdf->Text(15, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());          
+            //$pdf->Text(30, 40, "*" . $arGuia->getConsecutivo() . "*");
+            $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 35, 50, 10);           
+            $pdf->AddPage(); 
         }
         
     }

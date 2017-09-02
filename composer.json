@@ -31,7 +31,9 @@
         "twig/twig": "^1.0||^2.0",
         "knplabs/knp-paginator-bundle": "^2.5",
         "royopa/fpdf-symfony2": "2.0",
-        "phpoffice/phpexcel": "dev-develop"
+        "phpoffice/phpexcel": "dev-develop",
+        "bitgrave/barcode-bundle": "^1.0"
+                
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
