@@ -35,6 +35,7 @@ class Etiqueta extends \FPDF {
 
     public function Body($pdf) {
         //https://github.com/paterik/BGBarcodeBundle
+        // instalar php-gd es indispensable
         $ruta = "C:\\xampp\\htdocs\\img2\\";
         $ruta = "/var/www/imgbarras/";
         $myBarcode = new barCode();
