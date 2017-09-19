@@ -49,14 +49,16 @@ class Etiqueta extends \FPDF {
             $pdf->SetFont('Arial', 'B', 7);
             $pdf->Text(20, 10, "INFORMACION DESTINATARIO");
             $pdf->SetFont('Arial', '', 7);
-            $pdf->Text(15, 18, "NIT:" . $arGuia->getIdentificacion());
+            $pdf->Text(65, 10, $pdf->PageNo() . '/{nb}');
+            $pdf->Text(5, 18, "NIT:" . $arGuia->getIdentificacion());
             $pdf->Text(40, 18, "DOC:" . $arGuia->getDocumento());
-            $pdf->Text(15, 21, "NOMBRE:" . utf8_decode($arGuia->getDestinatario()));
-            $pdf->Text(15, 24, "DIR:" . $arGuia->getDireccion());
-            $pdf->Text(15, 27, "TEL:" . $arGuia->getTelefono());
-            $pdf->Text(15, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());          
-            //$pdf->Text(30, 40, "*" . $arGuia->getConsecutivo() . "*");
-            $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 35, 50, 10);           
+            $pdf->Text(5, 21, "NOMBRE:" . utf8_decode($arGuia->getDestinatario()));
+            $pdf->Text(5, 24, "DIR:" . $arGuia->getDireccion());
+            $pdf->Text(5, 27, "TEL:" . $arGuia->getTelefono());
+            $pdf->Text(5, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Text(30, 47, $arGuia->getConsecutivo());
+            $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 31, 50, 10);           
             $pdf->AddPage(); 
         }
         
@@ -64,7 +66,7 @@ class Etiqueta extends \FPDF {
 
     public function Footer() {
         $this->SetFont('Arial','', 8);  
-        $this->Text(170, 290, utf8_decode('Página ') . $this->PageNo() . ' de {nb}');
+        
     }    
 }
 
