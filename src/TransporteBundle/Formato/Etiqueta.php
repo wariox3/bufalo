@@ -46,20 +46,23 @@ class Etiqueta extends \FPDF {
         $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoDespachoProveedorFk' => self::$codigoDespacho));                
         foreach ($arGuias as $arGuia) {
             $bcPathAbs = $myBarcode->getBarcodePNGPath($arGuia->getConsecutivo(), 'C39', 1.75, 45);
-            $pdf->SetFont('Arial', 'B', 7);
-            $pdf->Text(20, 10, "INFORMACION DESTINATARIO");
-            $pdf->SetFont('Arial', '', 7);
-            $pdf->Text(65, 10, $pdf->PageNo() . '/{nb}');
-            $pdf->Text(5, 18, "NIT:" . $arGuia->getIdentificacion());
-            $pdf->Text(40, 18, "DOC:" . $arGuia->getDocumento());
-            $pdf->Text(5, 21, "NOMBRE:" . utf8_decode($arGuia->getDestinatario()));
-            $pdf->Text(5, 24, "DIR:" . $arGuia->getDireccion());
-            $pdf->Text(5, 27, "TEL:" . $arGuia->getTelefono());
-            $pdf->Text(5, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());
-            $pdf->SetFont('Arial', 'B', 12);
-            $pdf->Text(30, 47, $arGuia->getConsecutivo());
-            $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 31, 50, 10);           
-            $pdf->AddPage(); 
+            for ($i = 1; $i <= $arGuia->getCantidad(); $i++) {
+                $pdf->SetFont('Arial', 'B', 7);
+                $pdf->Text(20, 10, $arGuia->getEmpresaRel()->getNombre());
+                $pdf->Text(20, 14, "INFORMACION DESTINATARIO");                
+                $pdf->SetFont('Arial', '', 7);
+                $pdf->Text(65, 14, $i . '/' . $arGuia->getCantidad());
+                $pdf->Text(5, 18, "NIT:" . $arGuia->getIdentificacion());
+                $pdf->Text(40, 18, "DOC:" . $arGuia->getDocumento());
+                $pdf->Text(5, 21, "NOMBRE:" . utf8_decode($arGuia->getDestinatario()));
+                $pdf->Text(5, 24, "DIR:" . $arGuia->getDireccion());
+                $pdf->Text(5, 27, "TEL:" . $arGuia->getTelefono());
+                $pdf->Text(5, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Text(30, 47, $arGuia->getConsecutivo());
+                $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 31, 50, 10);           
+                $pdf->AddPage();
+            }             
         }
         
     }
