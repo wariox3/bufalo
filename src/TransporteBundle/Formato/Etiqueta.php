@@ -25,7 +25,7 @@ class Etiqueta extends \FPDF {
         $arDespacho = self::$em->getRepository('TransporteBundle:TteDespacho')->find(self::$codigoDespacho);                        
         $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
         $arEmpresa = $arDespacho->getEmpresaRel();        
-        $this->Image('imagenes/logo.jpg', 5, 5, 10, 10);        
+        //$this->Image('imagenes/logo.jpg', 5, 5, 10, 10);        
         $this->EncabezadoDetalles();
     }
 
@@ -47,8 +47,10 @@ class Etiqueta extends \FPDF {
         foreach ($arGuias as $arGuia) {
             $bcPathAbs = $myBarcode->getBarcodePNGPath($arGuia->getConsecutivo(), 'C39', 1.75, 45);
             for ($i = 1; $i <= $arGuia->getCantidad(); $i++) {
-                $pdf->SetFont('Arial', 'B', 7);
-                $pdf->Text(20, 10, $arGuia->getEmpresaRel()->getNombre());
+                $pdf->SetFont('Arial', 'B', 12);                
+                $pdf->Text(21, 5, "COTRASCAL S.A.S");
+                $pdf->SetFont('Arial', 'B', 7);                
+                $pdf->Text(5, 10, 'REMITE:' . $arGuia->getEmpresaRel()->getNombre());
                 $pdf->Text(20, 14, "INFORMACION DESTINATARIO");                
                 $pdf->SetFont('Arial', '', 7);
                 $pdf->Text(65, 14, $i . '/' . $arGuia->getCantidad());
