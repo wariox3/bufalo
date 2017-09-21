@@ -52,8 +52,9 @@ class Etiqueta extends \FPDF {
                 $pdf->SetFont('Arial', 'B', 7);                
                 $pdf->Text(5, 10, 'REMITE:' . $arGuia->getEmpresaRel()->getNombre());
                 $pdf->Text(20, 14, "INFORMACION DESTINATARIO");                
-                $pdf->SetFont('Arial', '', 7);
+                $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Text(65, 14, $i . '/' . $arGuia->getCantidad());
+                $pdf->SetFont('Arial', '', 7);
                 $pdf->Text(5, 18, "NIT:" . $arGuia->getIdentificacion());
                 $pdf->Text(40, 18, "DOC:" . $arGuia->getDocumento());
                 $pdf->Text(5, 21, "NOMBRE:" . utf8_decode($arGuia->getDestinatario()));
