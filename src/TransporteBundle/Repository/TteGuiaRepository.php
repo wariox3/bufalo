@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class TteGuiaRepository extends EntityRepository
 {
-    public function listaDql($codigoEmpresa = "", $fechaDesde = "", $fechaHasta = "", $codigo = "", $consecutivo = "") {
+    public function listaDql($codigoEmpresa = "", $fechaDesde = "", $fechaHasta = "", $codigo = "", $consecutivo = "", $documento = "") {
         $dql   = "SELECT g FROM TransporteBundle:TteGuia g WHERE g.codigoEmpresaFk = $codigoEmpresa " ;            
         if($fechaDesde != "") {
             $dql .= " AND g.fecha >= '" . $fechaDesde . "'";
@@ -26,6 +26,9 @@ class TteGuiaRepository extends EntityRepository
         if($consecutivo != "") {
             $dql .= " AND g.consecutivo = '" . $consecutivo . "'";
         }                 
+        if($documento != "") {
+            $dql .= " AND g.documento = '" . $documento . "'";
+        }        
         $dql .= " ORDER BY g.codigoGuiaPk DESC";
         return $dql;
     }     
