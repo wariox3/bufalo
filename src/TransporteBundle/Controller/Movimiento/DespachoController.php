@@ -59,7 +59,7 @@ class DespachoController extends Controller
                 }
                 if ($form->get('BtnImprimirEtiquetas')->isClicked()) {
                     $objDespacho = new \TransporteBundle\Formato\Etiqueta();
-                    $objDespacho->Generar($em, $codigoDespacho);
+                    $objDespacho->Generar($em, $codigoDespacho, "");
                 }      
                 if ($form->get('BtnImprimirRelacionDocumentos')->isClicked()) {
                     $objDespacho = new \TransporteBundle\Formato\DespachoRelacionDocumentos();

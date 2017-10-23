@@ -34,7 +34,14 @@ class GuiaController extends Controller
                 $this->filtrarLista($form, $request);
                 $this->lista();
                 $this->generarExcel();
+            } 
+            if ($request->request->get('OpImprimirEtiqueta')) {
+                $codigoGuia = $request->request->get('OpImprimirEtiqueta');
+                $objDespacho = new \TransporteBundle\Formato\Etiqueta();
+                $objDespacho->Generar($em, "", $codigoGuia);
+
             }            
+            
         }        
         
         $arEmpresa = $this->getUser()->getEmpresaRel();

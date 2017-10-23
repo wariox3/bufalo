@@ -6,12 +6,14 @@ use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
 class Etiqueta extends \FPDF {
     public static $em;
     public static $codigoDespacho;
+    public static $codigoGuia;
     
-    public function Generar($em, $codigoDespacho) {        
+    public function Generar($em, $codigoDespacho, $codigoGuia = "") {        
         ob_clean();
         //$em = $miThis->getDoctrine()->getManager();
         self::$em = $em;
         self::$codigoDespacho = $codigoDespacho;
+        self::$codigoGuia = $codigoGuia;
         $pdf = new Etiqueta('L','mm',array(50,75));
         $pdf->AliasNbPages();
         $pdf->AddPage();
@@ -21,10 +23,10 @@ class Etiqueta extends \FPDF {
     } 
     
     public function Header() {
-        $arDespacho = new \TransporteBundle\Entity\TteDespacho();
-        $arDespacho = self::$em->getRepository('TransporteBundle:TteDespacho')->find(self::$codigoDespacho);                        
-        $arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
-        $arEmpresa = $arDespacho->getEmpresaRel();        
+        //$arDespacho = new \TransporteBundle\Entity\TteDespacho();
+        //$arDespacho = self::$em->getRepository('TransporteBundle:TteDespacho')->find(self::$codigoDespacho);                        
+        //$arEmpresa = new \TransporteBundle\Entity\TteEmpresa();
+        //$arEmpresa = $arDespacho->getEmpresaRel();        
         //$this->Image('imagenes/logo.jpg', 5, 5, 10, 10);        
         $this->EncabezadoDetalles();
     }
@@ -38,12 +40,15 @@ class Etiqueta extends \FPDF {
         // instalar php-gd es indispensable
         $ruta = "C:\\xampp\\htdocs\\img2\\";
         $ruta = "/var/www/imgbarras/";
-        $myBarcode = new barCode();
-        
-        $myBarcode->savePath = $ruta;                 
-        
+        $myBarcode = new barCode();        
+        $myBarcode->savePath = $ruta;
         $arGuias = new \TransporteBundle\Entity\TteGuia;
-        $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoDespachoProveedorFk' => self::$codigoDespacho));                
+        if(self::$codigoDespacho != "") {
+            $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoDespachoProveedorFk' => self::$codigoDespacho));                
+        }
+        if(self::$codigoGuia != "") {
+            $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoGuiaPk' => self::$codigoGuia));                
+        }                
         foreach ($arGuias as $arGuia) {
             $bcPathAbs = $myBarcode->getBarcodePNGPath($arGuia->getConsecutivo(), 'C39', 1.75, 45);
             for ($i = 1; $i <= $arGuia->getCantidad(); $i++) {
