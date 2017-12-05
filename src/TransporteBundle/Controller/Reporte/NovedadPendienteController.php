@@ -12,34 +12,32 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class GuiaController extends Controller
+class NovedadPendienteController extends Controller
 {
     var $strListaDql = "";
     
     /**
-     * @Route("/tte/reporte/guia/", name="tte_reporte_guia")
+     * @Route("/tte/reporte/novedad/pendiente/", name="tte_reporte_novedad_pendiente")
      */   
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');              
         $form = $this->formularioLista();
         $form->handleRequest($request);          
-        $arrGuias = null;
+        $arrNovedades = null;
         $nitEmpresa = $arEmpresa = $this->getUser()->getEmpresaRel()->getNit();
         if ($form->isValid()) {
-            $fechaDesde = $form->get('fechaDesde')->getData();
-            $fechaHasta = $form->get('fechaHasta')->getData();
             //$url ='http://localhost:8081/serviciowebbufalo/reporteguia.php?empresa=1';
-            $url ='http://localhost:8081/serviciowebbufalo/reporteguia.php?empresa=' . $nitEmpresa . "&desde=" . $fechaDesde->format('Y-m-d') . "&hasta=" . $fechaHasta->format('Y-m-d');
+            $url ='http://localhost:8081/serviciowebbufalo/reportenovedadpendiente.php?empresa=' . $nitEmpresa;
             $json = file_get_contents($url);
             $array = json_decode($json,true);  
-            $arrGuias = $array['guias'];
-            if ($form->get('BtnExcel')->isClicked()) {
-                $this->generarExcel($arrGuias);
+            $arrNovedades = $array['novedades'];            
+            if ($form->get('BtnExcel')->isClicked()) {                
+                $this->generarExcel($arrNovedades);
             }                      
         }                              
-        return $this->render('TransporteBundle:Reporte/Guia:lista.html.twig', array(
-            'arGuias' => $arrGuias,
+        return $this->render('TransporteBundle:Reporte/Novedad:pendiente.html.twig', array(
+            'arNovedades' => $arrNovedades,
             'form' => $form->createView()
             ));
     }
@@ -60,10 +58,6 @@ class GuiaController extends Controller
         $dateFechaHasta = date_create($strFechaHasta);
 
         $form = $this->createFormBuilder()                
-                ->add('consecutivo', TextType::class)
-                ->add('documento', TextType::class)
-                ->add('fechaDesde', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaDesde))
-                ->add('fechaHasta', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaHasta))
                 ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
                 ->add('BtnExcel', SubmitType::class, array('label' => 'Excel'))
                 ->getForm();
@@ -90,47 +84,25 @@ class GuiaController extends Controller
             $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getStyle($col)->getAlignment()->setHorizontal('left');
         }
-        for($col = 'G'; $col !== 'L'; $col++) {
+        /*for($col = 'G'; $col !== 'L'; $col++) {
             $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getStyle($col)->getNumberFormat()->setFormatCode('#,##0');
             $objPHPExcel->getActiveSheet()->getStyle($col)->getAlignment()->setHorizontal('right');
-        }
+        }*/
         $objPHPExcel->setActiveSheetIndex(0)                
-                ->setCellValue('A1', 'GUIA')
+                ->setCellValue('A1', 'ID')
                 ->setCellValue('B1', 'FECHA')
-                ->setCellValue('C1', 'DOCUMENTO')
-                ->setCellValue('D1', 'DESTINATARIO')
-                ->setCellValue('E1', 'ORIGEN')
-                ->setCellValue('F1', 'DESTINO')
-                ->setCellValue('G1', 'CANT')
-                ->setCellValue('H1', 'PESO')
-                ->setCellValue('I1', 'DECLARA')
-                ->setCellValue('J1', 'FLETE')
-                ->setCellValue('K1', 'MANEJO')
-                ->setCellValue('L1', 'ENT')
-                ->setCellValue('M1', 'NOV');
+                ->setCellValue('C1', 'NOVEDAD')
+                ->setCellValue('D1', 'GUIA');
 
 
         $i = 2;
         foreach ($arrGuias as $arGuia) {
             $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A' . $i, $arGuia['Guia'])
-                    ->setCellValue('B' . $i, $arGuia['FhEntradaBodega'])
-                    ->setCellValue('C' . $i, $arGuia['DocCliente'])
-                    ->setCellValue('D' . $i, $arGuia['NmDestinatario'])
-                    ->setCellValue('E' . $i, '')
-                    ->setCellValue('F' . $i, $arGuia['CiudadDestino'])
-                    ->setCellValue('G' . $i, $arGuia['Unidades'])
-                    ->setCellValue('H' . $i, $arGuia['KilosFacturados'])
-                    ->setCellValue('I' . $i, $arGuia['VrDeclarado'])
-                    ->setCellValue('J' . $i, $arGuia['VrFlete'])
-                    ->setCellValue('K' . $i, $arGuia['VrManejo'])
-                    ->setCellValue('L' . $i, ($arGuia['Entregada'] ? 'SI' : 'NO'))
-                    ->setCellValue('M' . $i, ($arGuia['EnNovedad'] ? 'SI' : 'NO'));
-
-            /*if ($arEmpleado->getCodigoZonaFk()) {
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('AU' . $i, $arEmpleado->getZonaRel()->getNombre());
-            }*/
+                    ->setCellValue('A' . $i, $arGuia['ID'])
+                    ->setCellValue('B' . $i, $arGuia['FhNovedad'])
+                    ->setCellValue('C' . $i, $arGuia['NmNovedad'])
+                    ->setCellValue('D' . $i, 'Guia');
             $i++;
         }
 

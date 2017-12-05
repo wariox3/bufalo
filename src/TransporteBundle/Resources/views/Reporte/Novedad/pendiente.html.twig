@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Reporte: Lista -> novedades</h3>
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="content-panel">
+                    <h4><i class="fa fa-angle-right"></i> Lista novedades</h4> 
+                    <section id="unseen">
+                        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+                        {{ form_errors(form) }}                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Filtros de busqueda</div>
+                            <div class="panel-body">                                                                                             
+                                <div class="form-group form-group-sm">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        {{ form_widget(form.BtnExcel, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                                        {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                                    </div>
+                                </div>                                                    
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Fecha</th>
+                                    <th>Novedad</th>
+                                    <th>Guia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for arNovedad in arNovedades %}
+                                    <tr>
+                                        <td>{{ arNovedad.ID  }}</td>
+                                        <td>{{ arNovedad.FhNovedad  }}</td>                                        
+                                        <td>{{ arNovedad.NmNovedad  }}</td>
+                                        <td>{{ arNovedad.Guia  }}</td>                                        
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>                                    
+                    </section>
+                </div><!-- /content-panel -->
+            </div><!-- /col-lg-4 -->			
+        </div><!-- /row -->
+        <br />
+        <div class="btn-toolbar" style="float: right">
+            <div class="btn-group">
+                
+            </div>            
+        </div> 
+        {{ form_rest(form) }}
+        {{ form_end(form) }}            
+    </section><! --/wrapper -->
+{% endblock %}
