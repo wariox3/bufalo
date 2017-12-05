@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Reporte: Lista -> guia</h3>
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="content-panel">
+                    <h4><i class="fa fa-angle-right"></i> Lista guias</h4> 
+                    <section id="unseen">
+                        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+                        {{ form_errors(form) }}                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Filtros de busqueda</div>
+                            <div class="panel-body">                                       
+                                <div class="form-group form-group-sm">  
+                                    <label for="form_fechaDesde" class="col-sm-2 control-label">Desde:</label>
+                                    <div class="col-sm-4">                  
+                                        {{ form_widget(form.fechaDesde) }} 
+                                    </div>
+                                    <label for="form_codigo" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-4">                  
+                                         
+                                    </div>                                    
+                                </div>                     
+                                <div class="form-group form-group-sm">  
+                                    <label for="form_fechaHasta" class="col-sm-2 control-label">Hasta:</label>
+                                    <div class="col-sm-4">                  
+                                        {{ form_widget(form.fechaHasta) }} 
+                                    </div>
+                                    <label for="form_consecutivo" class="col-sm-2 control-label">Guia:</label>
+                                    <div class="col-sm-4">                  
+                                        {{ form_widget(form.consecutivo) }} 
+                                    </div>                                                  
+                                </div> 
+                                <div class="form-group form-group-sm">  
+                                    <label class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-4">                  
+                                       
+                                    </div>
+                                    <label class="col-sm-2 control-label">Documento:</label>
+                                    <div class="col-sm-4">                  
+                                        {{ form_widget(form.documento) }} 
+                                    </div>                                                  
+                                </div>                                    
+                                <div class="form-group form-group-sm">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                                    </div>
+                                </div>                                                    
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Guia</th>
+                                    <th>Fecha</th>
+                                    <th>Documento</th>
+                                    <th>Destinatario</th>
+                                    <th class="numeric">Cant</th>                                    
+                                    <th class="numeric">Declarado</th>
+                                    <th>ENT</th>
+                                    <th>NOV</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for arGuia in arGuias %}
+                                    <tr>
+                                        <td>{{ arGuia.Guia  }}</td>                                        
+                                        <td>{{ arGuia.FhEntradaBodega }}</td>
+                                        <td>{{ arGuia.DocCliente  }}</td>
+                                        <td>{{ arGuia.NmDestinatario  }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.Unidades | number_format(0, '.', ',') }}</td>
+                                        <td class="numeric" style="text-align: right">{{ arGuia.VrDeclarado | number_format(0, '.', ',') }}</td>
+                                        <td>{{ arGuia.Entregada ? 'SI' : 'NO' }}</td>
+                                        <td>{{ arGuia.EnNovedad ? 'SI' : 'NO' }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>                                    
+                    </section>
+                </div><!-- /content-panel -->
+            </div><!-- /col-lg-4 -->			
+        </div><!-- /row -->
+        <br />
+        <div class="btn-toolbar" style="float: right">
+            <div class="btn-group">
+                {{ form_widget(form.BtnExcel, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+            </div>            
+        </div> 
+        {{ form_rest(form) }}
+        {{ form_end(form) }}            
+    </section><! --/wrapper -->
+{% endblock %}
