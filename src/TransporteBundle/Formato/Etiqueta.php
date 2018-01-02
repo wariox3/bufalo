@@ -48,8 +48,11 @@ class Etiqueta extends \FPDF {
         }
         if(self::$codigoGuia != "") {
             $arGuias = self::$em->getRepository('TransporteBundle:TteGuia')->findBy(array('codigoGuiaPk' => self::$codigoGuia));                
-        }                
+        }     
+        $numeroGuias = count($arGuias);
+        $contadorGuias = 0;
         foreach ($arGuias as $arGuia) {
+            $contadorGuias++;
             $bcPathAbs = $myBarcode->getBarcodePNGPath($arGuia->getConsecutivo(), 'C39', 1.75, 45);
             for ($i = 1; $i <= $arGuia->getCantidad(); $i++) {
                 $pdf->SetFont('Arial', 'B', 12);                
@@ -69,7 +72,13 @@ class Etiqueta extends \FPDF {
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Text(30, 47, $arGuia->getConsecutivo());
                 $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 31, 50, 10);           
-                $pdf->AddPage();
+                if($contadorGuias == $numeroGuias) {
+                    if($i != $arGuia->getCantidad()) {
+                        $pdf->AddPage();
+                    }                    
+                } else {
+                    $pdf->AddPage();
+                }                
             }             
         }
         
