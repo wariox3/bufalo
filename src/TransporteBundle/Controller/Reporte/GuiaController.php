@@ -28,8 +28,8 @@ class GuiaController extends Controller
         $nitEmpresa = $arEmpresa = $this->getUser()->getEmpresaRel()->getNit();
         if ($form->isValid()) {
             $fechaDesde = $form->get('fechaDesde')->getData();
-            $fechaHasta = $form->get('fechaHasta')->getData();
-            //$url ='http://localhost:8081/serviciowebbufalo/reporteguia.php?empresa=1';
+            $fechaHasta = $form->get('fechaHasta')->getData();            
+            //$url ='http://localhost/serviciowebbufalo/reporteguia.php?empresa=' . $nitEmpresa . "&desde=" . $fechaDesde->format('Y-m-d') . "&hasta=" . $fechaHasta->format('Y-m-d');
             $url ='http://localhost:8081/serviciowebbufalo/reporteguia.php?empresa=' . $nitEmpresa . "&desde=" . $fechaDesde->format('Y-m-d') . "&hasta=" . $fechaHasta->format('Y-m-d');
             $json = file_get_contents($url);
             $array = json_decode($json,true);  
@@ -86,7 +86,7 @@ class GuiaController extends Controller
                 ->setCategory("Test result file");
         $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
         $objPHPExcel->getActiveSheet()->getStyle('1')->getFont()->setBold(true);
-        for ($col = 'A'; $col !== 'M'; $col++) {
+        for ($col = 'A'; $col !== 'O'; $col++) {
             $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getStyle($col)->getAlignment()->setHorizontal('left');
         }
@@ -108,7 +108,8 @@ class GuiaController extends Controller
                 ->setCellValue('J1', 'FLETE')
                 ->setCellValue('K1', 'MANEJO')
                 ->setCellValue('L1', 'ENT')
-                ->setCellValue('M1', 'NOV');
+                ->setCellValue('M1', 'FECHA')
+                ->setCellValue('N1', 'NOV');
 
 
         $i = 2;
@@ -126,7 +127,8 @@ class GuiaController extends Controller
                     ->setCellValue('J' . $i, $arGuia['VrFlete'])
                     ->setCellValue('K' . $i, $arGuia['VrManejo'])
                     ->setCellValue('L' . $i, ($arGuia['Entregada'] ? 'SI' : 'NO'))
-                    ->setCellValue('M' . $i, ($arGuia['EnNovedad'] ? 'SI' : 'NO'));
+                    ->setCellValue('M' . $i, $arGuia['FhEntradaBodega'])
+                    ->setCellValue('N' . $i, ($arGuia['EnNovedad'] ? 'SI' : 'NO'));
 
             /*if ($arEmpleado->getCodigoZonaFk()) {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('AU' . $i, $arEmpleado->getZonaRel()->getNombre());

@@ -62,6 +62,7 @@
                                     <th class="numeric">Peso</th>                                    
                                     <th class="numeric">Declarado</th>
                                     <th>ENT</th>
+                                    <th>Fecha</th>
                                     <th>NOV</th>
                                 </tr>
                             </thead>
@@ -77,6 +78,7 @@
                                         <td class="numeric" style="text-align: right">{{ arGuia.KilosFacturados | number_format(0, '.', ',') }}</td>
                                         <td class="numeric" style="text-align: right">{{ arGuia.VrDeclarado | number_format(0, '.', ',') }}</td>
                                         <td>{{ arGuia.Entregada ? 'SI' : 'NO' }}</td>
+                                        <td>{{ arGuia.FhEntrega }}</td>
                                         <td>{{ arGuia.EnNovedad ? 'SI' : 'NO' }}</td>
                                     </tr>
                                 {% endfor %}
