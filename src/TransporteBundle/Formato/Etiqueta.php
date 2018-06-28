@@ -56,12 +56,12 @@ class Etiqueta extends \FPDF {
             $bcPathAbs = $myBarcode->getBarcodePNGPath($arGuia->getConsecutivo(), 'C39', 1.75, 45);
             for ($i = 1; $i <= $arGuia->getCantidad(); $i++) {
                 $pdf->SetFont('Arial', 'B', 12);                
-                $pdf->Text(21, 5, "COTRASCAL S.A.S");
+                $pdf->Text(5, 5, "COTRASCAL S.A.S   " . $arGuia->getConsecutivo());
                 $pdf->SetFont('Arial', 'B', 7);                
                 $pdf->Text(5, 10, 'REMITE:' . $arGuia->getEmpresaRel()->getNombre());
-                $pdf->Text(20, 14, "INFORMACION DESTINATARIO");                
+                $pdf->Text(15, 14, "INFORMACION DESTINATARIO");
                 $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Text(65, 14, $i . '/' . $arGuia->getCantidad());
+                $pdf->Text(58, 14, $i . '/' . $arGuia->getCantidad());
                 $pdf->SetFont('Arial', '', 7);
                 $pdf->Text(5, 18, "NIT:" . $arGuia->getIdentificacion());
                 $pdf->Text(40, 18, "DOC:" . $arGuia->getDocumento());
@@ -69,9 +69,10 @@ class Etiqueta extends \FPDF {
                 $pdf->Text(5, 24, "DIR:" . $arGuia->getDireccion());
                 $pdf->Text(5, 27, "TEL:" . $arGuia->getTelefono());
                 $pdf->Text(5, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());
+                $pdf->Text(5, 33, "U.EMP:" . $arGuia->getEmpaqueReferencia());
+                $pdf->Text(5, 36, "DESP:" . $arGuia->getDespachador() . " ZONA:" . $arGuia->getZona());
                 $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Text(30, 47, $arGuia->getConsecutivo());
-                $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 31, 50, 10);           
+                $pdf->Image($ruta . 'C39_'.$arGuia->getConsecutivo().'.png', 15, 38, 50, 10);
                 if($contadorGuias == $numeroGuias) {
                     if($i != $arGuia->getCantidad()) {
                         $pdf->AddPage();

@@ -181,8 +181,23 @@ class TteGuia
     /**     
      * @ORM\Column(name="devolver_documento", type="boolean")
      */    
-    private $devolverDocumento = false;     
-    
+    private $devolverDocumento = false;
+
+    /**
+     * @ORM\Column(name="zona", type="string", length=20, nullable=true)
+     */
+    private $zona;
+
+    /**
+     * @ORM\Column(name="despachador", type="string", length=50, nullable=true)
+     */
+    private $despachador;
+
+    /**
+     * @ORM\Column(name="empaque_referencia", type="string", length=50, nullable=true)
+     */
+    private $empaqueReferencia;
+
     /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="guiasEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
@@ -1163,5 +1178,77 @@ class TteGuia
     public function getDocumentoRelacion()
     {
         return $this->documentoRelacion;
+    }
+
+    /**
+     * Set zona.
+     *
+     * @param string|null $zona
+     *
+     * @return TteGuia
+     */
+    public function setZona($zona = null)
+    {
+        $this->zona = $zona;
+
+        return $this;
+    }
+
+    /**
+     * Get zona.
+     *
+     * @return string|null
+     */
+    public function getZona()
+    {
+        return $this->zona;
+    }
+
+    /**
+     * Set despachador.
+     *
+     * @param string|null $despachador
+     *
+     * @return TteGuia
+     */
+    public function setDespachador($despachador = null)
+    {
+        $this->despachador = $despachador;
+
+        return $this;
+    }
+
+    /**
+     * Get despachador.
+     *
+     * @return string|null
+     */
+    public function getDespachador()
+    {
+        return $this->despachador;
+    }
+
+    /**
+     * Set empaqueReferencia.
+     *
+     * @param string|null $empaqueReferencia
+     *
+     * @return TteGuia
+     */
+    public function setEmpaqueReferencia($empaqueReferencia = null)
+    {
+        $this->empaqueReferencia = $empaqueReferencia;
+
+        return $this;
+    }
+
+    /**
+     * Get empaqueReferencia.
+     *
+     * @return string|null
+     */
+    public function getEmpaqueReferencia()
+    {
+        return $this->empaqueReferencia;
     }
 }
